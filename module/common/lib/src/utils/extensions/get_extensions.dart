@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:logger/logger.dart';
 
 extension CustomExtensionBottomSheet on GetInterface {
   Future<T?> dropdownBottomSheet<T>({
@@ -55,6 +56,19 @@ extension CustomExtensionBottomSheet on GetInterface {
         return const Icon(Icons.info, color: AppColors.primaryRedColor);
       case SnackBarType.warning:
         return const Icon(Icons.warning, color: AppColors.primaryWarningColor);
+    }
+  }
+
+  Future<void> launchURL(String url) async {
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        print('Could not launch $url');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

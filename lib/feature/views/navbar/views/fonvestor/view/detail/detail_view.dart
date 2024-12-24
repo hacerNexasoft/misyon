@@ -6,6 +6,7 @@ import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
+import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -141,8 +142,16 @@ class DetailView extends BaseGetView<DetailViewController> {
             Flexible(
               child: CustomButton(
                 borderRadius: 999.r,
-                onTap: () => Get.toNamed(AppRoutes.investView,
-                    arguments: controller.projectDetailModel.value),
+                onTap: () {
+                  final jwtTokenService = Get.find<JwtTokenService>();
+                  if (jwtTokenService.jwtToken != null) {
+                    Get.toNamed(AppRoutes.investView,
+                        arguments: controller.projectDetailModel.value);
+                  } else {
+                    Get.toNamed(AppRoutes.signInView,
+                        arguments: controller.projectDetailModel.value);
+                  }
+                },
                 child: ScaleFactorAutoSizeText(
                   text: LocalizationKeys.investTextKey.tr,
                   style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
