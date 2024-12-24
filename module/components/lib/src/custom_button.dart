@@ -6,6 +6,7 @@ class CustomButton extends BaseStatelessWidget {
   final Color? backgroundColor;
   final Color? textColor;
   final Color? iconColor;
+  final Color? disabledBackgroundColor;
   final bool isEnable;
   final Widget child;
   final Color borderColor;
@@ -19,6 +20,7 @@ class CustomButton extends BaseStatelessWidget {
       this.iconColor,
       this.isEnable = true,
       this.iconData,
+      this.disabledBackgroundColor,
       this.borderRadius,
       this.borderColor = Colors.transparent,
       required this.child});
@@ -36,7 +38,8 @@ class CustomButton extends BaseStatelessWidget {
           ),
           elevation: 0,
           alignment: Alignment.center,
-          disabledBackgroundColor: AppColors.fillColor,
+          disabledBackgroundColor:
+              disabledBackgroundColor ?? AppColors.fillColor,
           backgroundColor: backgroundColor ?? AppColors.primaryColor,
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
           shape: RoundedRectangleBorder(

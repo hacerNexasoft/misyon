@@ -5,7 +5,7 @@ homepage:
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -17,6 +17,7 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   skeleton_text: ^3.0.1
   skeleton_loader: ^2.0.0+4
+  url_launcher: ^6.3.1
   common:
     path: ../common
 

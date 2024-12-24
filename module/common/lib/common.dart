@@ -17,3 +17,4 @@ export 'src/utils/exceptions.dart';
 export 'src/utils/extensions/get_extensions.dart';
 export 'src/utils/extensions/date_time_extensions.dart';
 export 'src/utils/extensions/platform_file_extensions.dart';
+export 'package:url_launcher/url_launcher.dart';

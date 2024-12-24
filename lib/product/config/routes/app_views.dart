@@ -1,4 +1,6 @@
 import 'package:common/common.dart';
+import 'package:misyonbank/feature/views/auth/sign_in/sign_in_view.dart';
+import 'package:misyonbank/feature/views/auth/sign_in/sign_in_view_binding.dart';
 import 'package:misyonbank/feature/views/navbar/navbar_view.dart';
 import 'package:misyonbank/feature/views/navbar/navbar_view_binding.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/summary/teams_view.dart';
@@ -53,5 +55,9 @@ class AppViews {
         name: AppRoutes.teamsView,
         page: () => TeamsView(),
         binding: TeamsViewBinding()),
+    GetPage(
+        name: AppRoutes.signInView,
+        page: () => const SignInView(),
+        binding: SignInViewBinding()),
   ];
 }

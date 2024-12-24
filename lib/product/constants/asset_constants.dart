@@ -58,7 +58,7 @@ class AssetConstants {
   static const String posterDesign2 = 'assets/icons/poster_design_2.png';
   static const String arrowUpRightIcon = 'assets/icons/arrow_up_right.svg';
   static const String arrowDownLeftIcon = 'assets/icons/arrow_down_left.svg';
-
+  static const String fonvestorLogo = 'assets/icons/fonvestor_logo.png';
   static const String formatLine = 'assets/icons/format-line.png';
   static const String additional = 'assets/icons/additional2.png';
   static const String fundPng = 'assets/icons/fund.png';
