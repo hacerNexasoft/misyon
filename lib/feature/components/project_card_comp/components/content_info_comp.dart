@@ -12,7 +12,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(AppRoutes.detailView, arguments: {
-          'projectName': projectModel.ownerName,
+          'projectName': projectModel.title,
         });
       },
       child: Container(
@@ -25,16 +25,16 @@ class _ContentInfoComp extends BaseStatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (projectModel.amountReceived != null) ...[],
               _infoHeader,
               SizedBox(
                 height: 5.sp,
               ),
-              projectModel.status == ProjectStatus.preDemand
+              projectModel.status == ProjectStatus.activeFunding
                   ? const SizedBox()
-                  : (projectModel.status == ProjectStatus.upcoming
+                  : (projectModel.status == ProjectStatus.activeFundingStopped
                       ? _upcomingValues
-                      : _values),
+                      : Container() //_values
+                  ),
               SizedBox(
                 height: 5.sp,
               ),
@@ -48,11 +48,11 @@ class _ContentInfoComp extends BaseStatelessWidget {
 
   Widget get _infoHeader => Row(
         children: [
-          if (projectModel.amountReceived == null)
-            ProjectCustomCachedNetworkImageComp(
-              imageUrl: projectModel.imageUrl,
-              size: 32.w,
-            ),
+          //if (projectModel.amountReceived == null)
+          ProjectCustomCachedNetworkImageComp(
+            imageUrl: projectModel.coverImage,
+            size: 32.w,
+          ),
           SizedBox(width: 10.w),
           Expanded(
             child: Padding(
@@ -65,7 +65,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
                     children: [
                       Expanded(
                         child: ScaleFactorAutoSizeText(
-                          text: projectModel.ownerName,
+                          text: projectModel.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.primaryTextTheme.bodyMedium!.copyWith(
@@ -74,7 +74,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
                           ),
                         ),
                       ),
-                      if (projectModel.amountReceived != null)
+                      /*if (projectModel.amountReceived != null)
                         Flexible(
                           child: ScaleFactorAutoSizeText(
                             text: Formatter.formatMoney(
@@ -87,11 +87,11 @@ class _ContentInfoComp extends BaseStatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
+                        ),*/
                     ],
                   ),
                   ScaleFactorAutoSizeText(
-                    text: projectModel.shortDesc,
+                    text: projectModel.shortDescription,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.primaryTextTheme.bodySmall
@@ -104,7 +104,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
         ],
       );
 
-  Widget get _values => Row(
+  /* Widget get _values => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (projectModel.earningFrequency != null)
@@ -123,19 +123,20 @@ class _ContentInfoComp extends BaseStatelessWidget {
               value: '%${projectModel.earningRate}',
             ),
         ],
-      );
+      );*/
 
   Widget get _upcomingValues => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _valueItem(
             title: LocalizationKeys.startDateTextKey.tr,
-            value: '${projectModel.startDate}',
+            value:
+                '${DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate)}',
           ),
-          _valueItem(
+          /* _valueItem(
             title: LocalizationKeys.earningRateTextKey.tr,
             value: '%${projectModel.earningRate}',
-          ),
+          ),*/
         ],
       );
 
@@ -180,11 +181,11 @@ class _ContentInfoComp extends BaseStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (projectModel.status != ProjectStatus.preDemand) _riskRatio,
+          if (projectModel.status != ProjectStatus.activeFunding) _riskRatio,
           SizedBox(
             height: 16.w,
           ),
-          _categoryChips,
+          //_categoryChips,
         ],
       );
   Widget get _riskRatio => Row(
@@ -201,13 +202,14 @@ class _ContentInfoComp extends BaseStatelessWidget {
             width: 22.sp,
             height: 12.sp,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: projectModel.riskType!.color),
+              borderRadius: BorderRadius.circular(8.r),
+              //color: projectModel.riskType!.color
+            ),
           )
         ],
       );
 
-  Widget get _categoryChips => Flexible(
+  /*Widget get _categoryChips => Flexible(
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -235,5 +237,5 @@ class _ContentInfoComp extends BaseStatelessWidget {
                 : [],
           ),
         ),
-      );
+      );*/
 }

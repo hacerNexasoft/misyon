@@ -91,13 +91,13 @@ extension ProjectStatusExtension on ProjectStatus? {
   static ProjectStatus? fromString(String? status) {
     switch (status) {
       case 'preDemand':
-        return ProjectStatus.preDemand;
+        return ProjectStatus.activeFunding;
       case 'upcoming':
-        return ProjectStatus.upcoming;
+        return ProjectStatus.activeFundingStopped;
       case 'open':
-        return ProjectStatus.open;
+        return ProjectStatus.successful;
       case 'completed':
-        return ProjectStatus.completed;
+        return ProjectStatus.upcomingPreview;
       default:
         return null;
     }
@@ -105,13 +105,13 @@ extension ProjectStatusExtension on ProjectStatus? {
 
   String? toStringValue() {
     switch (this) {
-      case ProjectStatus.preDemand:
+      case ProjectStatus.activeFunding:
         return 'preDemand';
-      case ProjectStatus.upcoming:
+      case ProjectStatus.activeFundingStopped:
         return 'upcoming';
-      case ProjectStatus.open:
+      case ProjectStatus.successful:
         return 'open';
-      case ProjectStatus.completed:
+      case ProjectStatus.upcomingPreview:
         return 'completed';
       default:
         return null;
@@ -120,13 +120,13 @@ extension ProjectStatusExtension on ProjectStatus? {
 
   String statusText(String infoText) {
     switch (this) {
-      case ProjectStatus.preDemand:
+      case ProjectStatus.activeFunding:
         return LocalizationKeys.preDemandStatusTextKey.tr;
-      case ProjectStatus.upcoming:
+      case ProjectStatus.activeFundingStopped:
         return LocalizationKeys.soonTextKey.tr;
-      case ProjectStatus.open:
+      case ProjectStatus.successful:
         return infoText;
-      case ProjectStatus.completed:
+      case ProjectStatus.upcomingPreview:
         return LocalizationKeys.completionStatusTextKey.tr;
       default:
         return infoText;
@@ -135,13 +135,15 @@ extension ProjectStatusExtension on ProjectStatus? {
 
   Color getBackgroundColor(int? maturity) {
     switch (this) {
-      case ProjectStatus.completed:
+      case ProjectStatus.upcomingPreview:
         return AppColors.primaryGreenColor;
-      case ProjectStatus.terminated:
+      case ProjectStatus.upcomingPrerelease:
         return AppColors.borderRedColor;
-      case ProjectStatus.preDemand:
-      case ProjectStatus.open:
-      case ProjectStatus.upcoming:
+      case ProjectStatus.activeFunding:
+        return AppColors.primaryGreenColor;
+      case ProjectStatus.successful:
+        return AppColors.primaryGreenColor;
+      case ProjectStatus.activeFundingStopped:
         return AppColors.black.withOpacity(0.5);
       default:
         if (maturity == null) {

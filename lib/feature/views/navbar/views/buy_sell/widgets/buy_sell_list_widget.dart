@@ -16,8 +16,8 @@ class _BuySellListWidget extends BaseGetView<BuySellViewController> {
                       bottom: (index == list.length - 1 ? 0 : 20).w),
                   child: ProjectCardComp(
                     projectModel: item,
-                    infoText: 'Son ${item.maturity} Gün',
-                    image: item.backimage.toString(),
+                    infoText: "", //'Son ${item.maturity} Gün',
+                    image: item.logoUrl.toString(),
                   ),
                 )
               : const SizedBox();

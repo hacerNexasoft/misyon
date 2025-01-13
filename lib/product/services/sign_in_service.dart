@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:misyonbank/product/models/sign_in_request_model.dart';
 import 'package:dio/dio.dart' as dio;
@@ -26,15 +27,21 @@ class SignInService extends BaseGetxService {
 
       if (response.statusCode == 200) {
         // Giriş başarılı
-        print('Sign-in successful: ${response.data}');
+        if (kDebugMode) {
+          print('Sign-in successful: ${response.data}');
+        }
         _signInRequest.value = requestModel;
       } else {
         // Hata durumu
-        print('Sign-in failed with status: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Sign-in failed with status: ${response.statusCode}');
+        }
       }
       return response;
     } catch (e) {
-      print('Sign-in request failed: $e');
+      if (kDebugMode) {
+        print('Sign-in request failed: $e');
+      }
       return null;
     }
   }

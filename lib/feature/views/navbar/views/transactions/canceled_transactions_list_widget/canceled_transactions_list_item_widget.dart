@@ -2,7 +2,7 @@ part of '../transactions_view.dart';
 
 class _CanceledTransactionsListItemWidget
     extends BaseGetView<TransactionsViewController> {
-  final ProjectModel? projectModel;
+  final InvestmentModel? projectModel;
   const _CanceledTransactionsListItemWidget({required this.projectModel});
 
   @override

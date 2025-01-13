@@ -2,7 +2,7 @@ part of '../fonvestor_view.dart';
 
 class _CompletedProjectsWidget extends BaseStatelessWidget {
   final String headerTitle;
-  final List<ProjectModel?> projects;
+  final List<InvestmentModel?> projects;
 
   const _CompletedProjectsWidget({
     required this.headerTitle,

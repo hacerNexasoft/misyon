@@ -1,6 +1,6 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/project_model.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
@@ -10,7 +10,7 @@ class YieldCalculationViewController extends BaseGetxController {
   final rateController = TextEditingController();
   final _projectService = Get.find<ProjectService>();
 
-  RxList<ProjectModel?> get openInvestmentsOpportunities =>
+  RxList<InvestmentModel?> get openInvestmentsOpportunities =>
       _projectService.openInvestmentsOpportunities;
   final investAmount = 0.0.obs;
   final borderColor = Colors.transparent.obs;
@@ -32,7 +32,7 @@ class YieldCalculationViewController extends BaseGetxController {
 
   static const double minInvestAmount = 1;
   static const double maxInvestAmount = 75000000;
-  RxList<ProjectModel> filteredProjects = <ProjectModel>[].obs;
+  RxList<InvestmentModel> filteredProjects = <InvestmentModel>[].obs;
   void filterEarningRates() {
     double? targetRate = double.tryParse(rateController.text);
     if (targetRate == null) {

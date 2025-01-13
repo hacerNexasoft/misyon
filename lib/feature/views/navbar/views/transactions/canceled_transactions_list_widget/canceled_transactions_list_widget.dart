@@ -12,7 +12,7 @@ class _CanceldTransactionsListWidget
               children: controller
                   .groupByDate(controller.canceldTransactionList
                       .where((transaction) => transaction != null)
-                      .cast<ProjectModel>()
+                      .cast<InvestmentModel>()
                       .toList())
                   .entries
                   .map((entry) {

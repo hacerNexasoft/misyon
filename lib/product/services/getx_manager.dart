@@ -8,7 +8,6 @@ import 'package:misyonbank/product/services/bank_service.dart';
 import 'package:misyonbank/product/services/investment_service.dart';
 import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
-import 'package:misyonbank/product/services/projects_service.dart';
 import 'package:misyonbank/product/services/sign_in_service.dart';
 
 class GetxManager {
@@ -21,7 +20,6 @@ class GetxManager {
     Get.put(InvestmentService(), permanent: true);
     Get.put(BankService(), permanent: true);
     Get.put(SignInService());
-    Get.put(ProjectsService());
     Get.put(BankAccountService(), permanent: true);
     await Get.put(LocalizationService(), permanent: true).initLocale();
   }

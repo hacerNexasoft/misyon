@@ -12,7 +12,7 @@ class _TransactionsActualsListWidget
               children: controller
                   .groupByDate(controller.realizedTransactionList
                       .where((transaction) => transaction != null)
-                      .cast<ProjectModel>()
+                      .cast<InvestmentModel>()
                       .toList())
                   .entries
                   .map((entry) {

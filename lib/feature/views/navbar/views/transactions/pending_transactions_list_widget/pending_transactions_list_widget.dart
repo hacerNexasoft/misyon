@@ -12,7 +12,7 @@ class _PendingTransactionsListWidget
         children: controller
             .groupByDate(controller.pendingTransactionList
                 .where((transaction) => transaction != null)
-                .cast<ProjectModel>()
+                .cast<InvestmentModel>()
                 .toList())
             .entries
             .toList()
@@ -38,7 +38,7 @@ class _PendingTransactionsListWidget
   }
 
   Widget _buildTransactionGroup(
-      String date, List<ProjectModel> transactions, int index) {
+      String date, List<InvestmentModel> transactions, int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,

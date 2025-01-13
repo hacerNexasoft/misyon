@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:misyonbank/feature/views/navbar/navbar_view_controller.dart';
@@ -65,7 +66,9 @@ class SignInViewController extends BaseGetxController {
       geo.Position position = await geo.Geolocator.getCurrentPosition();
       return '${position.latitude}, ${position.longitude}';
     } catch (e) {
-      print('Error getting location: $e');
+      if (kDebugMode) {
+        print('Error getting location: $e');
+      }
       return 'Error getting location';
     }
   }
@@ -75,7 +78,9 @@ class SignInViewController extends BaseGetxController {
       final String result = await platform.invokeMethod('getDeviceInfo');
       return result;
     } on PlatformException catch (e) {
-      print("Failed to get device info: '${e.message}'.");
+      if (kDebugMode) {
+        print("Failed to get device info: '${e.message}'.");
+      }
       return "Failed to get device info";
     }
   }
@@ -106,7 +111,9 @@ class SignInViewController extends BaseGetxController {
         deviceInfo: deviceInfo,
       );
 
-      print('SignInRequestModel: ${signInRequestModel.toJson()}');
+      if (kDebugMode) {
+        print('SignInRequestModel: ${signInRequestModel.toJson()}');
+      }
 
       try {
         final response = await _signInService.signIn(signInRequestModel);
@@ -125,7 +132,9 @@ class SignInViewController extends BaseGetxController {
               colorText: AppColors.primaryColor,
             );
           } else {
-            print('JWT token not found in response');
+            if (kDebugMode) {
+              print('JWT token not found in response');
+            }
             Get.snackbar(
               "Giriş Başarısız",
               "JWT token bulunamadı.",
@@ -134,7 +143,9 @@ class SignInViewController extends BaseGetxController {
             );
           }
         } else {
-          print('Sign-in failed');
+          if (kDebugMode) {
+            print('Sign-in failed');
+          }
           Get.snackbar(
             "Giriş Başarısız",
             "Giriş işlemi başarısız oldu.",
@@ -143,7 +154,9 @@ class SignInViewController extends BaseGetxController {
           );
         }
       } catch (e) {
-        print('Error during sign-in: $e');
+        if (kDebugMode) {
+          print('Error during sign-in: $e');
+        }
         Get.snackbar(
           "Giriş Başarısız",
           "Bir hata oluştu: $e",

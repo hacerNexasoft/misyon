@@ -10,7 +10,7 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/fonvestor_view_c
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/project_model.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,60 +26,64 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.only(bottom: 20.w),
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      children: [
-        SizedBox(height: 20.h),
-        _InvestmentBannerWidget(
-          investmentBanner: controller.investmentBanner.cast<String>(),
-        ),
-        SizedBox(height: 20.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _FavoriteAlternativeOpportunitiesWidget(),
-              _AllAlternativeOpportunitiesWidget(),
-            ],
-          ),
-        ),
-        SizedBox(height: 20.h),
-        CategoriesComp(),
-        YieldCalculatorToolWidget(isExpandable: false),
-        SizedBox(height: 20.h),
-        _CommunityWidget(
-          headerTitle: LocalizationKeys.communityTextKey.tr,
-          communityItemModel: controller.communityList,
-        ),
-        SizedBox(height: 20.h),
-        HorizontalProductListComp(
-          headerTitle: LocalizationKeys.openInvestmentsKey.tr,
-          projects: controller.openInvestmentsOpportunities,
-        ),
-        SizedBox(height: 20.h),
-        _buildPosterDesignImage(),
-        SizedBox(height: 20.h),
-        _CompletedProjectsWidget(
-          headerTitle: LocalizationKeys.completedProjectsTextKey.tr,
-          projects: controller.completedCollectors,
-        ),
-        SizedBox(height: 20.h),
-        HorizontalProductListComp(
-          headerTitle: LocalizationKeys.preDemandStatusTextKey.tr,
-          projects: controller.preOrderCollectors,
-        ),
-        SizedBox(height: 20.h),
-        HorizontalProductListComp(
-          headerTitle: LocalizationKeys.soonTextKey.tr,
-          projects: controller.upcomingCollectors,
-        ),
-        SizedBox(height: 20.h),
-      ],
-    );
+    return Obx(() {
+      return controller.isReady.value
+          ? ListView(
+              padding: EdgeInsets.only(bottom: 20.w),
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                SizedBox(height: 20.h),
+                _InvestmentBannerWidget(
+                  investmentBanner: controller.investmentBanner.cast<String>(),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _FavoriteAlternativeOpportunitiesWidget(),
+                      _AllAlternativeOpportunitiesWidget(),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                CategoriesComp(),
+                YieldCalculatorToolWidget(isExpandable: false),
+                SizedBox(height: 20.h),
+                _CommunityWidget(
+                  headerTitle: LocalizationKeys.communityTextKey.tr,
+                  communityItemModel: controller.communityList,
+                ),
+                SizedBox(height: 20.h),
+                HorizontalProductListComp(
+                  headerTitle: LocalizationKeys.openInvestmentsKey.tr,
+                  projects: controller.openInvestmentsOpportunities,
+                ),
+                SizedBox(height: 20.h),
+                _buildPosterDesignImage(),
+                SizedBox(height: 20.h),
+                _CompletedProjectsWidget(
+                  headerTitle: LocalizationKeys.completedProjectsTextKey.tr,
+                  projects: controller.completedCollectors,
+                ),
+                SizedBox(height: 20.h),
+                HorizontalProductListComp(
+                  headerTitle: LocalizationKeys.preDemandStatusTextKey.tr,
+                  projects: controller.preOrderCollectors,
+                ),
+                SizedBox(height: 20.h),
+                HorizontalProductListComp(
+                  headerTitle: LocalizationKeys.soonTextKey.tr,
+                  projects: controller.upcomingCollectors,
+                ),
+                SizedBox(height: 20.h),
+              ],
+            )
+          : const SizedBox.shrink();
+    });
   }
 
   Widget _buildPosterDesignImage() {

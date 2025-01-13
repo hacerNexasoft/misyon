@@ -2,7 +2,7 @@ part of '../transactions_view.dart';
 
 class _PendingTransactionsListItemWidget
     extends BaseGetView<TransactionsViewController> {
-  final ProjectModel? projectModel;
+  final InvestmentModel? projectModel;
   const _PendingTransactionsListItemWidget({required this.projectModel});
 
   @override
