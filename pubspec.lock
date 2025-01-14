@@ -532,8 +532,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: dcfbc717b550c4a6f5247512706ac7536a48260b
-      url: "https://github.com/MehmetBarlak/money_input_formatter.git"
+      resolved-ref: "51da6d7b9d5bcd6025fc3f2560ef6c50c566a37b"
+      url: "https://github.com/HacerYaman/money-formatter"
     source: git
     version: "0.0.1"
   octo_image:

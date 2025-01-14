@@ -1,7 +1,7 @@
 part of '../project_card_comp.dart';
 
 class _ContentInfoComp extends BaseStatelessWidget {
-  final ProjectModel projectModel;
+  final InvestmentModel projectModel;
 
   const _ContentInfoComp({
     required this.projectModel,
@@ -30,9 +30,9 @@ class _ContentInfoComp extends BaseStatelessWidget {
               SizedBox(
                 height: 5.sp,
               ),
-              projectModel.status == ProjectStatus.preDemand
+              projectModel.status == ProjectStatus.activeFunding
                   ? const SizedBox()
-                  : (projectModel.status == ProjectStatus.upcoming
+                  : (projectModel.status == ProjectStatus.upcomingPreview
                       ? _upcomingValues
                       : _values),
               SizedBox(
@@ -180,7 +180,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (projectModel.status != ProjectStatus.preDemand) _riskRatio,
+          if (projectModel.status != ProjectStatus.activeFunding) _riskRatio,
           SizedBox(
             height: 16.w,
           ),

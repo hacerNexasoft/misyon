@@ -4,6 +4,7 @@ import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/bank_account_model.dart';
 import 'package:misyonbank/product/models/bank_model.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
 import 'package:misyonbank/product/models/project_details_model.dart';
 import 'package:misyonbank/product/models/project_model.dart';
@@ -57,9 +58,9 @@ class InvestViewController extends BaseGetxController
     LocalizationKeys.moneyTransferEFTTextKey.tr,
     LocalizationKeys.creditCardTextKey.tr,
   ];
-  RxList<ProjectModel?> get openInvestmentsOpportunities =>
+  RxList<InvestmentModel?> get openInvestmentsOpportunities =>
       _projectService.openInvestmentsOpportunities;
-  ProjectModel? selectedProject;
+  InvestmentModel? selectedProject;
   @override
   void onInit() {
     super.onInit();

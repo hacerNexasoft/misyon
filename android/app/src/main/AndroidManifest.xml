@@ -6,7 +6,7 @@
         android:minSdkVersion="28" />
     
     <application
-        android:label="misyonbank"
+        android:label="Misyon Bank"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

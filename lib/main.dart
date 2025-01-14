@@ -8,9 +8,8 @@ import 'package:misyonbank/product/services/getx_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
-  await CacheBoxService.initBoxes();
+  await CacheBoxService.initBoxes(); //Storage
   await GetxManager.setupServices();
-
   runApp(const MyApp());
 }
 
@@ -25,6 +24,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          title: "Misyon Bank",
           getPages: AppViews.routes,
           initialRoute: AppViews.initial,
           theme: lightTheme,

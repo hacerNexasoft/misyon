@@ -1,10 +1,10 @@
-class ProjectsModel {
+class ProjectFilterModel {
   final List<int> stateFilters;
   final List<String> categories;
   final List<String> cities;
   final PageInfo pageInfo;
 
-  ProjectsModel({
+  ProjectFilterModel({
     required this.stateFilters,
     required this.categories,
     required this.cities,
@@ -12,8 +12,8 @@ class ProjectsModel {
   });
 
   // JSON'dan nesneye dönüştürme
-  factory ProjectsModel.fromJson(Map<String, dynamic> json) {
-    return ProjectsModel(
+  factory ProjectFilterModel.fromJson(Map<String, dynamic> json) {
+    return ProjectFilterModel(
       stateFilters: List<int>.from(json['stateFilters'] ?? []),
       categories: List<String>.from(json['categories'] ?? []),
       cities: List<String>.from(json['cities'] ?? []),

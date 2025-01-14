@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/project_model.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
@@ -14,7 +15,7 @@ part 'components/content_info_comp.dart';
 class ProjectCardComp extends BaseStatelessWidget {
   final String infoText;
   final String image;
-  final ProjectModel projectModel;
+  final InvestmentModel projectModel;
   const ProjectCardComp({
     super.key,
     required this.infoText,
@@ -26,8 +27,9 @@ class ProjectCardComp extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width * 0.9,
-      height:
-          (projectModel.status! == ProjectStatus.preDemand) ? 200.sp : 250.sp,
+      height: (projectModel.status! == ProjectStatus.activeFunding)
+          ? 200.sp
+          : 250.sp,
       child: Stack(
         children: [
           if (projectModel.status != null) ...[

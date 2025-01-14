@@ -2,11 +2,12 @@ import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
 import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/project_model.dart';
 
 class HorizontalProductListComp extends BaseStatelessWidget {
   final String headerTitle;
-  final List<ProjectModel?> projects;
+  final List<InvestmentModel?> projects;
 
   const HorizontalProductListComp(
       {super.key, required this.headerTitle, required this.projects});
@@ -25,10 +26,10 @@ class HorizontalProductListComp extends BaseStatelessWidget {
   }
 
   Widget _buildList() {
-    double listHeight =
-        projects.any((project) => project?.status == ProjectStatus.preDemand)
-            ? 200.sp
-            : 250.sp;
+    double listHeight = projects
+            .any((project) => project?.status == ProjectStatus.activeFunding)
+        ? 200.sp
+        : 250.sp;
 
     return SizedBox(
       height: listHeight,

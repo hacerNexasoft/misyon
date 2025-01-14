@@ -1,42 +1,89 @@
 import 'package:common/common.dart';
+import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
 import 'package:misyonbank/product/models/project_details_model.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/project_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
+import 'package:misyonbank/product/services/fetcher_static_service.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 
 class ProjectService extends BaseGetxService {
-  final openInvestmentsOpportunities = <ProjectModel?>[].obs;
-  final preOrderCollectors = <ProjectModel?>[].obs;
-  final upcomingCollectors = <ProjectModel?>[].obs;
-  final completedCollectors = <ProjectModel?>[].obs;
+  final isAllFetched = false.obs;
+  // API'den gelen projeler
+  final projectsList = <ProjectModel>[].obs;
 
+  final openInvestmentsOpportunities = <InvestmentModel>[].obs;
+  final preOrderCollectors = <InvestmentModel>[].obs;
+  final upcomingCollectors = <InvestmentModel>[].obs;
+  final completedCollectors = <InvestmentModel?>[].obs;
   final communityList = <CommunityItemModel?>[].obs;
-  final buyProjects = <ProjectModel?>[].obs;
-  final sellProjects = <ProjectModel?>[].obs;
-  final fetchAllInvestmentsOpportunitiesList = <ProjectModel?>[].obs;
+  final buyProjects = <InvestmentModel>[].obs;
+  final sellProjects = <InvestmentModel?>[].obs;
+  final fetchAllInvestmentsOpportunitiesList = <InvestmentModel?>[].obs;
   final projectDetail = Rx<ProjectDetailModel?>(null);
   final projectDetailitemList = <ProjectDetailModel?>[].obs;
   final detailMessage = Rx<DetailsMessageModel?>(null);
   final detailManagerMessage = Rx<DetailsManegerMessageModel?>(null);
-  final realizedTransactionList = <ProjectModel?>[].obs;
-  final pendingTransactionList = <ProjectModel?>[].obs;
-  final canceldTransactionList = <ProjectModel?>[].obs;
+  final realizedTransactionList = <InvestmentModel?>[].obs;
+  final pendingTransactionList = <InvestmentModel?>[].obs;
+  final canceldTransactionList = <InvestmentModel?>[].obs;
   final investmentsItemList = <InvestmentsItemModel?>[].obs;
+
   @override
   void onInit() async {
     super.onInit();
-    await fetchBuyProjects();
-    await fetchOpenInvestmentsOpportunities();
-    await fetchPreOrderCollectors();
-    await fetchUpComingCollectors();
-    await fetchCompletedCollectors();
+    // Projeleri çekme işlemini başlat
+    await fetchProjects();
 
-    await fetchCommunityInvestment();
-    await fetchAllInvestmentsOpportunities();
-    await fetchMyInvestments();
+    //await fetchOpenInvestmentsOpportunities();
+    //await fetchBuyProjects();
+    //await fetchPreOrderCollectors();
+    //await fetchUpComingCollectors();
+    //await fetchCompletedCollectors();
+    //await fetchCommunityInvestment();
+    //await fetchAllInvestmentsOpportunities();
+    //await fetchMyInvestments();
+    isAllFetched.value = true;
+  }
+
+  // Projeleri API'den çek
+  Future<void> fetchProjects() async {
+    try {
+      // Örnek bir istek modeli oluştur
+      /* ProjectsModel requestModel = ProjectsModel(
+        stateFilters: [0], // Örnek filtreler
+        categories: ["00000000-0000-0000-0000-000000000000"],
+        cities: ["00000000-0000-0000-0000-000000000000"],
+        pageInfo: PageInfo(pageNumber: 0, count: 0),
+      );*/
+
+      // Servisi çağır ve listeyi güncelle
+      projectsList.value = await FetcherStaticService
+          .fetchFilteredProjects(); // Listeyi güncelle
+
+      if (kDebugMode) {
+        print('Çekilen Projeler: ${projectsList.length}');
+      }
+      fillUpOpenInvestmentsOpportunities();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Proje Çekme Hatası: $e');
+      }
+    }
+  }
+
+  void fillUpOpenInvestmentsOpportunities() {
+    if (projectsList.isNotEmpty) {
+      List<InvestmentModel> list = [];
+      for (var element in projectsList.toList()) {
+        list.add(InvestmentModel(
+          id: element.id,
+        ));
+      }
+    }
   }
 
   Future<void> fetchMyInvestments() async {
@@ -114,8 +161,8 @@ class ProjectService extends BaseGetxService {
 
   Future<void> fetchOpenInvestmentsOpportunities() async {
     try {
-      openInvestmentsOpportunities.value = [
-        ProjectModel(
+      /* openInvestmentsOpportunities.value = [
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -132,8 +179,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -150,8 +197,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -168,8 +215,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -186,8 +233,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -204,8 +251,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -222,8 +269,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -240,8 +287,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -258,8 +305,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -276,8 +323,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -294,8 +341,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -312,8 +359,9 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
-            status: ProjectStatus.open),
+            status: ProjectStatus.activeFunding),
       ];
+   */
     } catch (e) {
       logger.e(e);
       rethrow;
@@ -323,7 +371,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchAllInvestmentsOpportunities() async {
     try {
       fetchAllInvestmentsOpportunitiesList.value = [
-        ProjectModel(
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -341,8 +389,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Yazılım'],
             startDate: '23 Temmuz 2024',
             investmentStatus: InvestmentStatus.openInvestments,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -359,8 +407,8 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
             investmentStatus: InvestmentStatus.preRequest,
-            status: ProjectStatus.preDemand),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -377,7 +425,7 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Yazılım'],
             startDate: '23 Temmuz 2024',
             investmentStatus: InvestmentStatus.reachedTarget,
-            status: ProjectStatus.completed),
+            status: ProjectStatus.upcomingPreview),
       ];
     } catch (e) {
       logger.e(e);
@@ -385,10 +433,11 @@ class ProjectService extends BaseGetxService {
     }
   }
 
+/*
   Future<void> fetchPreOrderCollectors() async {
     try {
       preOrderCollectors.value = [
-        ProjectModel(
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Tunga Soft',
             backimage: AssetConstants.tunga,
@@ -401,8 +450,8 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.preDemand),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Tunga Soft',
             backimage: AssetConstants.tunga,
@@ -415,8 +464,8 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.preDemand),
-        ProjectModel(
+            status: ProjectStatus.activeFunding),
+        InvestmentModel(
             id: UniqueKey().toString(),
             backimage: AssetConstants.tunga,
             ownerName: 'Tunga Soft',
@@ -429,18 +478,18 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.preDemand),
+            status: ProjectStatus.activeFunding),
       ];
     } catch (e) {
       logger.e(e);
       rethrow;
     }
   }
-
+*/
   Future<void> fetchUpComingCollectors() async {
     try {
-      upcomingCollectors.value = [
-        ProjectModel(
+      /*  upcomingCollectors.value = [
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Meta 3D Company',
             backimage: AssetConstants.meta3D,
@@ -454,8 +503,8 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.upcoming),
-        ProjectModel(
+            status: ProjectStatus.activeFundingStopped),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Meta 3D Company',
             backimage: AssetConstants.meta3D,
@@ -469,8 +518,8 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.upcoming),
-        ProjectModel(
+            status: ProjectStatus.activeFundingStopped),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Meta 3D Company',
             backimage: AssetConstants.meta3D,
@@ -484,8 +533,9 @@ class ProjectService extends BaseGetxService {
             rate: 14,
             riskType: RiskType.neutral,
             categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.upcoming),
+            status: ProjectStatus.activeFundingStopped),
       ];
+   */
     } catch (e) {
       logger.e(e);
       rethrow;
@@ -495,7 +545,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchCompletedCollectors() async {
     try {
       completedCollectors.value = [
-        ProjectModel(
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -503,8 +553,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -512,8 +562,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -521,8 +571,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -530,8 +580,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -539,8 +589,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -548,8 +598,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -557,8 +607,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -566,8 +616,8 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
-        ProjectModel(
+            status: ProjectStatus.upcomingPreview),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Agro Hub',
             imageUrl:
@@ -575,7 +625,7 @@ class ProjectService extends BaseGetxService {
             shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
             completedAmount: '1.6 Milyon TL',
             completedTargetRate: 120,
-            status: ProjectStatus.completed),
+            status: ProjectStatus.upcomingPreview),
       ];
     } catch (e) {
       logger.e(e);
@@ -676,7 +726,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchBuyProjects() async {
     try {
       buyProjects.value = [
-        ProjectModel(
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -693,8 +743,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -711,8 +761,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -729,8 +779,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -747,8 +797,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -765,8 +815,8 @@ class ProjectService extends BaseGetxService {
             categories: const ['Enerji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
-            status: ProjectStatus.open),
-        ProjectModel(
+            status: ProjectStatus.successful),
+        InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -783,7 +833,7 @@ class ProjectService extends BaseGetxService {
             categories: const ['Teknoloji', 'Gayrimenkul'],
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
-            status: ProjectStatus.open)
+            status: ProjectStatus.successful)
       ];
     } catch (e) {
       logger.e(e);
@@ -794,7 +844,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchSellProjects() async {
     try {
       sellProjects.value = [
-        ProjectModel(),
+        InvestmentModel(),
       ];
     } catch (e) {
       logger.e(e);
@@ -895,7 +945,7 @@ class ProjectService extends BaseGetxService {
         competitorAnalysis:
             "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
         additionalReward:
-            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
         incomeStatementTitle: const [
           "Esas Faaliyet Karı",
           "Esas Faaliyet Zararı",
@@ -1049,7 +1099,7 @@ class ProjectService extends BaseGetxService {
         competitorAnalysis:
             "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
         additionalReward:
-            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
         incomeStatementTitle: const [
           "Esas Faaliyet Karı",
           "Esas Faaliyet Zararı",
@@ -1203,7 +1253,7 @@ class ProjectService extends BaseGetxService {
         competitorAnalysis:
             "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
         additionalReward:
-            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+            "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
         incomeStatementTitle: const [
           "Esas Faaliyet Karı",
           "Esas Faaliyet Zararı",
@@ -1367,7 +1417,7 @@ class ProjectService extends BaseGetxService {
           competitorAnalysis:
               "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
           additionalReward:
-              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
           incomeStatementTitle: const [
             "Esas Faaliyet Karı",
             "Esas Faaliyet Zararı",
@@ -1521,7 +1571,7 @@ class ProjectService extends BaseGetxService {
           competitorAnalysis:
               "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
           additionalReward:
-              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
           incomeStatementTitle: const [
             "Esas Faaliyet Karı",
             "Esas Faaliyet Zararı",
@@ -1675,7 +1725,7 @@ class ProjectService extends BaseGetxService {
           competitorAnalysis:
               "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
           additionalReward:
-              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
           incomeStatementTitle: const [
             "Esas Faaliyet Karı",
             "Esas Faaliyet Zararı",
@@ -1829,7 +1879,7 @@ class ProjectService extends BaseGetxService {
           competitorAnalysis:
               "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
           additionalReward:
-              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir. 20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
+              "Yatırım turumuzun başlama tarihi itibariyle yapılan yatırımlarda yatırımcılara aşağıda belirtilen oranlarda ek getiri verilecektir.20.000 TL - 49.999 TL arasında yatırım yapan kişilere %0,5, 50.000 TL - 99.999 TL arasında yatırım yapan kişilere %1, 100.000 TL ve üzerinde yatırım yapan kişilere %2 ek getiri verilecektir.",
           incomeStatementTitle: const [
             "Esas Faaliyet Karı",
             "Esas Faaliyet Zararı",
@@ -1957,7 +2007,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchRealizedTransactionList() async {
     try {
       realizedTransactionList.value = [
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'Tunga Soft',
             imageUrl:
                 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWL6JqVuWQDs0_23XEC3r92fgNFsZu9O4MQGxxUfV46PsaWp4p',
@@ -1966,7 +2016,7 @@ class ProjectService extends BaseGetxService {
             startDate: '2024-09-20',
             accountPaymentMethod: 'İptal Et',
             paymentMethod: PaymentMethod.takeMoney),
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'Oleatex',
             imageUrl:
                 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
@@ -1975,7 +2025,7 @@ class ProjectService extends BaseGetxService {
             startDate: '2024-09-16',
             accountPaymentMethod: 'İptal Et',
             paymentMethod: PaymentMethod.takeMoney),
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'melda io',
             backimage:
                 'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
@@ -1985,7 +2035,7 @@ class ProjectService extends BaseGetxService {
             startDate: '2024-09-14',
             monthlyPaymentCount: 'Yatırım(Kredi Kartı)',
             paymentMethod: PaymentMethod.takeMoney),
-        ProjectModel(
+        InvestmentModel(
             backimage:
                 'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
             imageUrl:
@@ -2005,7 +2055,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchpendingTransactionList() async {
     try {
       pendingTransactionList.value = [
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'Mionti Enerji',
             imageUrl:
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
@@ -2014,7 +2064,7 @@ class ProjectService extends BaseGetxService {
             startDate: '2024-10-29',
             accountPaymentMethod: 'Gecikmede',
             paymentMethod: PaymentMethod.sendMoney),
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'Oleatex',
             imageUrl:
                 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
@@ -2022,7 +2072,7 @@ class ProjectService extends BaseGetxService {
             amountReceived: 22325.13,
             startDate: '2024-10-29',
             paymentMethod: PaymentMethod.sendMoney),
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'TiPlay',
             imageUrl:
                 'https://media.licdn.com/dms/image/v2/D4E22AQEfsmmHBS7b3w/feedshare-shrink_800/feedshare-shrink_800/0/1723472812613?e=2147483647&v=beta&t=-_zaEJNPP--0LiSIvc7sMpslvWUbFKyeCoEaL6SZk2E',
@@ -2040,7 +2090,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchcanceldTransactionList() async {
     try {
       canceldTransactionList.value = [
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'Oleatex',
             imageUrl:
                 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
@@ -2048,7 +2098,7 @@ class ProjectService extends BaseGetxService {
             amountReceived: 1200.13,
             startDate: '2024-10-29',
             paymentMethod: PaymentMethod.sendMoney),
-        ProjectModel(
+        InvestmentModel(
             ownerName: 'melda io',
             imageUrl:
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',

@@ -2,6 +2,7 @@ import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/cancel_comp/cancel_bottom_sheet_comp.dart';
 import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
 import 'package:misyonbank/product/models/project_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -57,8 +58,9 @@ class TransactionsViewController extends BaseGetxController
   ];
 
   // Tarih aralığına göre gruplama
-  Map<String, List<ProjectModel>> groupByDate(List<ProjectModel> transactions) {
-    Map<String, List<ProjectModel>> groupedTransactions = {};
+  Map<String, List<InvestmentModel>> groupByDate(
+      List<InvestmentModel> transactions) {
+    Map<String, List<InvestmentModel>> groupedTransactions = {};
     for (var transaction in transactions) {
       final date = transaction.startDate ?? '';
       if (!groupedTransactions.containsKey(date)) {
@@ -69,11 +71,11 @@ class TransactionsViewController extends BaseGetxController
     return groupedTransactions;
   }
 
-  RxList<ProjectModel?> get realizedTransactionList =>
+  RxList<InvestmentModel?> get realizedTransactionList =>
       _projectService.realizedTransactionList;
-  RxList<ProjectModel?> get pendingTransactionList =>
+  RxList<InvestmentModel?> get pendingTransactionList =>
       _projectService.pendingTransactionList;
-  RxList<ProjectModel?> get canceldTransactionList =>
+  RxList<InvestmentModel?> get canceldTransactionList =>
       _projectService.canceldTransactionList;
 
   Future<void> initView({Function()? action}) async {

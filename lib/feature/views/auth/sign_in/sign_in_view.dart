@@ -56,7 +56,7 @@ class SignInView extends BaseGetView<SignInViewController> {
           Row(
             children: [
               ScaleFactorAutoSizeText(
-                text: "Griş Yap",
+                text: "Giriş Yap",
                 style: theme.primaryTextTheme.displayMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
