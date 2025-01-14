@@ -4,7 +4,6 @@ import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/filtering_transactions_view.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-import 'package:misyonbank/product/models/project_model.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';

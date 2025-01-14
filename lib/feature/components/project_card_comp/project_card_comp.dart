@@ -27,12 +27,12 @@ class ProjectCardComp extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width * 0.9,
-      height: (projectModel.status! == ProjectStatus.activeFunding)
+      height: (projectModel.status == ProjectStatus.activeFunding)
           ? 200.sp
           : 250.sp,
       child: Stack(
         children: [
-          if (projectModel.status != null) ...[
+          if (projectModel.status != ProjectStatus.unknown) ...[
             _backgroundImage,
             _cardContent,
           ]
@@ -60,8 +60,8 @@ class ProjectCardComp extends BaseStatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
             decoration: BoxDecoration(
-              color:
-                  projectModel.status.getBackgroundColor(projectModel.maturity),
+              /*color:
+                  projectModel.status.getBackgroundColor(projectModel.maturity),*/
               borderRadius: BorderRadius.circular(999.r),
             ),
             child: Row(
@@ -70,7 +70,7 @@ class ProjectCardComp extends BaseStatelessWidget {
                     color: AppColors.backgroundColor),
                 SizedBox(width: 5.w),
                 ScaleFactorAutoSizeText(
-                  text: projectModel.status?.statusText(infoText),
+                  text: projectModel.status.statusText(infoText),
                   style: theme.primaryTextTheme.bodyMedium
                       ?.copyWith(color: AppColors.lightTextColor),
                 )

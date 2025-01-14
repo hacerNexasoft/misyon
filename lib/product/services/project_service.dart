@@ -723,6 +723,7 @@ class ProjectService extends BaseGetxService {
     }
   }
 
+/*
   Future<void> fetchBuyProjects() async {
     try {
       buyProjects.value = [
@@ -840,7 +841,7 @@ class ProjectService extends BaseGetxService {
       rethrow;
     }
   }
-
+*/
   Future<void> fetchSellProjects() async {
     try {
       sellProjects.value = [

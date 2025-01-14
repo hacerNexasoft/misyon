@@ -11,7 +11,6 @@ import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-import 'package:misyonbank/product/models/project_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,10 +57,10 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   communityItemModel: controller.communityList,
                 ),
                 SizedBox(height: 20.h),
-                HorizontalProductListComp(
+                /*HorizontalProductListComp(
                   headerTitle: LocalizationKeys.openInvestmentsKey.tr,
                   projects: controller.openInvestmentsOpportunities,
-                ),
+                ),*/
                 SizedBox(height: 20.h),
                 _buildPosterDesignImage(),
                 SizedBox(height: 20.h),
@@ -70,15 +69,15 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   projects: controller.completedCollectors,
                 ),
                 SizedBox(height: 20.h),
-                HorizontalProductListComp(
+                /*HorizontalProductListComp(
                   headerTitle: LocalizationKeys.preDemandStatusTextKey.tr,
                   projects: controller.preOrderCollectors,
-                ),
+                ),*/
                 SizedBox(height: 20.h),
-                HorizontalProductListComp(
+                /*HorizontalProductListComp(
                   headerTitle: LocalizationKeys.soonTextKey.tr,
                   projects: controller.upcomingCollectors,
-                ),
+                ),*/
                 SizedBox(height: 20.h),
               ],
             )

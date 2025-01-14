@@ -25,14 +25,13 @@ class _ContentInfoComp extends BaseStatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (projectModel.amountReceived != null) ...[],
               _infoHeader,
               SizedBox(
                 height: 5.sp,
               ),
               projectModel.status == ProjectStatus.activeFunding
                   ? const SizedBox()
-                  : (projectModel.status == ProjectStatus.upcomingPreview
+                  : (projectModel.status == ProjectStatus.activeFundingStopped
                       ? _upcomingValues
                       : _values),
               SizedBox(
@@ -50,7 +49,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
         children: [
           if (projectModel.amountReceived == null)
             ProjectCustomCachedNetworkImageComp(
-              imageUrl: projectModel.imageUrl,
+              imageUrl: projectModel.backimage,
               size: 32.w,
             ),
           SizedBox(width: 10.w),

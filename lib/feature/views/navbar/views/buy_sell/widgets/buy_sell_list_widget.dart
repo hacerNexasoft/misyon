@@ -10,17 +10,15 @@ class _BuySellListWidget extends BaseGetView<BuySellViewController> {
         itemBuilder: (context, index) {
           final list = controller.selectedList;
           final item = list[index];
-          return item != null
-              ? Padding(
-                  padding: EdgeInsets.only(
-                      bottom: (index == list.length - 1 ? 0 : 20).w),
-                  child: ProjectCardComp(
-                    projectModel: item,
-                    infoText: 'Son ${item.maturity} Gün',
-                    image: item.backimage.toString(),
-                  ),
-                )
-              : const SizedBox();
+          return Padding(
+            padding:
+                EdgeInsets.only(bottom: (index == list.length - 1 ? 0 : 20).w),
+            child: ProjectCardComp(
+              projectModel: item,
+              infoText: "", //'Son ${item.maturity} Gün',
+              image: item.imageUrl.toString(),
+            ),
+          );
         },
       ),
     );

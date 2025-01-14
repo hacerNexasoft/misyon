@@ -1,7 +1,6 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-
 import 'package:misyonbank/product/services/project_service.dart';
 
 class BuySellViewController extends BaseGetxController
@@ -9,8 +8,8 @@ class BuySellViewController extends BaseGetxController
   late TabController tabController;
   var tabs = [LocalizationKeys.buyTextKey.tr, LocalizationKeys.sellTextKey.tr];
   var selectedTabIndex = 0.obs;
-  var selectedList = <InvestmentModel?>[].obs;
-  late final List<List<InvestmentModel?>> lists;
+  var selectedList = <InvestmentModel>[].obs;
+  late final List<List<InvestmentModel>> lists;
   final _projectService = Get.find<ProjectService>();
 
   @override
@@ -19,14 +18,14 @@ class BuySellViewController extends BaseGetxController
     super.onInit();
   }
 
-  RxList<InvestmentModel?> get getBuyProjects => _projectService.buyProjects;
+  RxList<InvestmentModel> get getBuyProjects => _projectService.buyProjects;
   RxList<InvestmentModel?> get getSellProjects => _projectService.sellProjects;
 
   Future<void> initView({Function()? action}) async {
     try {
       change(state, status: RxStatus.loading());
       tabController = TabController(length: 2, vsync: this);
-      await _projectService.fetchBuyProjects();
+      //await _projectService.fetchBuyProjects();
       await _projectService.fetchSellProjects();
       lists = [getBuyProjects, []];
       selectedList.assignAll(getBuyProjects);

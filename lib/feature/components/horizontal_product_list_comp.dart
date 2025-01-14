@@ -3,11 +3,10 @@ import 'package:misyonbank/feature/components/project_card_comp/project_card_com
 import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-import 'package:misyonbank/product/models/project_model.dart';
 
 class HorizontalProductListComp extends BaseStatelessWidget {
   final String headerTitle;
-  final List<InvestmentModel?> projects;
+  final List<InvestmentModel> projects;
 
   const HorizontalProductListComp(
       {super.key, required this.headerTitle, required this.projects});
@@ -26,10 +25,10 @@ class HorizontalProductListComp extends BaseStatelessWidget {
   }
 
   Widget _buildList() {
-    double listHeight = projects
-            .any((project) => project?.status == ProjectStatus.activeFunding)
-        ? 200.sp
-        : 250.sp;
+    double listHeight =
+        projects.any((project) => project.status == ProjectStatus.activeFunding)
+            ? 200.sp
+            : 250.sp; // Burada sıkıntı çıkabilir!!
 
     return SizedBox(
       height: listHeight,
@@ -41,14 +40,12 @@ class HorizontalProductListComp extends BaseStatelessWidget {
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(
               left: 10.w, right: (index == projects.length - 1 ? 10 : 0).w),
-          child: projects[index] != null
-              ? ProjectCardComp(
-                  infoText:
-                      'Son ${projects.elementAt(index)?.maturity.toString()} Gün',
-                  image: projects.elementAt(index)!.backimage.toString(),
-                  projectModel: projects[index]!,
-                )
-              : const SizedBox(),
+          child: ProjectCardComp(
+            infoText: "infotext",
+            //'Son ${projects.elementAt(index).maturity.toString()} Gün',
+            image: projects.elementAt(index).backimage.toString(),
+            projectModel: projects[index],
+          ),
         ),
       ),
     );
