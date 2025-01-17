@@ -7,7 +7,7 @@ class InvestmentModel {
   final String? imageUrl; //logourl
   final String? shortDesc; //shortDescription
   final String? earningFrequency;
-  final int? maturity;
+  final int? term;
   final double? earningRate;
   final double? rate;
   final double? completedTargetRate;
@@ -31,7 +31,7 @@ class InvestmentModel {
     this.shortDesc,
     this.startDate,
     this.earningFrequency,
-    this.maturity,
+    this.term,
     this.earningRate,
     this.rate,
     this.completedTargetRate,
@@ -54,7 +54,7 @@ class InvestmentModel {
         imageUrl: json["imageUrl"],
         shortDesc: json["shortDesc"],
         earningFrequency: json["earningFrequency"],
-        maturity: json["maturity"],
+        term: json["term"],
         earningRate: json["earningRate"]?.toDouble(),
         rate: json["rate"]?.toDouble(),
         completedTargetRate: json["completedTargetRate"]?.toDouble(),
@@ -85,7 +85,7 @@ class InvestmentModel {
         "imageUrl": imageUrl,
         "shortDesc": shortDesc,
         "earningFrequency": earningFrequency,
-        "maturity": maturity,
+        "term": term,
         "earningRate": earningRate,
         "rate": rate,
         "completedTargetRate": completedTargetRate,
@@ -100,6 +100,7 @@ class InvestmentModel {
         "riskType": riskType,
         "backimage": backimage,
       };
+
   @override
   List<Object?> get props => [
         id,
@@ -107,7 +108,7 @@ class InvestmentModel {
         imageUrl,
         shortDesc,
         earningFrequency,
-        maturity,
+        term,
         earningRate,
         rate,
         completedTargetRate,

@@ -12,7 +12,9 @@ enum ProjectStatus {
   unknown,
 }
 
-enum CollateralStructure { gayrimenkul, unknown }
+enum CollateralStructure { RealEstate, unknown }
+
+enum Period { Annual, Monthly, unknown }
 
 enum MyInvestmentsProcess { openInvestment, atTermination, returnPeriod }
 

@@ -13,7 +13,7 @@ class _BuySellListWidget extends BaseGetView<BuySellViewController> {
           return Padding(
             padding:
                 EdgeInsets.only(bottom: (index == list.length - 1 ? 0 : 20).w),
-            child: ProjectCardComp(
+            child: InvestmentCardComp(
               projectModel: item,
               infoText: "", //'Son ${item.maturity} Gün',
               image: item.imageUrl.toString(),

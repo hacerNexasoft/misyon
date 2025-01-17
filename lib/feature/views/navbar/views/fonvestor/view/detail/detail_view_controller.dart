@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:flutter/foundation.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/awards/awards_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/details/details_tab_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/documents_and_financials/documents_and_financials.dart';
@@ -35,10 +36,12 @@ class DetailViewController extends BaseGetxController
     final args = Get.arguments as Map<String, dynamic>?;
     final projectName = args?['projectName'] as String?;
 
-    print("Gelen projectName: $projectName");
-    print(
-        "Model title: ${projectDetailModel.value!.title}"); // Eğer liste ise, ilk elemanı alıyoruz
-    print("Model title türü: ${projectDetailModel.value!.title.runtimeType}");
+    if (kDebugMode) {
+      print("Gelen projectName: $projectName");
+      print(
+          "Model title: ${projectDetailModel.value!.title}"); // Eğer liste ise, ilk elemanı alıyoruz
+      print("Model title türü: ${projectDetailModel.value!.title.runtimeType}");
+    }
 
     selectedProject = projectDetailIremList.firstWhere(
       (sel) => sel?.title?.toLowerCase() == projectName?.toLowerCase(),
@@ -49,7 +52,9 @@ class DetailViewController extends BaseGetxController
       logger.e("Eşleşen proje bulunamadı!");
     } else {
       logger.i("Proje yüklendi: ${selectedProject!.title}");
-      print("Eşleşen proje: ${selectedProject!}");
+      if (kDebugMode) {
+        print("Eşleşen proje: ${selectedProject!}");
+      }
     }
   }
 

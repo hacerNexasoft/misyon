@@ -3,18 +3,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/project_model.dart';
+import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/utils/extensions.dart';
+import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:misyonbank/product/utils/extensions.dart';
 part 'components/content_info_comp.dart';
 
-class ProjectCardComp extends BaseStatelessWidget {
+class InvestmentCardComp extends BaseStatelessWidget {
   final String infoText;
   final String image;
-  final ProjectModel projectModel;
-  const ProjectCardComp({
+  final InvestmentModel projectModel;
+  const InvestmentCardComp({
     super.key,
     required this.infoText,
     required this.image,
@@ -53,37 +54,37 @@ class ProjectCardComp extends BaseStatelessWidget {
 
   Widget get _contentHeader => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (infoText.isNotEmpty)
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-              decoration: BoxDecoration(
-                /*color:
-                  projectModel.status.getBackgroundColor(projectModel.maturity),*/ // Artık olmayan bir parametre sebebiyle iptal
-                borderRadius: BorderRadius.circular(999.r),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.check_circle_outline,
-                      color: AppColors.backgroundColor),
-                  SizedBox(width: 5.w),
-                  ScaleFactorAutoSizeText(
-                    text: infoText,
-                    style: theme.primaryTextTheme.bodyMedium
-                        ?.copyWith(color: AppColors.lightTextColor),
-                  ),
-                ],
-              ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+            decoration: BoxDecoration(
+              color: projectModel.status.getBackgroundColor(projectModel.term),
+              borderRadius: BorderRadius.circular(999.r),
             ),
-          const Spacer(),
-          GestureDetector(
-            onTap: () {},
-            child: SvgPicture.asset(
-              AssetConstants.borderedStarIcon,
-              width: 24.w,
+            child: Row(
+              children: [
+                const Icon(Icons.check_circle_outline,
+                    color: AppColors.backgroundColor),
+                SizedBox(width: 5.w),
+                ScaleFactorAutoSizeText(
+                  text: projectModel.status.statusText(infoText),
+                  style: theme.primaryTextTheme.bodyMedium
+                      ?.copyWith(color: AppColors.lightTextColor),
+                )
+              ],
             ),
+          ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: SvgPicture.asset(
+                  AssetConstants.borderedStarIcon,
+                  width: 24.w,
+                ),
+              ),
+            ],
           ),
         ],
       );

@@ -221,5 +221,10 @@ final Map<String, String> enUS = {
   LocalizationKeys.dispersionRatioTitleTextKey: 'DISPERSION RATIO',
   LocalizationKeys.teamsTitleTextKey: 'Team and Partnership Structure',
   LocalizationKeys.teamssubTitleTextKey: 'TEAM',
-  LocalizationKeys.teamsortsubTitleTextKey: 'PARTNERSHIP STRUCTURE'
+  LocalizationKeys.teamsortsubTitleTextKey: 'PARTNERSHIP STRUCTURE',
+  //Fonvestor
+  LocalizationKeys.periodAnnualyTextKey: 'Annualy',
+  LocalizationKeys.periodMonthlyTextKey: 'Monthly',
+  LocalizationKeys.collateralStructureRealEstateTextKey: 'RealEstate',
+  //
 };

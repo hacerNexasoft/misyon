@@ -251,4 +251,9 @@ class LocalizationKeys {
   static const String teamsTitleTextKey = 'teamsTitleTextKey';
   static const String teamssubTitleTextKey = 'teamssubTitleTextKey';
   static const String teamsortsubTitleTextKey = 'teamsortsubTitleTextKey';
+  //Fonvestor
+  static const String periodAnnualyTextKey = 'periodAnnualyTextKey';
+  static const String periodMonthlyTextKey = 'periodMonthlyTextKey';
+  static const String collateralStructureRealEstateTextKey =
+      'collateralStructureRealEstateTextKey';
 }

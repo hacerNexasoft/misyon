@@ -1,5 +1,5 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/components/project_card_comp/list_filtering_comp/list_filtering_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/list_filtering_comp/list_filtering_comp.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';

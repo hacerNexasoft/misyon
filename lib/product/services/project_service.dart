@@ -14,7 +14,10 @@ class ProjectService extends BaseGetxService {
   final isAllFetched = false.obs;
   // API'den gelen projeler
   final projectsList = <ProjectModel>[].obs;
+  final activeProjects = <ProjectModel>[].obs;
+  final upcomingProjects = <ProjectModel>[].obs;
 
+  //Eski değişkenler
   final openInvestmentsOpportunities = <InvestmentModel>[].obs;
   final preOrderCollectors = <InvestmentModel>[].obs;
   final upcomingCollectors = <InvestmentModel>[].obs;
@@ -38,14 +41,18 @@ class ProjectService extends BaseGetxService {
     // Projeleri çekme işlemini başlat
     await fetchProjects();
 
-    //await fetchOpenInvestmentsOpportunities();
-    //await fetchBuyProjects();
-    //await fetchPreOrderCollectors();
-    //await fetchUpComingCollectors();
-    //await fetchCompletedCollectors();
-    //await fetchCommunityInvestment();
-    //await fetchAllInvestmentsOpportunities();
-    //await fetchMyInvestments();
+    //Dummy Data Methods
+    activeProjectsDummy();
+    //Olds
+    await fetchOpenInvestmentsOpportunities();
+    await fetchBuyProjects();
+    await fetchPreOrderCollectors();
+    await fetchUpComingCollectors();
+    await fetchCompletedCollectors();
+    await fetchCommunityInvestment();
+    await fetchAllInvestmentsOpportunities();
+    await fetchMyInvestments();
+    //------------
     isAllFetched.value = true;
   }
 
@@ -67,7 +74,7 @@ class ProjectService extends BaseGetxService {
       if (kDebugMode) {
         print('Çekilen Projeler: ${projectsList.length}');
       }
-      fillUpOpenInvestmentsOpportunities();
+      filterProjectsByStatus();
     } catch (e) {
       if (kDebugMode) {
         print('Proje Çekme Hatası: $e');
@@ -75,15 +82,98 @@ class ProjectService extends BaseGetxService {
     }
   }
 
-  void fillUpOpenInvestmentsOpportunities() {
-    if (projectsList.isNotEmpty) {
-      List<InvestmentModel> list = [];
-      for (var element in projectsList.toList()) {
-        list.add(InvestmentModel(
-          id: element.id,
-        ));
-      }
-    }
+  void filterProjectsByStatus() {
+    if (projectsList.isEmpty) return;
+
+    activeProjects.value = projectsList
+        .toList()
+        .where(
+          (element) =>
+              element.status == ProjectStatus.activeFunding ||
+              element.status == ProjectStatus.activeFundingStopped,
+        )
+        .toList();
+
+    upcomingProjects.value = projectsList
+        .toList()
+        .where(
+          (element) =>
+              element.status == ProjectStatus.upcomingPreview ||
+              element.status == ProjectStatus.upcomingPrerelease ||
+              element.status == ProjectStatus.upcomingDetailedPrerelease,
+        )
+        .toList();
+  }
+
+//-----------DUMMY DATA--------------------------
+
+  void activeProjectsDummy() {
+    activeProjects.value = [
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: "Fintek",
+          city: "Aksaray",
+          coverImage:
+              'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.000999,
+          logoUrl:
+              'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
+          numberOfInvestors: 1,
+          projectEndDate: (DateTime.now().add(const Duration(days: 5)))
+              .millisecondsSinceEpoch,
+          projectStartDate: 1722870000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.activeFundingStopped,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: "FinStream",
+          externalId: "54",
+          seoName: "finnstream",
+          isClickable: true,
+          isFavorite: false,
+          termCode: 36,
+          period: Period.Monthly,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.risky),
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: 'Mionti Enerji',
+          city: "Aksaray",
+          coverImage:
+              'https://samunnativentures.com/wp-content/uploads/2023/12/AI-through-his-laptop-computer-in-office-to-help-him-analyze-data-or-generate-virtual-images-and-using-big-data-810x500.jpg',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.000999,
+          logoUrl:
+              'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
+          numberOfInvestors: 1,
+          projectEndDate: (DateTime.now().add(const Duration(hours: 3)))
+              .millisecondsSinceEpoch,
+          projectStartDate: 1722870000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.activeFunding,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: 'Mionti Enerji',
+          externalId: "54",
+          seoName: 'Mionti Enerji',
+          isClickable: true,
+          isFavorite: false,
+          termCode: 48,
+          period: Period.Annual,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.neutral),
+    ];
   }
 
   Future<void> fetchMyInvestments() async {
@@ -161,7 +251,7 @@ class ProjectService extends BaseGetxService {
 
   Future<void> fetchOpenInvestmentsOpportunities() async {
     try {
-      /* openInvestmentsOpportunities.value = [
+      openInvestmentsOpportunities.value = [
         InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
@@ -171,7 +261,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -189,7 +279,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -207,7 +297,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -225,7 +315,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -243,7 +333,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -261,7 +351,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -279,7 +369,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -297,7 +387,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -315,7 +405,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -333,7 +423,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -351,7 +441,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 6,
+            term: 6,
             earningRate: 60,
             rate: 46,
             favoriteCount: 46,
@@ -361,7 +451,6 @@ class ProjectService extends BaseGetxService {
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
       ];
-   */
     } catch (e) {
       logger.e(e);
       rethrow;
@@ -380,7 +469,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 55,
             rate: 46,
             favoriteCount: 46,
@@ -399,7 +488,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Yıllık',
-            maturity: 4,
+            term: 4,
             earningRate: 12,
             rate: 14,
             favoriteCount: 76,
@@ -433,7 +522,6 @@ class ProjectService extends BaseGetxService {
     }
   }
 
-/*
   Future<void> fetchPreOrderCollectors() async {
     try {
       preOrderCollectors.value = [
@@ -485,10 +573,10 @@ class ProjectService extends BaseGetxService {
       rethrow;
     }
   }
-*/
+
   Future<void> fetchUpComingCollectors() async {
     try {
-      /*  upcomingCollectors.value = [
+      upcomingCollectors.value = [
         InvestmentModel(
             id: UniqueKey().toString(),
             ownerName: 'Meta 3D Company',
@@ -535,7 +623,6 @@ class ProjectService extends BaseGetxService {
             categories: const ['Yapay Zeka', 'Gayrimenkul'],
             status: ProjectStatus.activeFundingStopped),
       ];
-   */
     } catch (e) {
       logger.e(e);
       rethrow;
@@ -723,7 +810,6 @@ class ProjectService extends BaseGetxService {
     }
   }
 
-/*
   Future<void> fetchBuyProjects() async {
     try {
       buyProjects.value = [
@@ -736,7 +822,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 55,
             rate: 46,
             favoriteCount: 46,
@@ -754,7 +840,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -772,7 +858,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 55,
             rate: 46,
             favoriteCount: 46,
@@ -790,7 +876,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -808,7 +894,7 @@ class ProjectService extends BaseGetxService {
                 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
             shortDesc: 'Araç şarj istasyon ağı',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 55,
             rate: 46,
             favoriteCount: 46,
@@ -826,7 +912,7 @@ class ProjectService extends BaseGetxService {
                 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
             shortDesc: 'Yeni nesil data analizi & LMS platformu',
             earningFrequency: 'Aylık',
-            maturity: 12,
+            term: 12,
             earningRate: 70,
             rate: 14,
             favoriteCount: 76,
@@ -841,7 +927,7 @@ class ProjectService extends BaseGetxService {
       rethrow;
     }
   }
-*/
+
   Future<void> fetchSellProjects() async {
     try {
       sellProjects.value = [

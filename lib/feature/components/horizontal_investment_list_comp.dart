@@ -1,14 +1,14 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_header_comp.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
 
-class HorizontalProductListComp extends BaseStatelessWidget {
+class HorizontalInvestmentListComp extends BaseStatelessWidget {
   final String headerTitle;
   final List<InvestmentModel> projects;
 
-  const HorizontalProductListComp(
+  const HorizontalInvestmentListComp(
       {super.key, required this.headerTitle, required this.projects});
 
   @override
@@ -17,7 +17,7 @@ class HorizontalProductListComp extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        ProjectCardHeaderComp(headerTitile: headerTitle),
+        InvestmentCardHeaderComp(headerTitile: headerTitle),
         SizedBox(height: 20.h),
         _buildList(),
       ],
@@ -40,9 +40,8 @@ class HorizontalProductListComp extends BaseStatelessWidget {
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(
               left: 10.w, right: (index == projects.length - 1 ? 10 : 0).w),
-          child: ProjectCardComp(
-            infoText: "infotext",
-            //'Son ${projects.elementAt(index).maturity.toString()} Gün',
+          child: InvestmentCardComp(
+            infoText: 'Son ${projects.elementAt(index).term.toString()} Gün',
             image: projects.elementAt(index).backimage.toString(),
             projectModel: projects[index],
           ),

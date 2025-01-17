@@ -30,7 +30,7 @@ class _CradiCardInvestmentConfirmationView
                   buildInvestmentDemand("YATIRIM TALEBİ"),
                   buildAdditionalRow("Platform", "Fonvestor"),
                   buildAdditionalRow(
-                      "Vade", "${controller.selectedProject!.maturity} Ay"),
+                      "Vade", "${controller.selectedProject!.term} Ay"),
                   buildAdditionalRow("Periyot",
                       controller.selectedProject!.earningFrequency.toString()),
                   buildAdditionalRow(

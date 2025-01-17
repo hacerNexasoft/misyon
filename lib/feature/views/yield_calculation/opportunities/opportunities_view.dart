@@ -1,6 +1,6 @@
 import 'package:common/common.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
 import 'package:misyonbank/feature/views/yield_calculation/yield_calculation_view_controller.dart';
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:widgets/components.dart';
@@ -53,8 +53,8 @@ class OpportunitiesView extends BaseGetView<YieldCalculationViewController> {
 
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 10.sp),
-            child: ProjectCardComp(
-              infoText: 'Son ${project.maturity.toString()} Gün',
+            child: InvestmentCardComp(
+              infoText: 'Son ${project.term.toString()} Gün',
               image: project.backimage.toString(),
               projectModel: project,
             ),

@@ -236,5 +236,10 @@ final Map<String, String> trTR = {
   LocalizationKeys.dispersionRatioTitleTextKey: 'DAĞILIM ORANI',
   LocalizationKeys.teamsTitleTextKey: 'Takım ve Ortaklık Yapısı',
   LocalizationKeys.teamssubTitleTextKey: 'TAKIM',
-  LocalizationKeys.teamsortsubTitleTextKey: 'ORTAKLIK YAPISI'
+  LocalizationKeys.teamsortsubTitleTextKey: 'ORTAKLIK YAPISI',
+  //Fonvestor
+  LocalizationKeys.periodAnnualyTextKey: 'Yıllık',
+  LocalizationKeys.periodMonthlyTextKey: 'Aylık',
+  LocalizationKeys.collateralStructureRealEstateTextKey: 'Gayrimenkul',
+  //
 };

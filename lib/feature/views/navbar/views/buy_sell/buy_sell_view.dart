@@ -1,5 +1,5 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
 import 'package:misyonbank/feature/components/search_row_comp.dart';
 import 'package:misyonbank/feature/components/tabbar/cupertino_tab_bar_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/buy_sell/buy_sell_view_controller.dart';

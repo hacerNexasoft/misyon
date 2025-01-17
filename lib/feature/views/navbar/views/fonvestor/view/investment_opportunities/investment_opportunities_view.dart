@@ -1,5 +1,5 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
 import 'package:misyonbank/feature/components/search_row_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/investment_opportunities_view_filtering.dart';
@@ -192,9 +192,9 @@ class InvestmentOpportunitiesView
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.symmetric(vertical: 15.w),
               child: controller.filteredProjects[index] != null
-                  ? ProjectCardComp(
+                  ? InvestmentCardComp(
                       infoText:
-                          'Son ${controller.filteredProjects.elementAt(index)?.maturity.toString()} Gün',
+                          'Son ${controller.filteredProjects.elementAt(index)?.term.toString()} Gün',
                       image: controller.filteredProjects
                           .elementAt(index)!
                           .backimage

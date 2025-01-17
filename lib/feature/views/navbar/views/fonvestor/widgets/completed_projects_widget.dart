@@ -15,7 +15,7 @@ class _CompletedProjectsWidget extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        ProjectCardHeaderComp(headerTitile: headerTitle),
+        InvestmentCardHeaderComp(headerTitile: headerTitle),
         SizedBox(height: 20.h),
         _buildList(),
       ],
@@ -34,7 +34,7 @@ class _CompletedProjectsWidget extends BaseStatelessWidget {
           padding: EdgeInsets.only(
               left: 0.w, right: (index == projects.length - 1 ? 0 : 0).w),
           child: projects[index] != null
-              ? ProjectCompletedComp(
+              ? InvestmentCompletedComp(
                   projectModel: projects[index]!,
                 )
               : const SizedBox(),

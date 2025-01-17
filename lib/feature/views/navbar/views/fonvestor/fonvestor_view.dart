@@ -1,11 +1,12 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misyonbank/feature/components/categories_comp/categories_comp.dart';
-import 'package:misyonbank/feature/components/horizontal_product_list_comp.dart';
+import 'package:misyonbank/feature/components/horizontal_investment_list_comp.dart';
+import 'package:misyonbank/feature/components/horizontal_project_list_comp.dart';
 import 'package:misyonbank/feature/components/yield_calcuator_tool_comp/yield_calculator_tool_widget.dart';
-import 'package:misyonbank/feature/components/project_card_comp/community_card_comp.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
-import 'package:misyonbank/feature/components/project_card_comp/project_completed_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/community_card_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_card_header_comp.dart';
+import 'package:misyonbank/feature/components/investment_card_comp/investment_completed_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/fonvestor_view_controller.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
@@ -26,7 +27,7 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return controller.isReady.value
+      return controller.isDatasReady.value
           ? ListView(
               padding: EdgeInsets.only(bottom: 20.w),
               shrinkWrap: true,
@@ -57,10 +58,10 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   communityItemModel: controller.communityList,
                 ),
                 SizedBox(height: 20.h),
-                /*HorizontalProductListComp(
+                HorizontalProjectListComp(
                   headerTitle: LocalizationKeys.openInvestmentsKey.tr,
-                  projects: controller.openInvestmentsOpportunities,
-                ),*/
+                  projects: controller.activeProjects.toList(),
+                ),
                 SizedBox(height: 20.h),
                 _buildPosterDesignImage(),
                 SizedBox(height: 20.h),
@@ -69,15 +70,15 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   projects: controller.completedCollectors,
                 ),
                 SizedBox(height: 20.h),
-                /*HorizontalProductListComp(
+                HorizontalInvestmentListComp(
                   headerTitle: LocalizationKeys.preDemandStatusTextKey.tr,
                   projects: controller.preOrderCollectors,
-                ),*/
+                ),
                 SizedBox(height: 20.h),
-                /*HorizontalProductListComp(
+                HorizontalInvestmentListComp(
                   headerTitle: LocalizationKeys.soonTextKey.tr,
                   projects: controller.upcomingCollectors,
-                ),*/
+                ),
                 SizedBox(height: 20.h),
               ],
             )

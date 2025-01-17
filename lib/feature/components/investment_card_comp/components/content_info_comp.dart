@@ -1,7 +1,7 @@
-part of '../project_card_comp.dart';
+part of '../investment_card_comp.dart';
 
 class _ContentInfoComp extends BaseStatelessWidget {
-  final ProjectModel projectModel;
+  final InvestmentModel projectModel;
 
   const _ContentInfoComp({
     required this.projectModel,
@@ -12,7 +12,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(AppRoutes.detailView, arguments: {
-          'projectName': projectModel.title,
+          'projectName': projectModel.ownerName,
         });
       },
       child: Container(
@@ -32,8 +32,8 @@ class _ContentInfoComp extends BaseStatelessWidget {
               projectModel.status == ProjectStatus.activeFunding
                   ? const SizedBox()
                   : (projectModel.status == ProjectStatus.activeFundingStopped
-                      ? _values
-                      : _upcomingValues),
+                      ? _upcomingValues
+                      : _values),
               SizedBox(
                 height: 5.sp,
               ),
@@ -47,11 +47,11 @@ class _ContentInfoComp extends BaseStatelessWidget {
 
   Widget get _infoHeader => Row(
         children: [
-          // if (projectModel.amountReceived == null)
-          ProjectCustomCachedNetworkImageComp(
-            imageUrl: projectModel.coverImage,
-            size: 32.w,
-          ),
+          if (projectModel.amountReceived == null)
+            ProjectCustomCachedNetworkImageComp(
+              imageUrl: projectModel.backimage,
+              size: 32.w,
+            ),
           SizedBox(width: 10.w),
           Expanded(
             child: Padding(
@@ -64,7 +64,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
                     children: [
                       Expanded(
                         child: ScaleFactorAutoSizeText(
-                          text: projectModel.title,
+                          text: projectModel.ownerName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.primaryTextTheme.bodyMedium!.copyWith(
@@ -73,23 +73,24 @@ class _ContentInfoComp extends BaseStatelessWidget {
                           ),
                         ),
                       ),
-                      /*Flexible(
-                        child: ScaleFactorAutoSizeText(
-                          text: Formatter.formatMoney(
-                            projectModel.fundedAmount.toString(),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.primaryTextTheme.bodyMedium!.copyWith(
-                            color: AppColors.subTitleGreyColor,
-                            fontWeight: FontWeight.bold,
+                      if (projectModel.amountReceived != null)
+                        Flexible(
+                          child: ScaleFactorAutoSizeText(
+                            text: Formatter.formatMoney(
+                              projectModel.amountReceived.toString(),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.primaryTextTheme.bodyMedium!.copyWith(
+                              color: AppColors.subTitleGreyColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),*/
                     ],
                   ),
                   ScaleFactorAutoSizeText(
-                    text: projectModel.shortDescription,
+                    text: projectModel.shortDesc,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.primaryTextTheme.bodySmall
@@ -102,48 +103,37 @@ class _ContentInfoComp extends BaseStatelessWidget {
         ],
       );
 
-  Widget get _values {
-    String periodText = "-";
-    switch (projectModel.period) {
-      case Period.Annual:
-        periodText = LocalizationKeys.periodAnnualyTextKey.tr;
-        break;
-      case Period.Monthly:
-        periodText = LocalizationKeys.periodMonthlyTextKey.tr;
-        break;
-      default:
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _valueItem(
-          title: LocalizationKeys.earningFrequencyTextKey.tr,
-          value: periodText,
-        ),
-        _valueItem(
-          title: LocalizationKeys.maturityTextKey.tr,
-          value: '${projectModel.termCode} Ay',
-        ),
-        _valueItem(
-          title: LocalizationKeys.earningRateTextKey.tr,
-          value: '%${projectModel.yearlyReturnRate}',
-        ),
-      ],
-    );
-  }
+  Widget get _values => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          if (projectModel.earningFrequency != null)
+            _valueItem(
+              title: LocalizationKeys.earningFrequencyTextKey.tr,
+              value: projectModel.earningFrequency ?? '-',
+            ),
+          if (projectModel.term != null)
+            _valueItem(
+              title: LocalizationKeys.maturityTextKey.tr,
+              value: '${projectModel.term} Ay',
+            ),
+          if (projectModel.earningRate != null)
+            _valueItem(
+              title: LocalizationKeys.earningRateTextKey.tr,
+              value: '%${projectModel.earningRate}',
+            ),
+        ],
+      );
 
   Widget get _upcomingValues => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _valueItem(
             title: LocalizationKeys.startDateTextKey.tr,
-            value:
-                '${DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate)}',
+            value: '${projectModel.startDate}',
           ),
           _valueItem(
             title: LocalizationKeys.earningRateTextKey.tr,
-            value:
-                '%${DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate)}',
+            value: '%${projectModel.earningRate}',
           ),
         ],
       );
@@ -211,62 +201,38 @@ class _ContentInfoComp extends BaseStatelessWidget {
             height: 12.sp,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
-                color: projectModel.riskForDebit!.color),
+                color: projectModel.riskType!.color),
           )
         ],
       );
 
-  Widget get _categoryChips {
-    String collateralStructureText = "";
-    switch (projectModel.collateralStructure) {
-      case CollateralStructure.RealEstate:
-        collateralStructureText =
-            LocalizationKeys.collateralStructureRealEstateTextKey.tr;
-        break;
-      default:
-    }
-    return Flexible(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
-            padding: EdgeInsets.symmetric(
-                horizontal: 15.w, vertical: Get.height * 0.004),
-            decoration: BoxDecoration(
-              color: AppColors.fillColor,
-              borderRadius: BorderRadius.circular(999.r),
-            ),
-            child: ScaleFactorAutoSizeText(
-              text: projectModel.category,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.darkGreyColor,
-              ),
-            ),
+  Widget get _categoryChips => Flexible(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: projectModel.categories != null
+                ? projectModel.categories!.map((category) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5.w),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: Get.height * 0.004),
+                      decoration: BoxDecoration(
+                        color: AppColors.fillColor,
+                        borderRadius: BorderRadius.circular(999.r),
+                      ),
+                      child: ScaleFactorAutoSizeText(
+                        text: category,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.primaryTextTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.darkGreyColor,
+                        ),
+                      ),
+                    );
+                  }).toList()
+                : [],
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
-            padding: EdgeInsets.symmetric(
-                horizontal: 15.w, vertical: Get.height * 0.004),
-            decoration: BoxDecoration(
-              color: AppColors.fillColor,
-              borderRadius: BorderRadius.circular(999.r),
-            ),
-            child: ScaleFactorAutoSizeText(
-              text: collateralStructureText,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.darkGreyColor,
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
-  }
+        ),
+      );
 }
