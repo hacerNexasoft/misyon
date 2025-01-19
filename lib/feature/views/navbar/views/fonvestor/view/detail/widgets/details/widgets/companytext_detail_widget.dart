@@ -65,7 +65,7 @@ class CompanytextDetailWidget extends BaseStatelessWidget {
             SizedBox(height: 15.h),
             ScaleFactorAutoSizeText(
               textAlign: TextAlign.start,
-              text: controller.projectDetailModel.value?.problem ?? '',
+              text: "controller.selectedProjectDetails.value?.problem",
               style: theme.primaryTextTheme.bodySmall?.copyWith(
                 color: AppColors.grey700Color,
               ),
@@ -89,7 +89,7 @@ class CompanytextDetailWidget extends BaseStatelessWidget {
             SizedBox(height: 15.h),
             ScaleFactorAutoSizeText(
               textAlign: TextAlign.start,
-              text: controller.projectDetailModel.value?.incomePlan ?? '',
+              text: "controller.selectedProjectDetails.value?.incomePlan",
               style: theme.primaryTextTheme.bodySmall?.copyWith(
                 color: AppColors.grey700Color,
               ),
@@ -113,7 +113,7 @@ class CompanytextDetailWidget extends BaseStatelessWidget {
             SizedBox(height: 15.h),
             ScaleFactorAutoSizeText(
               textAlign: TextAlign.start,
-              text: controller.projectDetailModel.value?.solution ?? '',
+              text: "controller.selectedProjectDetails.value?.solution",
               style: theme.primaryTextTheme.bodySmall?.copyWith(
                 color: AppColors.grey700Color,
               ),

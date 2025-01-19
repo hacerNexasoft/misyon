@@ -27,7 +27,7 @@ class DetailTopWidget extends BaseStatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ScaleFactorAutoSizeText(
-              text: controller.selectedProject?.title ?? '',
+              text: controller.selectedProject.title,
               style: theme.primaryTextTheme.headlineMedium!.semibold.copyWith(
                 color: AppColors.black,
               ),
@@ -36,7 +36,7 @@ class DetailTopWidget extends BaseStatelessWidget {
               height: 10.h,
             ),
             ScaleFactorAutoSizeText(
-              text: controller.selectedProject?.subtitle ?? '',
+              text: controller.selectedProject.shortDescription,
               style: theme.primaryTextTheme.bodyMedium?.copyWith(
                 color: AppColors.primaryGreyColor,
               ),
@@ -55,12 +55,9 @@ class DetailTopWidget extends BaseStatelessWidget {
               children: [
                 PageView.builder(
                   controller: controller.pageController,
-                  itemCount:
-                      controller.projectDetailModel.value?.imageUrl?.length ??
-                          0,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
-                    final imageUrl =
-                        controller.selectedProject?.imageUrl?[index] ?? '';
+                    final imageUrl = controller.selectedProjectSummary!.coverImage;
                     return Image.network(
                       imageUrl,
                       fit: BoxFit.cover,
@@ -90,9 +87,7 @@ class DetailTopWidget extends BaseStatelessWidget {
                     padding: EdgeInsets.only(bottom: 10.w),
                     child: SmoothPageIndicator(
                       controller: controller.pageController,
-                      count: controller
-                              .projectDetailModel.value?.imageUrl?.length ??
-                          0,
+                      count: 1,
                       effect: ScaleEffect(
                         dotWidth: 8.h,
                         dotHeight: 8.h,

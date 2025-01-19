@@ -17,58 +17,56 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Obx(() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ScaleFactorAutoSizeText(
-                          text: LocalizationKeys.fundRaisedTextKey.tr,
-                          style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                            color: AppColors.hintColor,
-                          ),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ScaleFactorAutoSizeText(
+                        text: LocalizationKeys.fundRaisedTextKey.tr,
+                        style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                          color: AppColors.hintColor,
                         ),
-                        ScaleFactorAutoSizeText(
-                          text: LocalizationKeys.targetFundTextKey.tr,
-                          style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                            color: AppColors.hintColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ScaleFactorAutoSizeText(
-                          text: '${controller.fundRaisedText} TL',
-                          style: theme.primaryTextTheme.bodyLarge?.copyWith(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        ScaleFactorAutoSizeText(
-                          text: '${controller.targetFundText} TL',
-                          style: theme.primaryTextTheme.bodyLarge?.copyWith(
-                            color: AppColors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    ClipRRect(
-                      child: LinearProgressIndicator(
-                        borderRadius: BorderRadius.circular(999.r),
-                        value: controller.getProgress(),
-                        backgroundColor: AppColors.hintColor,
-                        color: theme.primaryColor,
-                        minHeight: 20.h,
                       ),
+                      ScaleFactorAutoSizeText(
+                        text: LocalizationKeys.targetFundTextKey.tr,
+                        style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                          color: AppColors.hintColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ScaleFactorAutoSizeText(
+                        text: '${controller.fundRaisedText} TL',
+                        style: theme.primaryTextTheme.bodyLarge
+                            ?.copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
+                      ),
+                      ScaleFactorAutoSizeText(
+                        text: '${controller.targetFundText} TL',
+                        style: theme.primaryTextTheme.bodyLarge?.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  ClipRRect(
+                    child: LinearProgressIndicator(
+                      borderRadius: BorderRadius.circular(999.r),
+                      value: controller.getProgress(),
+                      backgroundColor: AppColors.hintColor,
+                      color: theme.primaryColor,
+                      minHeight: 20.h,
                     ),
-                  ],
-                )),
-          ),
+                  ),
+                ],
+              )),
         ],
       );
   Widget get _buildDataCard => Column(
@@ -81,8 +79,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: true,
                     title: LocalizationKeys.remainingDayTextKey.tr,
-                    data:
-                        controller.projectDetailModel.value?.remainingDay ?? '',
+                    data: "controller.selectedProjectDetails.value?.remainingDay",
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -90,7 +87,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: false,
                     title: LocalizationKeys.investAmountTextKey.tr,
-                    data: controller.projectDetailModel.value?.investment ?? '',
+                    data: "controller.selectedProjectDetails.value?.investment",
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -98,7 +95,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: false,
                     title: LocalizationKeys.completedTextKey.tr,
-                    data: controller.projectDetailModel.value?.completed ?? '',
+                    data: "controller.selectedProjectDetails.value?.completed",
                   ),
                 ),
               ],
@@ -112,7 +109,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: false,
                     title: LocalizationKeys.maturityTextKey.tr,
-                    data: controller.projectDetailModel.value?.maturity ?? '',
+                    data: "controller.selectedProjectDetails.value?.maturity",
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -120,8 +117,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: false,
                     title: LocalizationKeys.earningRateTextKey.tr,
-                    data:
-                        controller.projectDetailModel.value?.rateofReturn ?? '',
+                    data: "controller.selectedProjectDetails.value?.rateofReturn",
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -129,9 +125,7 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
                   child: MiniCardWidget(
                     showBorder: false,
                     title: LocalizationKeys.earningFrequencyTextKey.tr,
-                    data:
-                        controller.projectDetailModel.value?.returnFrequency ??
-                            '',
+                    data: "controller.selectedProjectDetails.value?.returnFrequency",
                   ),
                 ),
               ],

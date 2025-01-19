@@ -90,23 +90,24 @@ class IncomeStatementWidget extends BaseStatelessWidget {
   Widget get _buildIncomeStatement => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-            controller.projectDetailModel.value?.incomeStatementTitle?.length ??
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [] /*List.generate(
+            controller.selectedProjectDetails.value?.incomeStatementTitle
+                    ?.length ??
                 0,
             (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.w),
                 child: CustomIncomeWidget(
-                  title: controller
-                      .projectDetailModel.value?.incomeStatementTitle?[index],
+                  title: controller.selectedProjectDetails.value
+                      ?.incomeStatementTitle?[index],
                   data: controller
-                      .projectDetailModel.value?.incomeStatementData?[index]
+                      .selectedProjectDetails.value?.incomeStatementData?[index]
                       .toString(),
                 ),
               );
             },
-          ),
-        ),
+          ),*/
+            ),
       );
 }

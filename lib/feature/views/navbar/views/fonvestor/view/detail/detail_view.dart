@@ -145,11 +145,15 @@ class DetailView extends BaseGetView<DetailViewController> {
                 onTap: () {
                   final jwtTokenService = Get.find<JwtTokenService>();
                   if (jwtTokenService.jwtToken != null) {
-                    Get.toNamed(AppRoutes.investView,
-                        arguments: controller.projectDetailModel.value);
+                    Get.toNamed(
+                      AppRoutes.investView,
+                      //arguments: controller.selectedProjectDetails.value
+                    );
                   } else {
-                    Get.toNamed(AppRoutes.signInView,
-                        arguments: controller.projectDetailModel.value);
+                    Get.toNamed(
+                      AppRoutes.signInView,
+                      //arguments: controller.selectedProjectDetails.value
+                    );
                   }
                 },
                 child: ScaleFactorAutoSizeText(

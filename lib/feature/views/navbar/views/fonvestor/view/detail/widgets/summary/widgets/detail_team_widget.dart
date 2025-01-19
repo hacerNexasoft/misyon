@@ -59,7 +59,7 @@ class DetailTeamWidget extends BaseStatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-                controller.projectDetailModel.value?.teamImageUrl?.length ?? 0,
+                controller.investmentDetail.value?.teamImageUrl?.length ?? 0,
                 (index) {
               return Padding(
                 padding: EdgeInsets.only(right: 10.w),
@@ -68,26 +68,26 @@ class DetailTeamWidget extends BaseStatelessWidget {
                     Get.dropdownBottomSheet(
                       child: TeamsDetailsWidget(
                         color: ColorProvider.getColor(index),
-                        imageUrl: controller.projectDetailModel.value
-                                ?.teamImageUrl?[index] ??
+                        imageUrl: controller
+                                .investmentDetail.value?.teamImageUrl?[index] ??
                             '',
                         name: controller
-                                .projectDetailModel.value?.teamName?[index] ??
+                                .investmentDetail.value?.teamName?[index] ??
                             '',
                         role: controller
-                                .projectDetailModel.value?.teamrole?[index] ??
+                                .investmentDetail.value?.teamrole?[index] ??
                             '',
                       ),
                     );
                   },
                   color: ColorProvider.getColor(index),
-                  imageUrl: controller
-                          .projectDetailModel.value?.teamImageUrl?[index] ??
-                      '',
-                  name: controller.projectDetailModel.value?.teamName?[index] ??
-                      '',
-                  role: controller.projectDetailModel.value?.teamrole?[index] ??
-                      '',
+                  imageUrl:
+                      controller.investmentDetail.value?.teamImageUrl?[index] ??
+                          '',
+                  name:
+                      controller.investmentDetail.value?.teamName?[index] ?? '',
+                  role:
+                      controller.investmentDetail.value?.teamrole?[index] ?? '',
                 ),
               );
             }),

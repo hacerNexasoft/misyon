@@ -12,7 +12,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(AppRoutes.detailView, arguments: {
-          'projectName': projectModel.title,
+          'project': projectModel,
         });
       },
       child: Container(
@@ -189,7 +189,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (projectModel.status != ProjectStatus.activeFunding) _riskRatio,
+          if (projectModel.riskForDebit != null) _riskRatio,
           SizedBox(
             height: 16.w,
           ),
@@ -217,14 +217,6 @@ class _ContentInfoComp extends BaseStatelessWidget {
       );
 
   Widget get _categoryChips {
-    String collateralStructureText = "";
-    switch (projectModel.collateralStructure) {
-      case CollateralStructure.RealEstate:
-        collateralStructureText =
-            LocalizationKeys.collateralStructureRealEstateTextKey.tr;
-        break;
-      default:
-    }
     return Flexible(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -256,7 +248,8 @@ class _ContentInfoComp extends BaseStatelessWidget {
               borderRadius: BorderRadius.circular(999.r),
             ),
             child: ScaleFactorAutoSizeText(
-              text: collateralStructureText,
+              text: ModelHelpers.localizedCollateralStructure(
+                  projectModel.collateralStructure),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.primaryTextTheme.bodySmall?.copyWith(

@@ -6,7 +6,7 @@ import 'package:misyonbank/product/models/bank_account_model.dart';
 import 'package:misyonbank/product/models/bank_model.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
-import 'package:misyonbank/product/models/project_details_model.dart';
+import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/services/bank_account_service.dart';
 import 'package:misyonbank/product/services/bank_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -15,7 +15,7 @@ import 'package:widgets/components.dart';
 
 class InvestViewController extends BaseGetxController
     with GetTickerProviderStateMixin {
-  final ProjectDetailModel? projectDetailModel;
+  final InvestmentDetailModel? projectDetailModel;
   final _bankAccountService = Get.find<BankAccountService>();
 
   InvestViewController(this.projectDetailModel);

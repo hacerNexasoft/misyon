@@ -92,16 +92,13 @@ class BalanceSheetWidget extends BaseStatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(
-            controller.projectDetailModel.value?.balanceSheetTitle?.length ?? 0,
+            0,
             (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.w),
                 child: CustomIncomeWidget(
-                  title: controller
-                      .projectDetailModel.value?.balanceSheetTitle?[index],
-                  data: controller
-                      .projectDetailModel.value?.balanceSheetData?[index]
-                      .toString(),
+                  title: "balanceSheetTitle?[index]",
+                  data: "balanceSheetData?[index]",
                 ),
               );
             },

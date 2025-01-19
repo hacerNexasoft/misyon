@@ -2,9 +2,9 @@ import 'package:common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
-import 'package:misyonbank/product/models/project_details_model.dart';
+import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-import 'package:misyonbank/product/models/project_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
 import 'package:misyonbank/product/services/fetcher_static_service.dart';
@@ -26,8 +26,8 @@ class ProjectService extends BaseGetxService {
   final buyProjects = <InvestmentModel>[].obs;
   final sellProjects = <InvestmentModel?>[].obs;
   final fetchAllInvestmentsOpportunitiesList = <InvestmentModel?>[].obs;
-  final projectDetail = Rx<ProjectDetailModel?>(null);
-  final projectDetailitemList = <ProjectDetailModel?>[].obs;
+  final investmentDetail = Rx<InvestmentDetailModel?>(null);
+  final projectDetailitemList = <InvestmentDetailModel?>[].obs;
   final detailMessage = Rx<DetailsMessageModel?>(null);
   final detailManagerMessage = Rx<DetailsManegerMessageModel?>(null);
   final realizedTransactionList = <InvestmentModel?>[].obs;
@@ -42,7 +42,7 @@ class ProjectService extends BaseGetxService {
     await fetchProjects();
 
     //Dummy Data Methods
-    activeProjectsDummy();
+    //activeProjectsDummy();
     //Olds
     await fetchOpenInvestmentsOpportunities();
     await fetchBuyProjects();
@@ -941,7 +941,7 @@ class ProjectService extends BaseGetxService {
 
   Future<void> fetchProjectDetails() async {
     try {
-      projectDetail.value = ProjectDetailModel(
+      investmentDetail.value = InvestmentDetailModel(
         id: UniqueKey().toString(),
         title: 'Meta 3D Company',
         subtitle: '3D baskı teknolojiler',
@@ -1095,7 +1095,7 @@ class ProjectService extends BaseGetxService {
           ""
         ],
       );
-      ProjectDetailModel(
+      InvestmentDetailModel(
         id: UniqueKey().toString(),
         title: 'melda io',
         subtitle: 'Yeni nesil data analizi & LMS platform',
@@ -1249,7 +1249,7 @@ class ProjectService extends BaseGetxService {
           ""
         ],
       );
-      ProjectDetailModel(
+      InvestmentDetailModel(
         id: UniqueKey().toString(),
         title: 'Mionti Enerji',
         subtitle: 'Araç şarj istasyon ağı',
@@ -1413,7 +1413,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchProjectDetailsItemList() async {
     try {
       projectDetailitemList.value = [
-        ProjectDetailModel(
+        InvestmentDetailModel(
           id: UniqueKey().toString(),
           title: 'Meta 3D Company',
           subtitle: '3D baskı teknolojiler',
@@ -1567,7 +1567,7 @@ class ProjectService extends BaseGetxService {
             ""
           ],
         ),
-        ProjectDetailModel(
+        InvestmentDetailModel(
           id: UniqueKey().toString(),
           title: 'melda io',
           subtitle: 'Yeni nesil data analizi & LMS platform',
@@ -1721,7 +1721,7 @@ class ProjectService extends BaseGetxService {
             ""
           ],
         ),
-        ProjectDetailModel(
+        InvestmentDetailModel(
           id: UniqueKey().toString(),
           title: 'Mionti Enerji',
           subtitle: 'Araç şarj istasyon ağı',
@@ -1875,7 +1875,7 @@ class ProjectService extends BaseGetxService {
             ""
           ],
         ),
-        ProjectDetailModel(
+        InvestmentDetailModel(
           id: UniqueKey().toString(),
           title: 'Tunga Soft',
           subtitle: 'Eğitici online mobil platform oyunu',

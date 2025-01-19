@@ -54,7 +54,8 @@ class DetailRiskWidget extends BaseStatelessWidget {
   Widget get _buildRiskSlider => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: RiskWidget(
-          currentRisk: controller.projectDetailModel.value?.risk,
+          currentRisk:
+              controller.selectedProjectFundingInfo!.riskValue?.toInt(),
         ),
       );
 }

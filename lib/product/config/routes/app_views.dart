@@ -49,7 +49,7 @@ class AppViews {
     ),
     GetPage(
         name: AppRoutes.detailView,
-        page: () => const DetailView(),
+        page: () => DetailView(),
         binding: DetailViewBinding()),
     GetPage(
         name: AppRoutes.teamsView,

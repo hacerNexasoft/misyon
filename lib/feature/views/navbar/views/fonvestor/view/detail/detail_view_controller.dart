@@ -9,54 +9,33 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widg
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/updates/updates_view.dart';
 import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
-import 'package:misyonbank/product/models/project_details_model.dart';
+import 'package:misyonbank/product/models/investment_details_model.dart';
+import 'package:misyonbank/product/models/project/project_details_model.dart';
+import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
+import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
+import 'package:misyonbank/product/models/project/project_summary_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
+import 'package:misyonbank/product/services/fetcher_static_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 
-class DetailViewController extends BaseGetxController
-    with GetTickerProviderStateMixin {
+class DetailViewController extends BaseGetxController with GetTickerProviderStateMixin {
   late TabController tabController;
   final _projectService = Get.find<ProjectService>();
   final tabs = AppConstants.detailViewTabs;
   var selectedyears = Rx<String?>(null);
   var messageList = <String>[].obs;
-  RxList<InvestmentsItemModel?> get investmentsItemList =>
-      _projectService.investmentsItemList;
+  RxList<InvestmentsItemModel?> get investmentsItemList => _projectService.investmentsItemList;
   void addMessage(String newMessage) {
     messageList.add(newMessage);
   }
 
-  late ProjectDetailModel? selectedProject; // Seçilen proje detayları
-
-  @override
-  void onInit() async {
-    super.onInit();
-    await initView();
-
-    final args = Get.arguments as Map<String, dynamic>?;
-    final projectName = args?['projectName'] as String?;
-
-    if (kDebugMode) {
-      print("Gelen projectName: $projectName");
-      print(
-          "Model title: ${projectDetailModel.value!.title}"); // Eğer liste ise, ilk elemanı alıyoruz
-      print("Model title türü: ${projectDetailModel.value!.title.runtimeType}");
-    }
-
-    selectedProject = projectDetailIremList.firstWhere(
-      (sel) => sel?.title?.toLowerCase() == projectName?.toLowerCase(),
-      orElse: () => null,
-    );
-
-    if (selectedProject == null) {
-      logger.e("Eşleşen proje bulunamadı!");
-    } else {
-      logger.i("Proje yüklendi: ${selectedProject!.title}");
-      if (kDebugMode) {
-        print("Eşleşen proje: ${selectedProject!}");
-      }
-    }
-  }
+  late ProjectModel selectedProject; // Seçilen proje
+  ProjectDetailsModel? selectedProjectDetails; // Seçilen proje detayları
+  ProjectSummaryModel? selectedProjectSummary;
+  ProjectFundingInfoModel? selectedProjectFundingInfo;
+  String? selectedProjectAbout;
+  ProjectInvestmentInfoModel? selectedProjectInvestmentInfo;
 
   final textController = TextEditingController();
   List<Widget> detailsTabbarList = [
@@ -68,19 +47,57 @@ class DetailViewController extends BaseGetxController
     const FrequentlyAskedQuestionsView(),
     const QuestionAndAnswerView(),
   ];
-  var years = ['2020', '2021', '2022', '2023', '2024'];
+  var years = ['2020', '2021', '2022', '2023', '2024', '2025'];
   final PageController pageController = PageController();
   var currentPage = 0.obs;
+
+  //OLD
+  Rx<InvestmentDetailModel?> get investmentDetail => _projectService.investmentDetail;
+  RxList<InvestmentDetailModel?> get projectDetailIremList => _projectService.projectDetailitemList;
+  Rx<DetailsMessageModel?> get projectMessageModel => _projectService.detailMessage;
+  Rx<DetailsManegerMessageModel?> get projectManagerMessageModel =>
+      _projectService.detailManagerMessage;
+  //
+
+  @override
+  void onInit() async {
+    super.onInit();
+    selectedProject = Get.arguments["project"];
+
+    await initView();
+
+    if (kDebugMode) {
+      if (selectedProjectDetails == null) {
+        logger.e("Proje detayları bulunamadı!");
+      } else {
+        logger.i("Proje detayları yüklendi: ${selectedProjectDetails!.title}");
+      }
+    }
+  }
 
   Future<void> initView({Function()? action}) async {
     try {
       change(state, status: RxStatus.loading());
       tabController = TabController(length: tabs.length, vsync: this);
-      await _projectService.fetchProjectDetails();
-      await _projectService.fetchProjectDetailsItemList();
-      await _projectService.fetchDetailsMessage();
-      await _projectService.fetchDetailsManegerMessage();
-      if (projectDetailModel.value == null) {
+      selectedProjectDetails =
+          await FetcherStaticService.fetchProjectDetails(projectID: selectedProject.id);
+      selectedProjectSummary =
+          await FetcherStaticService.fetchProjectSummary(projectID: selectedProject.id);
+      selectedProjectFundingInfo =
+          await FetcherStaticService.fetchProjectFundingInfo(projectID: selectedProject.id);
+      selectedProjectAbout =
+          await FetcherStaticService.fetchProjectAbout(projectID: selectedProject.id);
+      selectedProjectInvestmentInfo =
+          await FetcherStaticService.fetchProjectInvestmentInfo(projectID: selectedProject.id);
+
+      //OLD
+      //await _projectService.fetchProjectDetails();
+      //await _projectService.fetchProjectDetailsItemList();
+      //await _projectService.fetchDetailsMessage();
+      //await _projectService.fetchDetailsManegerMessage();
+      if (selectedProjectDetails == null ||
+          selectedProjectSummary == null ||
+          selectedProjectInvestmentInfo == null) {
         change(state, status: RxStatus.error());
         return;
       }
@@ -92,15 +109,14 @@ class DetailViewController extends BaseGetxController
   }
 
   double getProgress() {
-    final fundRaised = projectDetailModel.value?.fundRaised ?? 0;
-    final targetFund = projectDetailModel.value?.targetFund ?? 1;
+    final fundRaised = selectedProjectInvestmentInfo!.fundedAmount;
+    final targetFund = selectedProjectInvestmentInfo!.fundingGoal;
     return fundRaised / targetFund;
   }
 
-  String get fundRaisedText =>
-      (projectDetailModel.value?.fundRaised ?? 0).toString();
+  String get fundRaisedText => selectedProjectInvestmentInfo!.fundedAmount.toString();
 
-  String? get targetFundText => projectDetailModel.value?.targetFund.toString();
+  String? get targetFundText => selectedProjectInvestmentInfo!.fundingGoal.toString();
 
   void changeTab(int newIndex) async {
     change(state, status: RxStatus.loading());
@@ -108,15 +124,6 @@ class DetailViewController extends BaseGetxController
     change(state, status: RxStatus.success());
   }
 
-  Rx<ProjectDetailModel?> get projectDetailModel =>
-      _projectService.projectDetail;
-  RxList<ProjectDetailModel?> get projectDetailIremList =>
-      _projectService.projectDetailitemList;
-
-  Rx<DetailsMessageModel?> get projectMessageModel =>
-      _projectService.detailMessage;
-  Rx<DetailsManegerMessageModel?> get projectManagerMessageModel =>
-      _projectService.detailManagerMessage;
   void onSelectYears(String years) {
     selectedyears.value = years;
     update();
@@ -142,7 +149,6 @@ class ColorProvider {
   ];
 
   static Color getColor(int index) {
-    return _colors[
-        index % _colors.length]; // Mod işlemi ile tekrar eden renkler
+    return _colors[index % _colors.length]; // Mod işlemi ile tekrar eden renkler
   }
 }

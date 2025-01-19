@@ -111,26 +111,16 @@ class TeamsView extends BaseStatelessWidget {
                     Get.dropdownBottomSheet(
                       child: TeamsDetailsWidget(
                         color: ColorProvider.getColor(index),
-                        imageUrl: controller.projectDetailModel.value
-                                ?.teamImageUrl?[index] ??
-                            '',
-                        name: controller
-                                .projectDetailModel.value?.teamName?[index] ??
-                            '',
-                        role: controller
-                                .projectDetailModel.value?.teamrole?[index] ??
-                            '',
+                        imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
+                        name: controller.investmentDetail.value?.teamName?[index] ?? '',
+                        role: controller.investmentDetail.value?.teamrole?[index] ?? '',
                       ),
                     );
                   },
                   color: ColorProvider.getColor(index),
-                  imageUrl: controller
-                          .projectDetailModel.value?.teamImageUrl?[index] ??
-                      '',
-                  name: controller.projectDetailModel.value?.teamName?[index] ??
-                      '',
-                  role: controller.projectDetailModel.value?.teamrole?[index] ??
-                      '',
+                  imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
+                  name: controller.investmentDetail.value?.teamName?[index] ?? '',
+                  role: controller.investmentDetail.value?.teamrole?[index] ?? '',
                 ),
               );
             }),
@@ -182,28 +172,16 @@ class TeamsView extends BaseStatelessWidget {
                       Get.dropdownBottomSheet(
                         child: TeamsDetailsWidget(
                           color: ColorProvider.getColor(index),
-                          imageUrl: controller.projectDetailModel.value
-                                  ?.teamImageUrl?[index] ??
-                              '',
-                          name: controller
-                                  .projectDetailModel.value?.teamName?[index] ??
-                              '',
-                          role: controller
-                                  .projectDetailModel.value?.teamrole?[index] ??
-                              '',
+                          imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
+                          name: controller.investmentDetail.value?.teamName?[index] ?? '',
+                          role: controller.investmentDetail.value?.teamrole?[index] ?? '',
                         ),
                       );
                     },
                     color: ColorProvider.getColor(index),
-                    imageUrl: controller
-                            .projectDetailModel.value?.teamImageUrl?[index] ??
-                        '',
-                    name:
-                        controller.projectDetailModel.value?.teamName?[index] ??
-                            '',
-                    role:
-                        controller.projectDetailModel.value?.teamrole?[index] ??
-                            '',
+                    imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
+                    name: controller.investmentDetail.value?.teamName?[index] ?? '',
+                    role: controller.investmentDetail.value?.teamrole?[index] ?? '',
                   ),
                 );
               }

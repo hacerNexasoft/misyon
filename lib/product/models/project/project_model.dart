@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:misyonbank/product/utils/model_helpers.dart';
 
 class ProjectModel {
   final String id;
@@ -82,7 +83,7 @@ class ProjectModel {
             '', // Null kontrolü ile varsayılan değer ataması
         statusCode:
             json['status'] ?? 0, // Null kontrolü ile varsayılan değer ataması
-        status: _findStatusByCode(json['status'] ?? 0),
+        status: ModelHelpers.findStatusByCode(json['status'] ?? 0),
         timeUntilEnd: json['timeUntilEnd'] ??
             0, // Null kontrolü ile varsayılan değer ataması
         timeUntilStart: json['timeUntilStart'] ??
@@ -99,60 +100,12 @@ class ProjectModel {
             false, // Null kontrolü ile varsayılan değer ataması
         termCode: json['term'] ?? 0,
         periodCode: json['period'] ?? 0,
-        period: _findPeriodByCode(json['collateralStructure'] ?? 0),
+        period: ModelHelpers.findPeriodByCode(json['collateralStructure'] ?? 0),
         yearlyReturnRate: json['yearlyReturnRate'] ?? 0,
-        collateralStructure:
-            _findCollateralStructureByCode(json['collateralStructure'] ?? 0),
+        collateralStructure: ModelHelpers.findCollateralStructureByCode(
+            json['collateralStructure'] ?? 0),
         riskForDebit: json['riskForDbit'] == null
             ? null
-            : _findRiskType(json['riskForDbit']));
-  }
-  static ProjectStatus _findStatusByCode(int code) {
-    switch (code) {
-      case 1:
-        return ProjectStatus.upcomingPrerelease;
-      case 103520000:
-        return ProjectStatus.activeFunding;
-      case 103520013:
-        return ProjectStatus.activeFundingStopped;
-      case 103520002:
-        return ProjectStatus.successful;
-      case 103520009:
-        return ProjectStatus.upcomingDetailedPrerelease;
-      case 103520004:
-        return ProjectStatus.upcomingPreview;
-      default:
-        return ProjectStatus.unknown;
-    }
-  }
-
-  static CollateralStructure _findCollateralStructureByCode(int code) {
-    switch (code) {
-      case 100:
-        return CollateralStructure.RealEstate;
-      default:
-        return CollateralStructure.unknown;
-    }
-  }
-
-  static Period _findPeriodByCode(int code) {
-    switch (code) {
-      case 100:
-        return Period.Annual;
-      case 200:
-        return Period.Monthly;
-      default:
-        return Period.unknown;
-    }
-  }
-
-  static RiskType _findRiskType(double value) {
-    if (value < 33.3) {
-      return RiskType.risky;
-    } else if (value < 66.6) {
-      return RiskType.neutral;
-    } else {
-      return RiskType.profitable;
-    }
+            : ModelHelpers.findRiskType(json['riskForDbit']));
   }
 }

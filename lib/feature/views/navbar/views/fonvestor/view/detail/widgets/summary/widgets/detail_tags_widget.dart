@@ -42,11 +42,11 @@ class DetailTagsWidget extends BaseStatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 5.w),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: controller.projectDetailModel.value?.tags
+          children: controller.selectedProjectSummary!.tags
                   ?.map((document) => Container(
                         margin: EdgeInsets.symmetric(horizontal: 6.w),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: Get.height * 0.01),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20.w, vertical: Get.height * 0.01),
                         decoration: BoxDecoration(
                           color: AppColors.fillColor,
                           borderRadius: BorderRadius.circular(999.r),

@@ -18,6 +18,7 @@ import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:misyonbank/product/utils/model_helpers.dart';
 import 'package:widgets/components.dart';
 part 'widgets/detail_investment_widget.dart';
 part 'widgets/detail_featured_widget.dart';

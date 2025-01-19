@@ -60,39 +60,35 @@ class CompanyDetailWidget extends BaseStatelessWidget {
           children: [
             CustomCompanyDetailWidget(
               title: LocalizationKeys.companyNameTextKey.tr,
-              explanation:
-                  controller.projectDetailModel.value?.companyName ?? '',
+              explanation: controller.selectedProjectDetails!.title,
             ),
             SizedBox(
               height: 10.h,
             ),
             CustomCompanyDetailWidget(
               title: LocalizationKeys.foundationYearTextKey.tr,
-              explanation:
-                  controller.projectDetailModel.value?.foundationYear ?? '',
+              explanation: controller.selectedProjectDetails!.foundingYear.toString(),
             ),
             SizedBox(
               height: 10.h,
             ),
             CustomCompanyDetailWidget(
               title: LocalizationKeys.chairmanTextKey.tr,
-              explanation: controller.projectDetailModel.value?.chairman ?? '',
+              explanation: controller.selectedProjectDetails!.executive ?? '',
             ),
             SizedBox(
               height: 10.h,
             ),
             CustomCompanyDetailWidget(
               title: LocalizationKeys.numberofEmployeesTextKey.tr,
-              explanation:
-                  controller.projectDetailModel.value?.numberofEmployees ?? '',
+              explanation: controller.selectedProjectDetails!.numberOfEmployees.toString(),
             ),
             SizedBox(
               height: 10.h,
             ),
             CustomCompanyDetailWidget(
               title: LocalizationKeys.companyAddressTextKey.tr,
-              explanation:
-                  controller.projectDetailModel.value?.companyAddress ?? '',
+              explanation: controller.selectedProjectDetails!.address,
             ),
           ],
         ),

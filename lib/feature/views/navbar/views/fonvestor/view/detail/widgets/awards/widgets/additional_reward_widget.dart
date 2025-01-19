@@ -48,7 +48,7 @@ class AdditionalRewardWidget extends BaseStatelessWidget {
           ),
           ScaleFactorAutoSizeText(
             textAlign: TextAlign.start,
-            text: controller.projectDetailModel.value?.additionalReward ?? '',
+            text: "controller.selectedProjectDetails.value?.additionalReward",
             style: theme.primaryTextTheme.bodySmall?.copyWith(
               color: AppColors.darkGreyColor,
             ),

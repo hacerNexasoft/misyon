@@ -26,8 +26,7 @@ class LocalizationService extends GetxService {
     }
   }
 
-
-   Future<void> initLocale() async {
+  Future<void> initLocale() async {
     try {
       var languageData = await getLanguage();
       if (languageData != null) {
@@ -58,12 +57,14 @@ class LocalizationService extends GetxService {
       rethrow;
     }
   }
+
   Future<LanguageModel?> getLanguage() async {
     try {
       var data = await _cacheService.getData<Map<String, dynamic>>(
         box: CacheBoxService.languageBox,
         key: GetStorageKeys.languageBoxKey,
       );
+      if (data == null) return null;
       return LanguageModel.decoder(data);
     } catch (e) {
       rethrow;
@@ -73,7 +74,8 @@ class LocalizationService extends GetxService {
   Locale _locale(String languageCode, String countryCode) {
     return (languageCode.isNotEmpty && countryCode.isNotEmpty)
         ? Locale(languageCode, countryCode)
-        : Locale(AppConstants.languageModelEn.languageCode, AppConstants.languageModelEn.countryCode);
+        : Locale(
+            AppConstants.languageModelEn.languageCode, AppConstants.languageModelEn.countryCode);
   }
 
   bool get isEn {

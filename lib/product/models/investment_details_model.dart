@@ -1,6 +1,6 @@
 import 'package:misyonbank/product/models/base_model.dart';
 
-class ProjectDetailModel extends BaseModel {
+class InvestmentDetailModel extends BaseModel {
   final String? id;
   final String? title;
   final String? subtitle;
@@ -57,7 +57,7 @@ class ProjectDetailModel extends BaseModel {
   final List<String>? updatesDescription;
   final List<String>? teamsInfo;
 
-  ProjectDetailModel({
+  InvestmentDetailModel({
     this.id,
     this.teamsInfo,
     this.title,
@@ -115,8 +115,8 @@ class ProjectDetailModel extends BaseModel {
     this.updatesDescription,
   });
 
-  factory ProjectDetailModel.fromJson(Map<String, dynamic> json) =>
-      ProjectDetailModel(
+  factory InvestmentDetailModel.fromJson(Map<String, dynamic> json) =>
+      InvestmentDetailModel(
           id: json["id"],
           title: json["title"],
           subtitle: json["subtitle"],

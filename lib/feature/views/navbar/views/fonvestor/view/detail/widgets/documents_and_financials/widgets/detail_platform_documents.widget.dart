@@ -30,23 +30,23 @@ class DetailPlatformDocumentsWidget extends BaseStatelessWidget {
   Widget get _buildplatformDocuments => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Wrap(
-          spacing: 10.w, // Yatay boşluk
-          runSpacing: 10.w, // Dikey boşluk
-          children: controller.projectDetailModel.value?.platformDocuments
+            spacing: 10.w, // Yatay boşluk
+            runSpacing: 10.w, // Dikey boşluk
+            children: [] /*controller.selectedProjectDetails.value?.platformDocuments
                   ?.map((document) => CustomDocumentsButton(
                         title: document,
                       ))
                   .toList() ??
-              [],
-        ),
+              [],*/
+            ),
       );
 
   Widget get campaignDocuments => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Wrap(
-          spacing: 10.w, // Yatay boşluk
-          runSpacing: 10.w,
-          children: controller.projectDetailModel.value?.campaignDocuments
+            spacing: 10.w, // Yatay boşluk
+            runSpacing: 10.w,
+            children: [] /* controller.selectedProjectDetails.value?.campaignDocuments
                   ?.map((document) => Padding(
                         padding: EdgeInsets.only(bottom: 20.w),
                         child: CustomDocumentsButton(
@@ -54,8 +54,8 @@ class DetailPlatformDocumentsWidget extends BaseStatelessWidget {
                         ),
                       ))
                   .toList() ??
-              [],
-        ),
+              [],*/
+            ),
       );
   Widget get _buildTitle => Column(
         mainAxisAlignment: MainAxisAlignment.start,

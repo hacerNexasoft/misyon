@@ -1,7 +1,7 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
-import 'package:misyonbank/product/models/project_model.dart'; // Detay model eklendi
+import 'package:misyonbank/product/models/project/project_model.dart'; // Detay model eklendi
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 

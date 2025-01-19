@@ -51,7 +51,9 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.startTextKey.tr,
-                    data: controller.projectDetailModel.value?.startDate ?? '',
+                    data: DateTime.fromMillisecondsSinceEpoch(
+                            controller.selectedProjectInvestmentInfo!.projectStartDate)
+                        .toString(),
                     icon: AssetConstants.start,
                   ),
                 ),
@@ -59,7 +61,9 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.stopTextKey.tr,
-                    data: controller.projectDetailModel.value?.stopDate ?? '',
+                    data: DateTime.fromMillisecondsSinceEpoch(
+                            controller.selectedProjectInvestmentInfo!.projectEndDate)
+                        .toString(),
                     icon: AssetConstants.stop,
                   ),
                 ),
@@ -73,7 +77,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.finishTextKey.tr,
-                    data: controller.projectDetailModel.value?.finishDate ?? '',
+                    data: "controller.selectedProjectDetails.value?.finishDate ",
                     icon: AssetConstants.calendar,
                   ),
                 ),
@@ -81,7 +85,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.lotTextKey.tr,
-                    data: controller.projectDetailModel.value?.lot ?? '',
+                    data: "controller.selectedProjectDetails.value?.lot ",
                     icon: AssetConstants.datavis2,
                   ),
                 ),
@@ -95,7 +99,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.percentTextKey.tr,
-                    data: controller.projectDetailModel.value?.percent ?? '',
+                    data: "controller.selectedProjectDetails.value?.percent",
                     icon: AssetConstants.percentage,
                   ),
                 ),
@@ -103,7 +107,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.additionalAmountTextKey.tr,
-                    data: controller.projectDetailModel.value?.sharePcs ?? '',
+                    data: "controller.selectedProjectDetails.value?.sharePcs",
                     icon: AssetConstants.number1,
                   ),
                 ),
@@ -117,9 +121,8 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.sharePcsTextKey.tr,
-                    data: controller
-                            .projectDetailModel.value?.additionalFundRate ??
-                        '',
+                    data: (controller.selectedProjectInvestmentInfo!.additionalFundingRate ?? "")
+                        .toString(),
                     icon: AssetConstants.start,
                   ),
                 ),
@@ -127,9 +130,8 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.additionalFundRateTextKey.tr,
-                    data:
-                        controller.projectDetailModel.value?.additionalAmount ??
-                            '',
+                    data: (controller.selectedProjectInvestmentInfo!.extraFundingAmount ?? "")
+                        .toString(),
                     icon: AssetConstants.addalt,
                   ),
                 ),
@@ -143,9 +145,10 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.collateralStructureTextKey.tr,
-                    data: controller
-                            .projectDetailModel.value?.collateralStructure ??
-                        '',
+                    data: controller.selectedProjectFundingInfo!.collateralStructure != null
+                        ? ModelHelpers.localizedCollateralStructure(
+                            controller.selectedProjectFundingInfo!.collateralStructure!)
+                        : null,
                     icon: AssetConstants.document,
                   ),
                 ),
@@ -153,8 +156,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 Expanded(
                   child: CampaignCardWidget(
                     title: LocalizationKeys.companyValuesTextKey.tr,
-                    data: controller.projectDetailModel.value?.companyValues ??
-                        '',
+                    data: "controller.selectedProjectDetails.value?.companyValues",
                     icon: AssetConstants.chartline,
                   ),
                 ),

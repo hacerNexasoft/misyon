@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
 import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
-import 'package:misyonbank/product/models/project_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 
 class HorizontalProjectListComp extends BaseStatelessWidget {
   final String headerTitle;
