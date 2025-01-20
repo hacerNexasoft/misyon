@@ -27,7 +27,7 @@ class DetailTopWidget extends BaseStatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ScaleFactorAutoSizeText(
-              text: controller.selectedProject.title,
+              text: controller.selectedProjectDetails!.name,
               style: theme.primaryTextTheme.headlineMedium!.semibold.copyWith(
                 color: AppColors.black,
               ),
@@ -35,12 +35,18 @@ class DetailTopWidget extends BaseStatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            ScaleFactorAutoSizeText(
-              text: controller.selectedProject.shortDescription,
-              style: theme.primaryTextTheme.bodyMedium?.copyWith(
+            HtmlWidget(
+              controller.selectedProjectDetails!.description,
+              textStyle: theme.primaryTextTheme.bodyMedium?.copyWith(
                 color: AppColors.primaryGreyColor,
               ),
             ),
+            /*ScaleFactorAutoSizeText(
+              text: controller.selectedProjectDetails!.description,
+              style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                color: AppColors.primaryGreyColor,
+              ),
+            ),*/
           ],
         ),
       );
@@ -58,24 +64,26 @@ class DetailTopWidget extends BaseStatelessWidget {
                   itemCount: 1,
                   itemBuilder: (context, index) {
                     final imageUrl = controller.selectedProjectSummary!.coverImage;
-                    return Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      width: Get.width,
-                      height: 300.h,
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) {
-                          return child;
-                        } else {
-                          return const Center(child: LoadingWidget());
-                        }
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Center(
-                          child: Icon(Icons.error, color: Colors.red),
-                        );
-                      },
-                    );
+                    return imageUrl == null
+                        ? const SizedBox.shrink()
+                        : Image.network(
+                            imageUrl,
+                            fit: BoxFit.cover,
+                            width: Get.width,
+                            height: 300.h,
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) {
+                                return child;
+                              } else {
+                                return const Center(child: LoadingWidget());
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                child: Icon(Icons.error, color: Colors.red),
+                              );
+                            },
+                          );
                   },
                   onPageChanged: (index) {
                     controller.currentPage.value = index;

@@ -113,7 +113,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
             ),
           if (projectModel.term != null)
             _valueItem(
-              title: LocalizationKeys.maturityTextKey.tr,
+              title: LocalizationKeys.termTextKey.tr,
               value: '${projectModel.term} Ay',
             ),
           if (projectModel.earningRate != null)
@@ -156,9 +156,8 @@ class _ContentInfoComp extends BaseStatelessWidget {
                   text: title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: theme.primaryTextTheme.labelLarge?.copyWith(
-                      color: AppColors.darkGreyColor,
-                      fontWeight: FontWeight.w600),
+                  style: theme.primaryTextTheme.labelLarge
+                      ?.copyWith(color: AppColors.darkGreyColor, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 4.h),
                 ScaleFactorAutoSizeText(
@@ -190,8 +189,8 @@ class _ContentInfoComp extends BaseStatelessWidget {
         children: [
           ScaleFactorAutoSizeText(
             text: LocalizationKeys.riskTextKey.tr,
-            style: theme.primaryTextTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold, color: AppColors.darkGreyColor),
+            style: theme.primaryTextTheme.bodyMedium!
+                .copyWith(fontWeight: FontWeight.bold, color: AppColors.darkGreyColor),
           ),
           SizedBox(
             width: 8.w,
@@ -200,8 +199,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
             width: 22.sp,
             height: 12.sp,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: projectModel.riskType!.color),
+                borderRadius: BorderRadius.circular(8.r), color: projectModel.riskType!.color),
           )
         ],
       );
@@ -214,8 +212,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
                 ? projectModel.categories!.map((category) {
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: 5.w),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 15.w, vertical: Get.height * 0.004),
+                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: Get.height * 0.004),
                       decoration: BoxDecoration(
                         color: AppColors.fillColor,
                         borderRadius: BorderRadius.circular(999.r),

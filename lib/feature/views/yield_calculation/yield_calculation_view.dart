@@ -46,22 +46,20 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
                   textEditingController: controller.investAmountController,
                   inputFormatters: Formatter.moneyInputFormat(2),
                   maxLength: 20,
-                  label: LocalizationKeys.investAmountTextKey.tr,
+                  label: LocalizationKeys.numberOfInvestorsTextKey.tr,
                   onChanged: controller.onInvestAmountChanged,
                   fillColor: controller.fillColor.value,
                   borderColor: controller.borderColor.value,
                   suffix: _useAllSuffixWidget,
                 )),
             SizedBox(height: 10.h),
-            Obx(() => _infoText(
-                title: LocalizationKeys.yieldCalculationInfoTextKey.tr)),
+            Obx(() => _infoText(title: LocalizationKeys.yieldCalculationInfoTextKey.tr)),
             SizedBox(height: 20.h),
             Obx(() => generateTextField(
                 enabled: false,
                 hintText: LocalizationKeys.maturityKey.tr,
-                label: controller.selectedMaturity.value != 0
-                    ? LocalizationKeys.maturityTextKey.tr
-                    : '',
+                label:
+                    controller.selectedMaturity.value != 0 ? LocalizationKeys.termTextKey.tr : '',
                 onTap: () async => await controller.selectMaturity(context),
                 suffix: const Icon(
                   Icons.keyboard_arrow_down,
@@ -75,8 +73,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
             ),
             const Spacer(),
             _infoText(
-                title: LocalizationKeys.yieldCalculationButtonInfoText.tr,
-                hasChangeColor: false),
+                title: LocalizationKeys.yieldCalculationButtonInfoText.tr, hasChangeColor: false),
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.only(bottom: 20.h),
@@ -108,8 +105,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
     );
   }
 
-  Widget _infoText({required String title, bool hasChangeColor = true}) =>
-      Padding(
+  Widget _infoText({required String title, bool hasChangeColor = true}) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
@@ -117,8 +113,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
               AssetConstants.infoIcon,
               width: 16.w,
               colorFilter: hasChangeColor
-                  ? ColorFilter.mode(
-                      controller.textColor.value, BlendMode.srcIn)
+                  ? ColorFilter.mode(controller.textColor.value, BlendMode.srcIn)
                   : null,
             ),
             SizedBox(width: 10.w),
@@ -126,9 +121,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
               child: ScaleFactorAutoSizeText(
                 text: title,
                 style: theme.primaryTextTheme.bodySmall?.copyWith(
-                  color: hasChangeColor
-                      ? controller.textColor.value
-                      : AppColors.darkGreyColor,
+                  color: hasChangeColor ? controller.textColor.value : AppColors.darkGreyColor,
                 ),
                 maxLines: 2,
               ),
@@ -181,8 +174,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding:
-            suffix != null ? EdgeInsets.only(right: 40.w) : EdgeInsets.zero,
+        padding: suffix != null ? EdgeInsets.only(right: 40.w) : EdgeInsets.zero,
         decoration: BoxDecoration(
           color: fillColor ?? AppColors.textFieldFillColor,
           borderRadius: borderRadius,
@@ -199,8 +191,7 @@ class YieldCalculationView extends BaseGetView<YieldCalculationViewController> {
                 hintText: hintText,
                 hintStyle: hintStyle,
                 label: label,
-                labelColor: textEditingController != null &&
-                        textEditingController.text.isNotEmpty
+                labelColor: textEditingController != null && textEditingController.text.isNotEmpty
                     ? controller.textColor.value
                     : null,
                 contentVerticalPadding: 5,

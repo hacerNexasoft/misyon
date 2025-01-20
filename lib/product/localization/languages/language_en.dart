@@ -13,7 +13,7 @@ final Map<String, String> enUS = {
   LocalizationKeys.allTextKey: 'ALL',
   LocalizationKeys.allTextslowerKey: 'All',
   LocalizationKeys.earningFrequencyTextKey: 'PERIOD',
-  LocalizationKeys.maturityTextKey: 'Maturity',
+  LocalizationKeys.termTextKey: 'TERM',
   LocalizationKeys.listViewKey: 'List View',
   LocalizationKeys.sortKey: 'Sort',
   LocalizationKeys.tagsKey: 'Tags',
@@ -75,8 +75,7 @@ final Map<String, String> enUS = {
   LocalizationKeys.myInvestmentsTextKey: 'My Investments',
   LocalizationKeys.totalInvestmentTextKey: 'Total Investment Amount',
   LocalizationKeys.readyToInvestTextKey: 'You are ready to invest',
-  LocalizationKeys.startInvestingTextKey:
-      'Start investing to grow your portfolio',
+  LocalizationKeys.startInvestingTextKey: 'Start investing to grow your portfolio',
 
   LocalizationKeys.seeOpportunitiesTextKey: 'Discover Opportunities',
   LocalizationKeys.filterChangeDisplayTextKey: 'Change Display',
@@ -86,8 +85,7 @@ final Map<String, String> enUS = {
   LocalizationKeys.atTerminationTextKey: 'At Termination',
   LocalizationKeys.investmentItemDetailTextKey: 'Investment Detail',
   LocalizationKeys.monthlyReturnAmountTextKey: 'Monthly Return Amount',
-  LocalizationKeys.timeRemainingUntilReturnTextKey:
-      'Time Remaining Until Return',
+  LocalizationKeys.timeRemainingUntilReturnTextKey: 'Time Remaining Until Return',
 
   LocalizationKeys.totalInvestmentAmountTextKey: 'Total Investment Amount',
   LocalizationKeys.lastPriceTextKey: 'Last Price',
@@ -99,7 +97,7 @@ final Map<String, String> enUS = {
   LocalizationKeys.savedAccountsTextKey: 'Saved Accounts',
   LocalizationKeys.creditCardTextKey: 'Credit Card',
   LocalizationKeys.selectAccountTextKey: 'Select Account',
-  LocalizationKeys.investAmountTextKey: 'Invest Amount',
+  LocalizationKeys.numberOfInvestorsTextKey: 'INVESTORS',
   LocalizationKeys.detailTitleTextKey: 'Project Details',
   LocalizationKeys.summaryTextKey: 'summary',
   LocalizationKeys.detailsTextKey: 'details',
@@ -122,14 +120,11 @@ final Map<String, String> enUS = {
   LocalizationKeys.availableBalanceTextKey: 'Available Balance',
   LocalizationKeys.tryAgainTextKey: 'Try Again',
   LocalizationKeys.availableTextKey: 'Available',
-  LocalizationKeys.minInvestAmountErrorTextKey:
-      'You must enter more than the minimum amount.',
-  LocalizationKeys.maxInvestAmountErrorTextKey:
-      'You cannot invest this amount.',
+  LocalizationKeys.minInvestAmountErrorTextKey: 'You must enter more than the minimum amount.',
+  LocalizationKeys.maxInvestAmountErrorTextKey: 'You cannot invest this amount.',
 
   LocalizationKeys.transferMoneyTextKey: 'Transfer Money',
-  LocalizationKeys.becomeQualifiedInvestorTextKey:
-      'Become a Qualified Investor',
+  LocalizationKeys.becomeQualifiedInvestorTextKey: 'Become a Qualified Investor',
 
   LocalizationKeys.moneyTransferEFTTextKey: 'Money Transfer/EFT',
   LocalizationKeys.accountToWithdrawMoneyTextKey: 'Acount to Withdraw Money',
@@ -137,18 +132,15 @@ final Map<String, String> enUS = {
   LocalizationKeys.featuredStarTextKey:
       '100.000 TL and above investments with additional return opportunity',
   LocalizationKeys.featuredEyeTextKey: 'KOSGEB supported',
-  LocalizationKeys.featuredIncreasingTextKey:
-      'Investment for 10% from Mission Platform commitment',
+  LocalizationKeys.featuredIncreasingTextKey: 'Investment for 10% from Mission Platform commitment',
   LocalizationKeys.campaigndetailsTextKey: 'Campaign Details',
 
   LocalizationKeys.campaingnValuationTextKey: 'Valuation',
-  LocalizationKeys.campaingnCompanyValueTextKey:
-      'Post Investment Company Value',
+  LocalizationKeys.campaingnCompanyValueTextKey: 'Post Investment Company Value',
 
   LocalizationKeys.campaingnDeadlineTextKey: 'Deadline',
   LocalizationKeys.campaingnfundingGoalTextKey: 'Funding Goal',
-  LocalizationKeys.campaingnminimumInvestmentAmountTextKey:
-      'Minimum Investment Amount',
+  LocalizationKeys.campaingnminimumInvestmentAmountTextKey: 'Minimum Investment Amount',
 
   LocalizationKeys.detailpDocumentsTextKey: 'Platform Documents',
   LocalizationKeys.detailcDocumentsTextKey: 'Campaign Documents',
@@ -181,9 +173,8 @@ final Map<String, String> enUS = {
   LocalizationKeys.fundUtilizationTextKey: 'Fund Utilization',
   LocalizationKeys.faqTitleTextKey: 'Lorem ipsum?',
   LocalizationKeys.detailsdayTextKey: '500 TL minimum',
-  LocalizationKeys.detailsdaysTextKey: '3 days left',
-  LocalizationKeys.selectPaymentTypeTextKey:
-      'Please select the payment type that suits you.',
+  LocalizationKeys.detailsdaysTextKey: ' days left',
+  LocalizationKeys.selectPaymentTypeTextKey: 'Please select the payment type that suits you.',
 
   LocalizationKeys.educationPaymentTypeTextKey: 'Education Payment',
   LocalizationKeys.investmentPaymentTypeTextKey: 'Investment Payment',

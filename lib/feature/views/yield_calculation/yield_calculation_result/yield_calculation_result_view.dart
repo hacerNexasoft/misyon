@@ -7,8 +7,7 @@ import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
 
-class YieldCalculationResultView
-    extends BaseGetView<YieldCalculationViewController> {
+class YieldCalculationResultView extends BaseGetView<YieldCalculationViewController> {
   const YieldCalculationResultView({super.key});
 
   @override
@@ -51,16 +50,15 @@ class YieldCalculationResultView
       child: Column(
         children: [
           _buildItem(
-            title: LocalizationKeys.investAmountTextKey.tr,
+            title: LocalizationKeys.numberOfInvestorsTextKey.tr,
             value: Formatter.formatMoney(controller.investAmount.value),
           ),
           const Divider(
             color: AppColors.textFieldFillColor,
           ),
           _buildItem(
-            title: LocalizationKeys.maturityTextKey.tr,
-            value:
-                '${controller.selectedMaturity.value} ${LocalizationKeys.monthTextKey.tr}',
+            title: LocalizationKeys.termTextKey.tr,
+            value: '${controller.selectedMaturity.value} ${LocalizationKeys.monthTextKey.tr}',
           ),
           const Divider(
             color: AppColors.textFieldFillColor,
@@ -87,9 +85,8 @@ class YieldCalculationResultView
               padding: EdgeInsets.symmetric(horizontal: 20.sp),
               child: ScaleFactorAutoSizeText(
                 text: "HESAPLAMA SONUCU",
-                style: theme.primaryTextTheme.bodySmall?.copyWith(
-                    color: AppColors.toolTipGreyColor,
-                    fontWeight: FontWeight.w600),
+                style: theme.primaryTextTheme.bodySmall
+                    ?.copyWith(color: AppColors.toolTipGreyColor, fontWeight: FontWeight.w600),
               ),
             ),
           ),

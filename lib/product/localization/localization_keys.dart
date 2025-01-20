@@ -1,11 +1,9 @@
 class LocalizationKeys {
-  static const String searchAlternativeAssetsTextKey =
-      'searchAlternativeAssetsTextKey';
+  static const String searchAlternativeAssetsTextKey = 'searchAlternativeAssetsTextKey';
 
   static const String searchfecTextKey = 'searchfecTextKey';
   static const String searchTextKey = 'searchTextKey';
-  static const String myAlternativeExistanceTextKey =
-      'myAlternativeExistanceTextKey';
+  static const String myAlternativeExistanceTextKey = 'myAlternativeExistanceTextKey';
 
   //Bottom Nav Bar Keys
   static const String investmentsTextKey = 'investmentsTextKey';
@@ -33,15 +31,14 @@ class LocalizationKeys {
   static const String openInvestmentsKey = 'openInvestmentsKey';
   static const String nearingClosureKey = 'nearingClosureKey';
   static const String earningFrequencyTextKey = 'earningFrequencyTextKey';
-  static const String maturityTextKey = 'maturityTextKey';
+  static const String termTextKey = 'termTextKey';
   static const String earningRateTextKey = 'earningRateTextKey';
   static const String riskTextKey = 'riskTextKey';
   static const String fundsCollectedKey = 'fundsCollectedKey';
   static const String fundingRatioKey = 'fundingRatioKey';
   static const String favoriteAlternativeOpportunitiesTextKey =
       'favoriteAlternativeOpportunitiesTextKey';
-  static const String allAlternativeOpportunitiesTextKey =
-      'allAlternativeOpportunitiesTextKey';
+  static const String allAlternativeOpportunitiesTextKey = 'allAlternativeOpportunitiesTextKey';
 
   static const String financialLiteracyTextKey = 'financialLiteracyTextKey';
   static const String completedProjectsTextKey = 'completedProjectsTextKey';
@@ -96,29 +93,24 @@ class LocalizationKeys {
   static const String openInvestmentTextKey = 'openInvestmentTextKey';
   static const String returnPeriodTextKey = 'returnPeriodTextKey';
   static const String atTerminationTextKey = 'atTerminationTextKey';
-  static const String investmentItemDetailTextKey =
-      'investmentItemDetailTextKey';
+  static const String investmentItemDetailTextKey = 'investmentItemDetailTextKey';
 
   static const String monthlyReturnAmountTextKey = 'monthlyReturnAmountTextKey';
-  static const String timeRemainingUntilReturnTextKey =
-      'timeRemainingUntilReturnTextKey';
-  static const String totalInvestmentAmountTextKey =
-      'totalInvestmentAmountTextKey';
+  static const String timeRemainingUntilReturnTextKey = 'timeRemainingUntilReturnTextKey';
+  static const String totalInvestmentAmountTextKey = 'totalInvestmentAmountTextKey';
 
   static const String lastPriceTextKey = 'lastPriceTextKey';
   static const String investTextKey = 'investTextKey';
   static const String performedTextKey = 'performedTextKey';
   static const String waitingTextKey = 'waitingTextKey';
-  static const String cancelledTransactionsTextKey =
-      'cancelledTransactionsTextKey';
+  static const String cancelledTransactionsTextKey = 'cancelledTransactionsTextKey';
 
   static const String savedAccountsTextKey = 'savedAccountsTextKey';
   static const String creditCardTextKey = 'creditCardTextKey';
-  static const String accountToWithdrawMoneyTextKey =
-      'accountToWithdrawMoneyTextKey';
+  static const String accountToWithdrawMoneyTextKey = 'accountToWithdrawMoneyTextKey';
 
   static const String selectAccountTextKey = 'selectAccountTextKey';
-  static const String investAmountTextKey = 'investAmountTextKey';
+  static const String numberOfInvestorsTextKey = 'numberOfInvestorsTextKey';
   static const String maxInvestAmountInfoTextKey = 'maxInvestAmountInfoTextKey';
   static const String detailTitleTextKey = 'projectdetails';
   static const String summaryTextKey = 'summaryTextKey';
@@ -128,8 +120,7 @@ class LocalizationKeys {
   static const String updatesTextKey = 'updates';
   static const String faqTextKey = 'faqTextKey';
   static const String qnaTextKey = 'qnaTextKey';
-  static const String investmentInformationTextKey =
-      'investmentInformationTextKey';
+  static const String investmentInformationTextKey = 'investmentInformationTextKey';
 
   static const String fundRaisedTextKey = 'fundRaisedTextKey';
   static const String targetFundTextKey = 'targetFundTextKey';
@@ -144,14 +135,11 @@ class LocalizationKeys {
   static const String availableBalanceTextKey = 'availableBalanceTextKey';
   static const String availableTextKey = 'availableTextKey';
   static const String tryAgainTextKey = 'tryAgainTextKey';
-  static const String minInvestAmountErrorTextKey =
-      'minInvestAmountErrorTextKey';
-  static const String maxInvestAmountErrorTextKey =
-      'maxInvestAmountErrorTextKey';
+  static const String minInvestAmountErrorTextKey = 'minInvestAmountErrorTextKey';
+  static const String maxInvestAmountErrorTextKey = 'maxInvestAmountErrorTextKey';
 
   static const String transferMoneyTextKey = 'transferMoneyTextKey';
-  static const String becomeQualifiedInvestorTextKey =
-      'becomeQualifiedInvestorTextKey';
+  static const String becomeQualifiedInvestorTextKey = 'becomeQualifiedInvestorTextKey';
 
   static const String moneyTransferEFTTextKey = 'moneyTransferEFTTextKey';
   static const String featuredTitleTextKey = 'featuredTitleTextKey';
@@ -161,13 +149,11 @@ class LocalizationKeys {
   static const String campaigndetailsTextKey = 'campaigndetailsTextKey';
   static const String campaingnValuationTextKey = 'campaingnValuationTextKey';
   static const String detailcompanyTitleTextKet = 'detailcompanyTitleTextKet';
-  static const String campaingnCompanyValueTextKey =
-      'campaingnCompanyValueTextKey';
+  static const String campaingnCompanyValueTextKey = 'campaingnCompanyValueTextKey';
 
   static const String campaingnminimumInvestmentAmountTextKey =
       'campaingnminimumInvestmentAmountTextKey';
-  static const String campaingnfundingGoalTextKey =
-      'campaingnfundingGoalTextKey';
+  static const String campaingnfundingGoalTextKey = 'campaingnfundingGoalTextKey';
 
   static const String campaingnDeadlineTextKey = 'campaingnDeadlineTextKey';
   static const String detailpDocumentsTextKey = 'detailpDocumentsTextKey';
@@ -183,8 +169,7 @@ class LocalizationKeys {
   static const String companyincomePlanTextKey = 'companyincomePlanTextKey';
   static const String companymarketTextKey = 'companymarketTextKey';
   static const String companysolutionTextKey = 'companysolutionTextKey';
-  static const String companycompetitorAnalysisTextKey =
-      'companycompetitorAnalysisTextKey';
+  static const String companycompetitorAnalysisTextKey = 'companycompetitorAnalysisTextKey';
 
   static const String showmoreTextKey = 'showmoreTextKey';
   static const String recipientFullNameTextKey = 'recipientFullNameTextKey';
@@ -192,10 +177,8 @@ class LocalizationKeys {
   static const String transactionAmountTextKey = 'transactionAmountTextKey';
   static const String transactionDateTextKey = 'transactionDateTextKey';
   static const String paymentTypeTextKey = 'paymentTypeTextKey';
-  static const String individualPaymentTypeTextKey =
-      'individualPaymentTypeTextKey';
-  static const String housingRentPaymentTypeTextKey =
-      'housingRentPaymentTypeTextKey';
+  static const String individualPaymentTypeTextKey = 'individualPaymentTypeTextKey';
+  static const String housingRentPaymentTypeTextKey = 'housingRentPaymentTypeTextKey';
 
   static const String otherPaymentTypeTextKey = 'otherPaymentTypeTextKey';
   static const String transactionDateHintTextKey = 'transactionDateHintTextKey';
@@ -209,24 +192,17 @@ class LocalizationKeys {
   static const String detailsdayTextKey = 'detailsbottonTextKey';
   static const String detailsdaysTextKey = 'detailsdaysTextKey';
   static const String selectPaymentTypeTextKey = 'selectPaymentTypeTextKey';
-  static const String educationPaymentTypeTextKey =
-      'educationPaymentTypeTextKey';
-  static const String investmentPaymentTypeTextKey =
-      'investmentPaymentTypeTextKey';
-  static const String eCommercePaymentTypeTextKey =
-      'eCommercePaymentTypeTextKey';
-  static const String financialPaymentTypeTextKey =
-      'financialPaymentTypeTextKey';
+  static const String educationPaymentTypeTextKey = 'educationPaymentTypeTextKey';
+  static const String investmentPaymentTypeTextKey = 'investmentPaymentTypeTextKey';
+  static const String eCommercePaymentTypeTextKey = 'eCommercePaymentTypeTextKey';
+  static const String financialPaymentTypeTextKey = 'financialPaymentTypeTextKey';
   static const String communityTabsInvestmentsTextKey = 'communityTabsTextKey';
   static const String communityTabsUpdateTextKey = 'communityTabsUpdateTextKey';
-  static const String yieldCalculationTitleTextKey =
-      'yieldCalculationTitleTextKey';
+  static const String yieldCalculationTitleTextKey = 'yieldCalculationTitleTextKey';
   static const String fundingTypeTextKey = 'fundingTypeTextKey';
   static const String monthTextKey = 'monthTextKey';
-  static const String yieldCalculationInfoTextKey =
-      'yieldCalculationInfoTextKey';
-  static const String yieldCalculationButtonInfoText =
-      'yieldCalculationButtonInfoText';
+  static const String yieldCalculationInfoTextKey = 'yieldCalculationInfoTextKey';
+  static const String yieldCalculationButtonInfoText = 'yieldCalculationButtonInfoText';
   static const String annualReturnRateTextKey = 'annualReturnRateTextKey';
   static const String calculateYieldTextKey = 'calculateYieldTextKey';
   static const String riskdetailTitleKey = 'riskdetailTitleKey';
@@ -242,18 +218,15 @@ class LocalizationKeys {
   static const String additionalFundRateTextKey = 'additionalFundRateTextKey';
   static const String companyValuesTextKey = 'companyValuesTextKey';
   static const String collateralStructureTextKey = 'collateralStructureTextKey';
-  static const String aboutcompanydetailTitleTextKey =
-      'companydetailTitleTextKey';
+  static const String aboutcompanydetailTitleTextKey = 'companydetailTitleTextKey';
   static const String detailplatformTitleTextKey = 'detailplatformTitleTextKey';
   static const String dispersionTitleTextKey = 'dispersionTitleTextKey';
-  static const String dispersionRatioTitleTextKey =
-      'dispersionRatioTitleTextKey';
+  static const String dispersionRatioTitleTextKey = 'dispersionRatioTitleTextKey';
   static const String teamsTitleTextKey = 'teamsTitleTextKey';
   static const String teamssubTitleTextKey = 'teamssubTitleTextKey';
   static const String teamsortsubTitleTextKey = 'teamsortsubTitleTextKey';
   //Fonvestor
   static const String periodAnnualyTextKey = 'periodAnnualyTextKey';
   static const String periodMonthlyTextKey = 'periodMonthlyTextKey';
-  static const String collateralStructureRealEstateTextKey =
-      'collateralStructureRealEstateTextKey';
+  static const String collateralStructureRealEstateTextKey = 'collateralStructureRealEstateTextKey';
 }

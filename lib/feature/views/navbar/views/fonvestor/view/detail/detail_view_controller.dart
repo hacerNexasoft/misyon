@@ -118,6 +118,14 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
   String? get targetFundText => selectedProjectInvestmentInfo!.fundingGoal.toString();
 
+  String remainingDayText() {
+    String remainingDay = "-";
+    DateTime endDate =
+        DateTime.fromMillisecondsSinceEpoch(selectedProjectInvestmentInfo!.projectEndDate);
+    remainingDay = endDate.difference(DateTime.now()).inDays.toString();
+    return remainingDay;
+  }
+
   void changeTab(int newIndex) async {
     change(state, status: RxStatus.loading());
     tabController.animateTo(newIndex);

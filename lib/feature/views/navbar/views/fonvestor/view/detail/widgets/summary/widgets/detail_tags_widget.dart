@@ -40,8 +40,9 @@ class DetailTagsWidget extends BaseStatelessWidget {
 
   Widget get _buildTags => Padding(
         padding: EdgeInsets.symmetric(vertical: 5.w),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Wrap(
+          spacing: 15.w,
+          runSpacing: 10.w,
           children: controller.selectedProjectSummary!.tags
                   ?.map((document) => Container(
                         margin: EdgeInsets.symmetric(horizontal: 6.w),

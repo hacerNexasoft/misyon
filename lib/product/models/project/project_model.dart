@@ -26,7 +26,7 @@ class ProjectModel {
   final int termCode;
   final int periodCode;
   final Period period;
-  final int yearlyReturnRate;
+  final double yearlyReturnRate;
   final CollateralStructure collateralStructure;
   final RiskType? riskForDebit;
 
@@ -63,49 +63,36 @@ class ProjectModel {
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
     return ProjectModel(
         id: json['id'] ?? '', // Null kontrolü ile varsayılan değer ataması
-        category: json['category'] ??
-            '', // Null kontrolü ile varsayılan değer ataması
+        category: json['category'] ?? '', // Null kontrolü ile varsayılan değer ataması
         city: json['city'] ?? '', // Null kontrolü ile varsayılan değer ataması
-        coverImage: json['coverImage'] ??
-            '', // Null kontrolü ile varsayılan değer ataması
+        coverImage: json['coverImage'] ?? '', // Null kontrolü ile varsayılan değer ataması
         fundedAmount: json['fundedAmount']?.toDouble() ?? 0.0,
         fundingGoal: json['fundingGoal']?.toDouble() ?? 0.0,
         fundingPercentage: json['fundingPercentage']?.toDouble() ?? 0.0,
-        logoUrl:
-            json['logo'] ?? '', // Null kontrolü ile varsayılan değer ataması
-        numberOfInvestors: json['numberOfInvestors'] ??
-            0, // Null kontrolü ile varsayılan değer ataması
-        projectEndDate: json['projectEndDate'] ??
-            0, // Null kontrolü ile varsayılan değer ataması
-        projectStartDate: json['projectStartDate'] ??
-            0, // Null kontrolü ile varsayılan değer ataması
-        shortDescription: json['shortDescription'] ??
-            '', // Null kontrolü ile varsayılan değer ataması
-        statusCode:
-            json['status'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        logoUrl: json['logo'] ?? '', // Null kontrolü ile varsayılan değer ataması
+        numberOfInvestors:
+            json['numberOfInvestors'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        projectEndDate: json['projectEndDate'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        projectStartDate:
+            json['projectStartDate'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        shortDescription:
+            json['shortDescription'] ?? '', // Null kontrolü ile varsayılan değer ataması
+        statusCode: json['status'] ?? 0, // Null kontrolü ile varsayılan değer ataması
         status: ModelHelpers.findStatusByCode(json['status'] ?? 0),
-        timeUntilEnd: json['timeUntilEnd'] ??
-            0, // Null kontrolü ile varsayılan değer ataması
-        timeUntilStart: json['timeUntilStart'] ??
-            0, // Null kontrolü ile varsayılan değer ataması
-        title:
-            json['title'] ?? '', // Null kontrolü ile varsayılan değer ataması
-        externalId: json['externalId'] ??
-            '', // Null kontrolü ile varsayılan değer ataması
-        seoName:
-            json['seoName'] ?? '', // Null kontrolü ile varsayılan değer ataması
-        isClickable: json['isClickable'] ??
-            false, // Null kontrolü ile varsayılan değer ataması
-        isFavorite: json['isFavorite'] ??
-            false, // Null kontrolü ile varsayılan değer ataması
+        timeUntilEnd: json['timeUntilEnd'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        timeUntilStart: json['timeUntilStart'] ?? 0, // Null kontrolü ile varsayılan değer ataması
+        title: json['title'] ?? '', // Null kontrolü ile varsayılan değer ataması
+        externalId: json['externalId'] ?? '', // Null kontrolü ile varsayılan değer ataması
+        seoName: json['seoName'] ?? '', // Null kontrolü ile varsayılan değer ataması
+        isClickable: json['isClickable'] ?? false, // Null kontrolü ile varsayılan değer ataması
+        isFavorite: json['isFavorite'] ?? false, // Null kontrolü ile varsayılan değer ataması
         termCode: json['term'] ?? 0,
         periodCode: json['period'] ?? 0,
         period: ModelHelpers.findPeriodByCode(json['collateralStructure'] ?? 0),
         yearlyReturnRate: json['yearlyReturnRate'] ?? 0,
-        collateralStructure: ModelHelpers.findCollateralStructureByCode(
-            json['collateralStructure'] ?? 0),
-        riskForDebit: json['riskForDbit'] == null
-            ? null
-            : ModelHelpers.findRiskType(json['riskForDbit']));
+        collateralStructure:
+            ModelHelpers.findCollateralStructureByCode(json['collateralStructure'] ?? 0),
+        riskForDebit:
+            json['riskForDbit'] == null ? null : ModelHelpers.findRiskType(json['riskForDbit']));
   }
 }

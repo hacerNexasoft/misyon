@@ -12,7 +12,7 @@ class _InvestAmountWidget extends BaseGetView<InvestViewController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ScaleFactorAutoSizeText(
-                text: LocalizationKeys.investAmountTextKey.tr,
+                text: LocalizationKeys.numberOfInvestorsTextKey.tr,
                 style: theme.primaryTextTheme.bodyMedium?.copyWith(
                   color: AppColors.darkGreyColor,
                   fontWeight: FontWeight.bold,

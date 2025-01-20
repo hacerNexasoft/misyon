@@ -69,68 +69,70 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
               )),
         ],
       );
-  Widget get _buildDataCard => Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: true,
-                    title: LocalizationKeys.remainingDayTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.remainingDay",
-                  ),
+  Widget get _buildDataCard {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: true,
+                  title: LocalizationKeys.remainingDayTextKey.tr,
+                  data: controller.remainingDayText(),
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: false,
-                    title: LocalizationKeys.investAmountTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.investment",
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: false,
+                  title: LocalizationKeys.numberOfInvestorsTextKey.tr,
+                  data: controller.selectedProjectInvestmentInfo!.numberOfInvestors.toString(),
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: false,
-                    title: LocalizationKeys.completedTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.completed",
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: false,
+                  title: LocalizationKeys.completedTextKey.tr,
+                  data: '%${controller.selectedProjectInvestmentInfo!.fundingPercentage}',
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: false,
-                    title: LocalizationKeys.maturityTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.maturity",
-                  ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: false,
+                  title: LocalizationKeys.termTextKey.tr,
+                  data: '${controller.selectedProjectFundingInfo!.term} Ay',
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: false,
-                    title: LocalizationKeys.earningRateTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.rateofReturn",
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: false,
+                  title: LocalizationKeys.earningRateTextKey.tr,
+                  data: '%${controller.selectedProjectFundingInfo!.yearlyReturnRate}',
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: MiniCardWidget(
-                    showBorder: false,
-                    title: LocalizationKeys.earningFrequencyTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.returnFrequency",
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: MiniCardWidget(
+                  showBorder: false,
+                  title: LocalizationKeys.earningFrequencyTextKey.tr,
+                  data: ModelHelpers.localizedPeriod(controller.selectedProjectFundingInfo!.period),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }

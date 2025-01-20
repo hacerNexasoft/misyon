@@ -3,14 +3,14 @@ import 'package:misyonbank/product/utils/model_helpers.dart';
 
 class ProjectSummaryModel {
   final String projectID;
-  final String category;
+  final String? category;
   final String shortDescription;
   final String title;
   final String projectCode;
   final String? videoUrl;
   final List<String>? tags;
-  final String coverImage;
-  final String logo;
+  final String? coverImage;
+  final String? logo;
   final ProjectStatus status;
   final bool isFavorite;
   final bool canPreInvestment;

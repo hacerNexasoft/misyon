@@ -52,6 +52,21 @@ class ModelHelpers {
     }
   }
 
+  static String localizedPeriod(Period? data) {
+    String text = "";
+    switch (data) {
+      case Period.Annual:
+        text = LocalizationKeys.periodAnnualyTextKey.tr;
+        break;
+      case Period.Monthly:
+        text = LocalizationKeys.periodMonthlyTextKey.tr;
+        break;
+
+      default:
+    }
+    return text;
+  }
+
   static RiskType findRiskType(double value) {
     if (value < 33.3) {
       return RiskType.risky;

@@ -45,8 +45,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.searchfecTextKey: 'Son yatırımlardan ara',
   LocalizationKeys.searchTextKey: 'Ara...',
   LocalizationKeys.recentInvestmentsTextKey: 'Son Yapılan Yatırımlara Göz At!',
-  LocalizationKeys.emptySearchTextKey:
-      'Aradığınız kriterlere uygun sonuç bulunamadı.',
+  LocalizationKeys.emptySearchTextKey: 'Aradığınız kriterlere uygun sonuç bulunamadı.',
 
   LocalizationKeys.popularSectorsKey: 'POPÜLER SEKTÖRLER',
   LocalizationKeys.filterTextKey: 'Filtrele',
@@ -60,8 +59,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.timeRangeTextKey: 'Zaman Aralığı',
   LocalizationKeys.investmentRangeTextKey: 'Yatırım Aralığı',
 
-  LocalizationKeys.filterCurrencyTextKey:
-      'İşlem Yapmak İstediğiniz Para Birimi',
+  LocalizationKeys.filterCurrencyTextKey: 'İşlem Yapmak İstediğiniz Para Birimi',
   LocalizationKeys.fundFounderTextKey: 'Fon Kurucusu',
   LocalizationKeys.seeAllFundFoundersTextKey: 'Tüm Fon Kuruclarını Gör',
   LocalizationKeys.seeCommunityTextKey: 'Topluluğu Gör',
@@ -87,8 +85,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.totalInvestmentTextKey: 'Toplam Yatırım Büyüklüğü',
   LocalizationKeys.readyToInvestTextKey: 'Yatırım yapmaya hazırsın',
 
-  LocalizationKeys.startInvestingTextKey:
-      'Portföyünü büyütmek için yatırıma başla.',
+  LocalizationKeys.startInvestingTextKey: 'Portföyünü büyütmek için yatırıma başla.',
   LocalizationKeys.seeOpportunitiesTextKey: 'Fırsatları Gör',
   LocalizationKeys.filterChangeDisplayTextKey: 'Gösterimi değiştir',
   LocalizationKeys.cancelTextKey: 'İptal Et',
@@ -108,7 +105,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.savedAccountsTextKey: 'Kayıtlı Hesaplar',
   LocalizationKeys.creditCardTextKey: 'Kredi Kartı',
   LocalizationKeys.selectAccountTextKey: 'Hesap Seçin',
-  LocalizationKeys.investAmountTextKey: 'Yatırım Tutarı',
+  LocalizationKeys.numberOfInvestorsTextKey: 'YATIRIMCI SAYISI',
   LocalizationKeys.maxInvestAmountInfoTextKey:
       'Tek seferde yapılabilen maksimum yatırım tutarı 100.000 TL, toplamda 250.000 TL’dir.',
   LocalizationKeys.detailTitleTextKey: 'Proje Detayı',
@@ -127,8 +124,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.remainingDayTextKey: 'KAPANIŞA KALAN',
   LocalizationKeys.investmentTextKey: 'Yatırım Tutarı',
   LocalizationKeys.completedTextKey: 'TAMAMLANAN',
-  LocalizationKeys.minInvestAmountInfoTextKey:
-      'Yapılabilecek minimum yatırım tutarı 500 TL\'dir.',
+  LocalizationKeys.minInvestAmountInfoTextKey: 'Yapılabilecek minimum yatırım tutarı 500 TL\'dir.',
 
   LocalizationKeys.missionTextKey: 'Misyon',
   LocalizationKeys.myOtherAccountsTextKey: 'Diğer Hesaplarım',
@@ -137,33 +133,27 @@ final Map<String, String> trTR = {
   LocalizationKeys.availableBalanceTextKey: 'Kullanılabilir Bakiye',
   LocalizationKeys.tryAgainTextKey: 'Tekrar Dene',
   LocalizationKeys.availableTextKey: 'Kullanılabilir',
-  LocalizationKeys.minInvestAmountErrorTextKey:
-      'Minimum tutardan fazla girmelisin.',
-  LocalizationKeys.maxInvestAmountErrorTextKey:
-      'Bu tutarda yatırım yapamıyorsun.',
+  LocalizationKeys.minInvestAmountErrorTextKey: 'Minimum tutardan fazla girmelisin.',
+  LocalizationKeys.maxInvestAmountErrorTextKey: 'Bu tutarda yatırım yapamıyorsun.',
 
   LocalizationKeys.transferMoneyTextKey: 'Para Aktar',
   LocalizationKeys.becomeQualifiedInvestorTextKey: 'Nitelikli Yatırımcı Ol',
   LocalizationKeys.moneyTransferEFTTextKey: 'Havale/EFT',
   LocalizationKeys.accountToWithdrawMoneyTextKey: 'Tutarın Çekileceği Hesap',
   LocalizationKeys.featuredTitleTextKey: 'Öne Çıkanlar',
-  LocalizationKeys.featuredStarTextKey:
-      '100.000 TL ve üzeri yatırımlarda ek getiri imkanı',
+  LocalizationKeys.featuredStarTextKey: '100.000 TL ve üzeri yatırımlarda ek getiri imkanı',
 
   LocalizationKeys.featuredEyeTextKey: 'KOSGEB destekli',
-  LocalizationKeys.featuredIncreasingTextKey:
-      'Misyon Platformu’ndan %10’u için yatırım taahhütü',
+  LocalizationKeys.featuredIncreasingTextKey: 'Misyon Platformu’ndan %10’u için yatırım taahhütü',
 
   LocalizationKeys.campaigndetailsTextKey: 'KAMPANYA BİLGİLERİ',
   LocalizationKeys.campaingnValuationTextKey: 'Değerleme',
 
-  LocalizationKeys.campaingnCompanyValueTextKey:
-      'Yatırım Sonrası Şirket Değeri',
+  LocalizationKeys.campaingnCompanyValueTextKey: 'Yatırım Sonrası Şirket Değeri',
   LocalizationKeys.campaingnDeadlineTextKey: 'Deadline',
   LocalizationKeys.campaingnfundingGoalTextKey: 'Funding Goal',
 
-  LocalizationKeys.campaingnminimumInvestmentAmountTextKey:
-      'Minimum Yatırım Tutarı',
+  LocalizationKeys.campaingnminimumInvestmentAmountTextKey: 'Minimum Yatırım Tutarı',
   LocalizationKeys.detailpDocumentsTextKey: 'PLATFORM DÖKÜMANLARI',
   LocalizationKeys.detailcDocumentsTextKey: 'KAMPANYA DÖKÜMANLARI',
   LocalizationKeys.detailTeamTextKey: 'TAKIM VE ORTAKLIK YAPISI',
@@ -197,9 +187,8 @@ final Map<String, String> trTR = {
   LocalizationKeys.fundUtilizationTextKey: 'YATIRIM PROJEKSİYONU',
   LocalizationKeys.faqTitleTextKey: 'Lorem ipsum?',
   LocalizationKeys.detailsdayTextKey: '500 TL minimum',
-  LocalizationKeys.detailsdaysTextKey: '3 gün kaldı',
-  LocalizationKeys.selectPaymentTypeTextKey:
-      'Lütfen size uygun ödeme türünü seçin.',
+  LocalizationKeys.detailsdaysTextKey: ' gün kaldı',
+  LocalizationKeys.selectPaymentTypeTextKey: 'Lütfen size uygun ödeme türünü seçin.',
 
   LocalizationKeys.educationPaymentTypeTextKey: 'Eğitim Ödemesi',
   LocalizationKeys.investmentPaymentTypeTextKey: 'Yatırım',
@@ -216,7 +205,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.yieldCalculationButtonInfoText:
       'Hesaplama toplam yatırım tutarı üzerinden yapılacaktır.',
   LocalizationKeys.annualReturnRateTextKey: 'Yıllık Getiri Oranı',
-  LocalizationKeys.maturityTextKey: 'Vade',
+  LocalizationKeys.termTextKey: 'VADE',
   LocalizationKeys.riskdetailTitleKey: 'RİSK',
   LocalizationKeys.riskdetailTextKey:
       'Kredi risk indikatörüne göre bu yatırım Düşük Riskli olarak değerlendirilmiştir.',

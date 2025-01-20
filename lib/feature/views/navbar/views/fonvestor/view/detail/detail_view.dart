@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:misyonbank/feature/components/tabbar/underlined_tab_bar_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/detail_view_controller.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
@@ -18,14 +19,18 @@ class DetailView extends BaseGetView<DetailViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: Container(
-        height: 80.h,
-        width: Get.width,
-        color: AppColors.backgroundColor,
-        child: _buildMakeanInvestment,
-      ),
       body: controller.obx(
-        (state) => _buildContent(),
+        (state) => Scaffold(
+          body: _buildContent(),
+          bottomSheet: controller.status.isSuccess
+              ? Container(
+                  height: 80.h,
+                  width: Get.width,
+                  color: AppColors.backgroundColor,
+                  child: _buildMakeanInvestment,
+                )
+              : null,
+        ),
         onLoading: const LoadingWidget(),
         onError: (error) => CustomErrorWidget(
           text: LocalizationKeys.tryAgainTextKey.tr,
@@ -129,7 +134,8 @@ class DetailView extends BaseGetView<DetailViewController> {
                   ),
                 ),
                 ScaleFactorAutoSizeText(
-                  text: LocalizationKeys.detailsdaysTextKey.tr,
+                  text:
+                      "${controller.remainingDayText()} ${LocalizationKeys.detailsdaysTextKey.tr}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(

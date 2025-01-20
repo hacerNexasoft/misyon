@@ -68,8 +68,7 @@ class ProjectService extends BaseGetxService {
       );*/
 
       // Servisi çağır ve listeyi güncelle
-      projectsList.value = await FetcherStaticService
-          .fetchFilteredProjects(); // Listeyi güncelle
+      projectsList.value = await FetcherStaticService.fetchFilteredProjects();
 
       if (kDebugMode) {
         print('Çekilen Projeler: ${projectsList.length}');
@@ -121,8 +120,7 @@ class ProjectService extends BaseGetxService {
           logoUrl:
               'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
           numberOfInvestors: 1,
-          projectEndDate: (DateTime.now().add(const Duration(days: 5)))
-              .millisecondsSinceEpoch,
+          projectEndDate: (DateTime.now().add(const Duration(days: 5))).millisecondsSinceEpoch,
           projectStartDate: 1722870000,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
@@ -153,8 +151,7 @@ class ProjectService extends BaseGetxService {
           logoUrl:
               'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
           numberOfInvestors: 1,
-          projectEndDate: (DateTime.now().add(const Duration(hours: 3)))
-              .millisecondsSinceEpoch,
+          projectEndDate: (DateTime.now().add(const Duration(hours: 3))).millisecondsSinceEpoch,
           projectStartDate: 1722870000,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
@@ -185,8 +182,7 @@ class ProjectService extends BaseGetxService {
           companyName: 'Mionti Enerji',
           imageUrl:
               "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp",
-          statusName:
-              MyInvestmentsProcess.openInvestment.investmentProcessString,
+          statusName: MyInvestmentsProcess.openInvestment.investmentProcessString,
           totalInvestmentAmount: 10000.0,
           label: "Label",
           labelAmount: 20000.0,
@@ -968,11 +964,7 @@ class ProjectService extends BaseGetxService {
         minimumfundingGoal: 25000.00,
         maxfundingGoal: 3000000.00,
         deadLine: "12 Aralık 2024",
-        platformDocuments: const [
-          "Bilgi Formu",
-          "Yatırım Komitesi Raporu",
-          "Kredibilite Raporu"
-        ],
+        platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
         startDate: "26.12.2024",
         stopDate: "21.02.2025",
         finishDate: "23.02.2025",
@@ -1122,11 +1114,7 @@ class ProjectService extends BaseGetxService {
         minimumfundingGoal: 25000.00,
         maxfundingGoal: 3000000.00,
         deadLine: "12 Aralık 2024",
-        platformDocuments: const [
-          "Bilgi Formu",
-          "Yatırım Komitesi Raporu",
-          "Kredibilite Raporu"
-        ],
+        platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
         startDate: "26.12.2024",
         stopDate: "21.02.2025",
         finishDate: "23.02.2025",
@@ -1276,11 +1264,7 @@ class ProjectService extends BaseGetxService {
         minimumfundingGoal: 25000.00,
         maxfundingGoal: 3000000.00,
         deadLine: "12 Aralık 2024",
-        platformDocuments: const [
-          "Bilgi Formu",
-          "Yatırım Komitesi Raporu",
-          "Kredibilite Raporu"
-        ],
+        platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
         startDate: "26.12.2024",
         stopDate: "21.02.2025",
         finishDate: "23.02.2025",
@@ -1440,11 +1424,7 @@ class ProjectService extends BaseGetxService {
           minimumfundingGoal: 25000.00,
           maxfundingGoal: 3000000.00,
           deadLine: "12 Aralık 2024",
-          platformDocuments: const [
-            "Bilgi Formu",
-            "Yatırım Komitesi Raporu",
-            "Kredibilite Raporu"
-          ],
+          platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
           startDate: "26.12.2024",
           stopDate: "21.02.2025",
           finishDate: "23.02.2025",
@@ -1594,11 +1574,7 @@ class ProjectService extends BaseGetxService {
           minimumfundingGoal: 25000.00,
           maxfundingGoal: 3000000.00,
           deadLine: "12 Aralık 2024",
-          platformDocuments: const [
-            "Bilgi Formu",
-            "Yatırım Komitesi Raporu",
-            "Kredibilite Raporu"
-          ],
+          platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
           startDate: "26.12.2024",
           stopDate: "21.02.2025",
           finishDate: "23.02.2025",
@@ -1748,11 +1724,7 @@ class ProjectService extends BaseGetxService {
           minimumfundingGoal: 25000.00,
           maxfundingGoal: 3000000.00,
           deadLine: "12 Aralık 2024",
-          platformDocuments: const [
-            "Bilgi Formu",
-            "Yatırım Komitesi Raporu",
-            "Kredibilite Raporu"
-          ],
+          platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
           startDate: "26.12.2024",
           stopDate: "21.02.2025",
           finishDate: "23.02.2025",
@@ -1902,11 +1874,7 @@ class ProjectService extends BaseGetxService {
           minimumfundingGoal: 25000.00,
           maxfundingGoal: 3000000.00,
           deadLine: "12 Aralık 2024",
-          platformDocuments: const [
-            "Bilgi Formu",
-            "Yatırım Komitesi Raporu",
-            "Kredibilite Raporu"
-          ],
+          platformDocuments: const ["Bilgi Formu", "Yatırım Komitesi Raporu", "Kredibilite Raporu"],
           startDate: "26.12.2024",
           stopDate: "21.02.2025",
           finishDate: "23.02.2025",
@@ -2053,12 +2021,7 @@ class ProjectService extends BaseGetxService {
           AssetConstants.messageImage,
           AssetConstants.messageImage
         ],
-        name: const [
-          "Eyşan Öztürk",
-          "Eyşan Öztürk",
-          "Eyşan Öztürk",
-          "Eyşan Öztürk"
-        ],
+        name: const ["Eyşan Öztürk", "Eyşan Öztürk", "Eyşan Öztürk", "Eyşan Öztürk"],
         message: const [
           "Proje hakkında yapılan bir yorum text.",
           "Proje hakkında yapılan bir yorum text.",
