@@ -12,12 +12,43 @@ class DetailFeaturedWidget extends BaseStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTitle,
-        SizedBox(height: 20.h),
-        _buildStar,
-        _buildEye,
-        _buildIncreasing
-      ],
+            _buildTitle,
+            SizedBox(height: 20.h),
+            //_buildStar,
+            //_buildEye,
+            //_buildIncreasing
+          ] +
+          List.generate(
+            controller.selectedProjectHighlightsList!.length,
+            (index) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 20.w),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    AssetConstants.starIcon,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.primaryColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Expanded(
+                    child: ScaleFactorAutoSizeText(
+                      text: controller.selectedProjectHighlightsList![index].description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.darkTextColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
     );
   }
 

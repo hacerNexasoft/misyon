@@ -42,127 +42,130 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
           )
         ],
       );
-  Widget get _buildDataCard => Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.startTextKey.tr,
-                    data: DateTime.fromMillisecondsSinceEpoch(
-                            controller.selectedProjectInvestmentInfo!.projectStartDate)
-                        .toString(),
-                    icon: AssetConstants.start,
-                  ),
+  Widget get _buildDataCard {
+    final DateFormat dateformatter = DateFormat('dd.MM.yyyy');
+    final numformatter = NumberFormat.decimalPattern('tr');
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.startTextKey.tr,
+                  data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
+                      controller.selectedProjectFundingInfo!.projectStartDate)),
+                  icon: AssetConstants.start,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.stopTextKey.tr,
-                    data: DateTime.fromMillisecondsSinceEpoch(
-                            controller.selectedProjectInvestmentInfo!.projectEndDate)
-                        .toString(),
-                    icon: AssetConstants.stop,
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.stopTextKey.tr,
+                  data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
+                      controller.selectedProjectFundingInfo!.projectFundingCloseDate)),
+                  icon: AssetConstants.stop,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.finishTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.finishDate ",
-                    icon: AssetConstants.calendar,
-                  ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.finishTextKey.tr,
+                  data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
+                      controller.selectedProjectFundingInfo!.projectEndDate)),
+                  icon: AssetConstants.calendar,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.lotTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.lot ",
-                    icon: AssetConstants.datavis2,
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.lotTextKey.tr,
+                  data: "${controller.selectedProjectFundingInfo!.unitShareValue} TL",
+                  icon: AssetConstants.datavis2,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.percentTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.percent",
-                    icon: AssetConstants.percentage,
-                  ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.percentTextKey.tr,
+                  data: "%${controller.selectedProjectFundingInfo!.percentageofShares}",
+                  icon: AssetConstants.percentage,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.additionalAmountTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.sharePcs",
-                    icon: AssetConstants.number1,
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.additionalAmountTextKey.tr,
+                  data: numformatter.format(controller.selectedProjectFundingInfo!.numberofShares),
+                  icon: AssetConstants.number1,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.sharePcsTextKey.tr,
-                    data: (controller.selectedProjectInvestmentInfo!.additionalFundingRate ?? "")
-                        .toString(),
-                    icon: AssetConstants.start,
-                  ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.sharePcsTextKey.tr,
+                  data: (controller.selectedProjectFundingInfo!.additionalFundingRate).toString(),
+                  icon: AssetConstants.start,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.additionalFundRateTextKey.tr,
-                    data: (controller.selectedProjectInvestmentInfo!.extraFundingAmount ?? "")
-                        .toString(),
-                    icon: AssetConstants.addalt,
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.additionalFundRateTextKey.tr,
+                  data: numformatter
+                      .format(controller.selectedProjectInvestmentInfo!.extraFundingAmount),
+                  icon: AssetConstants.addalt,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.collateralStructureTextKey.tr,
-                    data: controller.selectedProjectFundingInfo!.collateralStructure != null
-                        ? ModelHelpers.localizedCollateralStructure(
-                            controller.selectedProjectFundingInfo!.collateralStructure!)
-                        : null,
-                    icon: AssetConstants.document,
-                  ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.collateralStructureTextKey.tr,
+                  data: controller.selectedProjectFundingInfo!.collateralStructure != null
+                      ? ModelHelpers.localizedCollateralStructure(
+                          controller.selectedProjectFundingInfo!.collateralStructure!)
+                      : null,
+                  icon: AssetConstants.document,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: CampaignCardWidget(
-                    title: LocalizationKeys.companyValuesTextKey.tr,
-                    data: "controller.selectedProjectDetails.value?.companyValues",
-                    icon: AssetConstants.chartline,
-                  ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CampaignCardWidget(
+                  title: LocalizationKeys.companyValuesTextKey.tr,
+                  data:
+                      "${numformatter.format(controller.selectedProjectFundingInfo!.postInvestmentCompanyValue)} TL",
+                  icon: AssetConstants.chartline,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }

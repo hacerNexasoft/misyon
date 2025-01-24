@@ -4,6 +4,8 @@ import 'package:common/common.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:misyonbank/product/models/project/investment_projections_model.dart';
+import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
 import 'package:misyonbank/product/models/project/project_details_model.dart';
 import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
@@ -235,6 +237,87 @@ class FetcherStaticService {
     } catch (e) {
       if (kDebugMode) {
         print('API İstek Hatası(fetchProjectInvestmentInfo): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<List<ProjectCreateHighlightsModel>?> fetchProjectHighlights(
+      {required String projectID, required String token}) async {
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
+    projectID = "5982e0c9-68b9-ef11-8386-005056b0cf81";
+    if (token.isEmpty) {
+      return null;
+    }
+    final Dio dioObj = Get.find();
+    String url =
+        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectcreatehighlightsbyprojectid?projectId=$projectID';
+    List<ProjectCreateHighlightsModel> model = [];
+    try {
+      final dio.Response response = await dioObj.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200 && response.data['result']) {
+        List data = response.data['data'];
+        model = data
+            .map(
+              (e) => ProjectCreateHighlightsModel.fromJson(e),
+            )
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return model;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchProjectHighlights): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<List<InvestmentProjection>?> fetchInvestmentProjections(
+      {required String projectID}) async {
+    final Dio dioObj = Get.find();
+    String url =
+        'https://crwdapi.nexasoft.io/api/projectdbit/getinvestmentprojectionsbyprojectid?projectId=$projectID';
+    List<InvestmentProjection> model = [];
+    try {
+      final dio.Response response = await dioObj.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      if (response.statusCode == 200 && response.data['result']) {
+        List data = response.data['data'];
+        model = data
+            .map(
+              (e) => InvestmentProjection.fromJson(e),
+            )
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return model;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchInvestmentProjections): $e');
       }
       return null;
     }

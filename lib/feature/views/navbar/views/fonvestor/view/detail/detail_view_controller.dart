@@ -10,6 +10,8 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widg
 import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
 import 'package:misyonbank/product/models/investment_details_model.dart';
+import 'package:misyonbank/product/models/project/investment_projections_model.dart';
+import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
 import 'package:misyonbank/product/models/project/project_details_model.dart';
 import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
@@ -36,6 +38,8 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   ProjectFundingInfoModel? selectedProjectFundingInfo;
   String? selectedProjectAbout;
   ProjectInvestmentInfoModel? selectedProjectInvestmentInfo;
+  List<ProjectCreateHighlightsModel>? selectedProjectHighlightsList;
+  List<InvestmentProjection>? selectedInvestmentProjectionList;
 
   final textController = TextEditingController();
   List<Widget> detailsTabbarList = [
@@ -89,6 +93,10 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
           await FetcherStaticService.fetchProjectAbout(projectID: selectedProject.id);
       selectedProjectInvestmentInfo =
           await FetcherStaticService.fetchProjectInvestmentInfo(projectID: selectedProject.id);
+      selectedProjectHighlightsList = await FetcherStaticService.fetchProjectHighlights(
+          projectID: selectedProject.id, token: "");
+      selectedInvestmentProjectionList =
+          await FetcherStaticService.fetchInvestmentProjections(projectID: selectedProject.id);
 
       //OLD
       //await _projectService.fetchProjectDetails();
