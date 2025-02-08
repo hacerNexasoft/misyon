@@ -48,16 +48,9 @@ class AppViews {
       binding: InvestmentOpportunitiesBinding(),
     ),
     GetPage(
-        name: AppRoutes.detailView,
-        page: () => DetailView(),
-        binding: DetailViewBinding()),
+        name: AppRoutes.detailView, page: () => const DetailView(), binding: DetailViewBinding()),
+    GetPage(name: AppRoutes.teamsView, page: () => TeamsView(), binding: TeamsViewBinding()),
     GetPage(
-        name: AppRoutes.teamsView,
-        page: () => TeamsView(),
-        binding: TeamsViewBinding()),
-    GetPage(
-        name: AppRoutes.signInView,
-        page: () => const SignInView(),
-        binding: SignInViewBinding()),
+        name: AppRoutes.signInView, page: () => const SignInView(), binding: SignInViewBinding()),
   ];
 }

@@ -103,7 +103,7 @@ class TeamsView extends BaseStatelessWidget {
           child: Wrap(
             spacing: 10.w, // Aradaki mesafe
             runSpacing: 10.h, // Satırlar arasındaki mesafe
-            children: List.generate(4, (index) {
+            children: List.generate(controller.selectedProjectTeam!.teamMembers.length, (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 10.w),
                 child: CustomTeamImageCard(
@@ -111,16 +111,16 @@ class TeamsView extends BaseStatelessWidget {
                     Get.dropdownBottomSheet(
                       child: TeamsDetailsWidget(
                         color: ColorProvider.getColor(index),
-                        imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
-                        name: controller.investmentDetail.value?.teamName?[index] ?? '',
-                        role: controller.investmentDetail.value?.teamrole?[index] ?? '',
+                        imageUrl: controller.selectedProjectTeam!.teamMembers[index].imageurl ?? '',
+                        name: controller.selectedProjectTeam!.teamMembers[index].name,
+                        role: controller.selectedProjectTeam!.teamMembers[index].title,
                       ),
                     );
                   },
                   color: ColorProvider.getColor(index),
-                  imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
-                  name: controller.investmentDetail.value?.teamName?[index] ?? '',
-                  role: controller.investmentDetail.value?.teamrole?[index] ?? '',
+                  imageUrl: controller.selectedProjectTeam!.teamMembers[index].imageurl ?? '',
+                  name: controller.selectedProjectTeam!.teamMembers[index].name,
+                  role: controller.selectedProjectTeam!.teamMembers[index].title,
                 ),
               );
             }),
@@ -163,7 +163,8 @@ class TeamsView extends BaseStatelessWidget {
             spacing: 10.w, // Aradaki mesafe
             alignment: WrapAlignment.start,
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: List.generate(6, (index) {
+            children:
+                List.generate(controller.selectedProjectTeam!.participantMembers.length, (index) {
               if (index >= 4) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 10.w),
@@ -172,16 +173,19 @@ class TeamsView extends BaseStatelessWidget {
                       Get.dropdownBottomSheet(
                         child: TeamsDetailsWidget(
                           color: ColorProvider.getColor(index),
-                          imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
-                          name: controller.investmentDetail.value?.teamName?[index] ?? '',
-                          role: controller.investmentDetail.value?.teamrole?[index] ?? '',
+                          imageUrl:
+                              controller.selectedProjectTeam!.participantMembers[index].imageurl ??
+                                  '',
+                          name: controller.selectedProjectTeam!.participantMembers[index].name,
+                          role: controller.selectedProjectTeam!.participantMembers[index].title,
                         ),
                       );
                     },
                     color: ColorProvider.getColor(index),
-                    imageUrl: controller.investmentDetail.value?.teamImageUrl?[index] ?? '',
-                    name: controller.investmentDetail.value?.teamName?[index] ?? '',
-                    role: controller.investmentDetail.value?.teamrole?[index] ?? '',
+                    imageUrl:
+                        controller.selectedProjectTeam!.participantMembers[index].imageurl ?? '',
+                    name: controller.selectedProjectTeam!.participantMembers[index].name,
+                    role: controller.selectedProjectTeam!.participantMembers[index].title,
                   ),
                 );
               }

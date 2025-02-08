@@ -52,46 +52,38 @@ class DetailTeamWidget extends BaseStatelessWidget {
           )
         ],
       );
-  Widget get _buildCard => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-                controller.investmentDetail.value?.teamImageUrl?.length ?? 0,
-                (index) {
-              return Padding(
-                padding: EdgeInsets.only(right: 10.w),
-                child: CustomTeamImageCard(
-                  onTap: () {
-                    Get.dropdownBottomSheet(
-                      child: TeamsDetailsWidget(
-                        color: ColorProvider.getColor(index),
-                        imageUrl: controller
-                                .investmentDetail.value?.teamImageUrl?[index] ??
-                            '',
-                        name: controller
-                                .investmentDetail.value?.teamName?[index] ??
-                            '',
-                        role: controller
-                                .investmentDetail.value?.teamrole?[index] ??
-                            '',
-                      ),
-                    );
-                  },
-                  color: ColorProvider.getColor(index),
-                  imageUrl:
-                      controller.investmentDetail.value?.teamImageUrl?[index] ??
-                          '',
-                  name:
-                      controller.investmentDetail.value?.teamName?[index] ?? '',
-                  role:
-                      controller.investmentDetail.value?.teamrole?[index] ?? '',
-                ),
-              );
-            }),
-          ),
+  Widget get _buildCard {
+    List<Member> allmembers = controller.selectedProjectTeam!.participantMembers +
+        controller.selectedProjectTeam!.teamMembers;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(allmembers.length, (index) {
+            return Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child: CustomTeamImageCard(
+                onTap: () {
+                  Get.dropdownBottomSheet(
+                    child: TeamsDetailsWidget(
+                      color: ColorProvider.getColor(index),
+                      imageUrl: allmembers[index].imageurl ?? '',
+                      name: allmembers[index].name,
+                      role: allmembers[index].title,
+                    ),
+                  );
+                },
+                color: ColorProvider.getColor(index),
+                imageUrl: allmembers[index].imageurl ?? '',
+                name: allmembers[index].name,
+                role: allmembers[index].title,
+              ),
+            );
+          }),
         ),
-      );
+      ),
+    );
+  }
 }

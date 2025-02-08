@@ -17,6 +17,8 @@ import 'package:misyonbank/product/models/project/project_funding_info_model.dar
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/models/project/project_summary_model.dart';
+import 'package:misyonbank/product/models/project/project_team_model.dart';
+import 'package:misyonbank/product/models/project/project_trophies_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
 import 'package:misyonbank/product/services/fetcher_static_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -40,6 +42,8 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   ProjectInvestmentInfoModel? selectedProjectInvestmentInfo;
   List<ProjectCreateHighlightsModel>? selectedProjectHighlightsList;
   List<InvestmentProjection>? selectedInvestmentProjectionList;
+  ProjectTeamModel? selectedProjectTeam;
+  List<ProjectTrophiesModel>? selectedProjectTrophiesList;
 
   final textController = TextEditingController();
   List<Widget> detailsTabbarList = [
@@ -97,6 +101,12 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
           projectID: selectedProject.id, token: "");
       selectedInvestmentProjectionList =
           await FetcherStaticService.fetchInvestmentProjections(projectID: selectedProject.id);
+
+      selectedProjectTeam =
+          await FetcherStaticService.fetchProjectTeam(projectID: selectedProject.id, token: "");
+
+      selectedProjectTrophiesList =
+          await FetcherStaticService.fetchProjectTrophies(projectID: selectedProject.id, token: "");
 
       //OLD
       //await _projectService.fetchProjectDetails();

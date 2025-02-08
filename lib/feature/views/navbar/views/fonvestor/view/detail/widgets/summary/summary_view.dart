@@ -19,6 +19,7 @@ import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/utils/model_helpers.dart';
 import 'package:widgets/components.dart';
 part 'widgets/detail_investment_widget.dart';
@@ -65,11 +66,13 @@ class SummaryView extends BaseGetView<DetailViewController> {
         SizedBox(
           height: 20.h,
         ),
-        DetailTeamWidget(),
+        if (controller.selectedProjectTeam != null) DetailTeamWidget(),
         SizedBox(
           height: 15.h,
         ),
-        AdditionalRewardWidget(),
+        if (controller.selectedProjectTrophiesList != null &&
+            controller.selectedProjectTrophiesList!.isNotEmpty)
+          AdditionalRewardWidget(),
         SizedBox(
           height: 15.h,
         ),

@@ -24,35 +24,52 @@ class AdditionalRewardWidget extends BaseStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ScaleFactorAutoSizeText(
-            textAlign: TextAlign.start,
-            text: LocalizationKeys.additionalRewardTextKey.tr,
-            style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
-              color: AppColors.black,
-            ),
-          ),
-          SizedBox(height: 15.h),
-          Container(
-            width: Get.width,
-            height: 82.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Get.height * 0.01),
-              image: const DecorationImage(
-                image: AssetImage(AssetConstants.additional),
-                fit: BoxFit.cover,
+              ScaleFactorAutoSizeText(
+                textAlign: TextAlign.start,
+                text: LocalizationKeys.additionalRewardTextKey.tr,
+                style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
+                  color: AppColors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Container(
+                width: Get.width,
+                height: 82.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Get.height * 0.01),
+                  image: const DecorationImage(
+                    image: AssetImage(AssetConstants.additional),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+            ] +
+            List.generate(
+              controller.selectedProjectTrophiesList?.length ?? 0,
+              (index) => Column(
+                children: [
+                  ScaleFactorAutoSizeText(
+                    textAlign: TextAlign.start,
+                    text: controller.selectedProjectTrophiesList![index].title,
+                    style: theme.primaryTextTheme.bodySmall?.copyWith(
+                      color: AppColors.darkGreyColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  ScaleFactorAutoSizeText(
+                    textAlign: TextAlign.start,
+                    text: controller.selectedProjectTrophiesList![index].description,
+                    style: theme.primaryTextTheme.bodySmall?.copyWith(
+                      color: AppColors.darkGreyColor,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          ScaleFactorAutoSizeText(
-            textAlign: TextAlign.start,
-            text: "controller.selectedProjectDetails.value?.additionalReward",
-            style: theme.primaryTextTheme.bodySmall?.copyWith(
-              color: AppColors.darkGreyColor,
-            ),
-          ),
-        ],
       );
 }
