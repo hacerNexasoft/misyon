@@ -13,6 +13,8 @@ import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
 import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
 import 'package:misyonbank/product/models/project/project_details_model.dart';
+import 'package:misyonbank/product/models/project/project_documents_model.dart';
+import 'package:misyonbank/product/models/project/project_finansial_model.dart';
 import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
@@ -27,7 +29,8 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   late TabController tabController;
   final _projectService = Get.find<ProjectService>();
   final tabs = AppConstants.detailViewTabs;
-  var selectedyears = Rx<String?>(null);
+  var selectedIncomeYear = Rx<String?>(null);
+  var selectedBalanceYear = Rx<String?>(null);
   var messageList = <String>[].obs;
   RxList<InvestmentsItemModel?> get investmentsItemList => _projectService.investmentsItemList;
   void addMessage(String newMessage) {
@@ -44,6 +47,8 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   List<InvestmentProjection>? selectedInvestmentProjectionList;
   ProjectTeamModel? selectedProjectTeam;
   List<ProjectTrophiesModel>? selectedProjectTrophiesList;
+  ProjectDocumentsModel? selectedProjectDocuments;
+  List<ProjectFinancialModel>? selectedProjectFinancials;
 
   final textController = TextEditingController();
   List<Widget> detailsTabbarList = [
@@ -85,6 +90,7 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
   Future<void> initView({Function()? action}) async {
     try {
+      //print(selectedProject.id);
       change(state, status: RxStatus.loading());
       tabController = TabController(length: tabs.length, vsync: this);
       selectedProjectDetails =
@@ -107,6 +113,12 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
       selectedProjectTrophiesList =
           await FetcherStaticService.fetchProjectTrophies(projectID: selectedProject.id, token: "");
+
+      selectedProjectDocuments = await FetcherStaticService.fetchProjectDocuments(
+          projectID: selectedProject.id, token: "");
+      selectedProjectFinancials = await FetcherStaticService.fetchProjectFinansials(
+        projectID: "5982e0c9-68b9-ef11-8386-005056b0cf81", //selectedProject.id,
+      );
 
       //OLD
       //await _projectService.fetchProjectDetails();
@@ -138,9 +150,12 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
   String remainingDayText() {
     String remainingDay = "-";
+
     DateTime endDate =
-        DateTime.fromMillisecondsSinceEpoch(selectedProjectInvestmentInfo!.projectEndDate);
-    remainingDay = endDate.difference(DateTime.now()).inDays.toString();
+        DateTime.fromMillisecondsSinceEpoch(selectedProjectInvestmentInfo!.projectEndDate * 1000);
+
+    remainingDay =
+        endDate.difference(DateTime.now().toUtc().add(const Duration(hours: 3))).inDays.toString();
     return remainingDay;
   }
 
@@ -150,8 +165,13 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
     change(state, status: RxStatus.success());
   }
 
-  void onSelectYears(String years) {
-    selectedyears.value = years;
+  void onSelectIncomeYear(String years) {
+    selectedIncomeYear.value = years;
+    update();
+  }
+
+  void onSelectBalanceYear(String years) {
+    selectedBalanceYear.value = years;
     update();
   }
 

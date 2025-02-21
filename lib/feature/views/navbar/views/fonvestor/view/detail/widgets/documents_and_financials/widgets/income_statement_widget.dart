@@ -2,6 +2,7 @@ part of '../documents_and_financials.dart';
 
 class IncomeStatementWidget extends BaseStatelessWidget {
   final controller = Get.find<DetailViewController>();
+  List<ProjectFinancialModel> incomeFinancials = [];
 
   IncomeStatementWidget({
     super.key,
@@ -9,6 +10,14 @@ class IncomeStatementWidget extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    for (var e in controller.selectedProjectFinancials!) {
+      if (e.finansialType == FinancialType.income) {
+        incomeFinancials.add(e);
+      }
+    }
+    incomeFinancials.sort((a, b) => a.year.compareTo(b.year));
+    controller.selectedIncomeYear.value = incomeFinancials[0].year.toString();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0.w),
       child: Column(
@@ -52,33 +61,33 @@ class IncomeStatementWidget extends BaseStatelessWidget {
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: controller.years.length,
+            itemCount: incomeFinancials.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.only(right: 10.w),
-                child: _currencyItem(controller.years[index]),
+                child: _currencyItem(incomeFinancials[index].year.toString()),
               );
             },
           ),
         ),
       );
 
-  Widget _currencyItem(String years) {
+  Widget _currencyItem(String year) {
     return GestureDetector(
-      onTap: () => controller.onSelectYears(years),
+      onTap: () => controller.onSelectIncomeYear(year),
       child: Obx(() => Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
             decoration: BoxDecoration(
-              color: controller.selectedyears.value == years
+              color: controller.selectedIncomeYear.value == year
                   ? AppColors.yield_calculator_toolColor
                   : AppColors.backgroundColor,
               borderRadius: BorderRadius.circular(Get.width * 0.05),
             ),
             child: ScaleFactorAutoSizeText(
-              text: years,
+              text: year,
               style: theme.primaryTextTheme.bodyLarge!.bold.copyWith(
-                color: controller.selectedyears.value == years
+                color: controller.selectedIncomeYear.value == year
                     ? AppColors.black
                     : AppColors.hintColor,
               ),
@@ -87,27 +96,30 @@ class IncomeStatementWidget extends BaseStatelessWidget {
     );
   }
 
-  Widget get _buildIncomeStatement => Padding(
+  Widget get _buildIncomeStatement {
+    return Obx(() {
+      ProjectFinancialModel selectedIncomeFinancials = incomeFinancials.firstWhere(
+        (element) => element.year.toString() == controller.selectedIncomeYear.value,
+      );
+      return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [] /*List.generate(
-            controller.selectedProjectDetails.value?.incomeStatementTitle
-                    ?.length ??
-                0,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(
+            selectedIncomeFinancials.financialItems.length,
             (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.w),
                 child: CustomIncomeWidget(
-                  title: controller.selectedProjectDetails.value
-                      ?.incomeStatementTitle?[index],
-                  data: controller
-                      .selectedProjectDetails.value?.incomeStatementData?[index]
-                      .toString(),
+                  title: selectedIncomeFinancials
+                      .financialItems[index].projectFinancialDefinitionId.value,
+                  data: selectedIncomeFinancials.financialItems[index].value.toString(),
                 ),
               );
             },
-          ),*/
-            ),
+          ),
+        ),
       );
+    });
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/detail_view_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/details/widgets/custom_company_detail_widget.dart';
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';

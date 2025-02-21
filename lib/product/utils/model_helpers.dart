@@ -21,6 +21,17 @@ class ModelHelpers {
     }
   }
 
+  static FinancialType findFinancialTypeByCode(int code) {
+    switch (code) {
+      case 10:
+        return FinancialType.income;
+      case 20:
+        return FinancialType.balance;
+      default:
+        return FinancialType.unknown;
+    }
+  }
+
   static CollateralStructure findCollateralStructureByCode(int code) {
     switch (code) {
       case 100:

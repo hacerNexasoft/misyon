@@ -2,13 +2,21 @@ part of '../documents_and_financials.dart';
 
 class BalanceSheetWidget extends BaseStatelessWidget {
   final controller = Get.find<DetailViewController>();
-
+  List<ProjectFinancialModel> balanceFinancials = [];
   BalanceSheetWidget({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    for (var e in controller.selectedProjectFinancials!) {
+      if (e.finansialType == FinancialType.balance) {
+        balanceFinancials.add(e);
+      }
+    }
+    balanceFinancials.sort((a, b) => a.year.compareTo(b.year));
+    controller.selectedBalanceYear.value = balanceFinancials[0].year.toString();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0.w),
       child: Column(
@@ -52,33 +60,33 @@ class BalanceSheetWidget extends BaseStatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: controller.years.length,
+            itemCount: balanceFinancials.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.only(right: 10.w),
-                child: _buildItem(controller.years[index]),
+                child: _buildItem(balanceFinancials[index].year.toString()),
               );
             },
           ),
         ),
       );
 
-  Widget _buildItem(String years) {
+  Widget _buildItem(String year) {
     return GestureDetector(
-      onTap: () => controller.onSelectYears(years),
+      onTap: () => controller.onSelectBalanceYear(year),
       child: Obx(() => Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
             decoration: BoxDecoration(
-              color: controller.selectedyears.value == years
+              color: controller.selectedBalanceYear.value == year
                   ? AppColors.yield_calculator_toolColor
                   : AppColors.backgroundColor,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: ScaleFactorAutoSizeText(
-              text: years,
+              text: year,
               style: theme.primaryTextTheme.bodyLarge!.bold.copyWith(
-                color: controller.selectedyears.value == years
+                color: controller.selectedBalanceYear.value == year
                     ? AppColors.black
                     : AppColors.hintColor,
               ),
@@ -87,22 +95,30 @@ class BalanceSheetWidget extends BaseStatelessWidget {
     );
   }
 
-  Widget get _buildBalanceSheet => Padding(
+  Widget get _buildBalanceSheet {
+    return Obx(() {
+      ProjectFinancialModel selectedBalanceFinancials = balanceFinancials.firstWhere(
+        (element) => element.year.toString() == controller.selectedBalanceYear.value,
+      );
+      return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(
-            0,
+            selectedBalanceFinancials.financialItems.length,
             (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.w),
                 child: CustomIncomeWidget(
-                  title: "balanceSheetTitle?[index]",
-                  data: "balanceSheetData?[index]",
+                  title: selectedBalanceFinancials
+                      .financialItems[index].projectFinancialDefinitionId.value,
+                  data: selectedBalanceFinancials.financialItems[index].value.toString(),
                 ),
               );
             },
           ),
         ),
       );
+    });
+  }
 }

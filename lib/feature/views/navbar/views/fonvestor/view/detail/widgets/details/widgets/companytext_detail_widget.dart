@@ -18,13 +18,17 @@ class CompanytextDetailWidget extends BaseStatelessWidget {
           SizedBox(
             height: 20.h,
           ),
-          _buildProblem,
-          SizedBox(height: 30.h),
-          _buildIncomePlan,
-          SizedBox(height: 30.h),
-          _buildSolution,
-          SizedBox(height: 30.h),
-          _buildShowMore,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: HtmlWidget(
+              controller.selectedProjectDetails!.description,
+              textStyle: theme.primaryTextTheme.bodyMedium?.copyWith(
+                  //color: AppColors.primaryGreyColor,
+                  ),
+            ),
+          ),
+          /*SizedBox(height: 30.h),
+          _buildShowMore,*/
         ],
       ),
     );
@@ -49,77 +53,6 @@ class CompanytextDetailWidget extends BaseStatelessWidget {
             color: AppColors.fillColor,
           )
         ],
-      );
-  Widget get _buildProblem => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: LocalizationKeys.companyproblemTextKey.tr,
-              style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
-                color: AppColors.black,
-              ),
-            ),
-            SizedBox(height: 15.h),
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: "controller.selectedProjectDetails.value?.problem",
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                color: AppColors.grey700Color,
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget get _buildIncomePlan => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: LocalizationKeys.companyincomePlanTextKey.tr,
-              style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
-                color: AppColors.black,
-              ),
-            ),
-            SizedBox(height: 15.h),
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: "controller.selectedProjectDetails.value?.incomePlan",
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                color: AppColors.grey700Color,
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget get _buildSolution => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: LocalizationKeys.companysolutionTextKey.tr,
-              style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
-                color: AppColors.black,
-              ),
-            ),
-            SizedBox(height: 15.h),
-            ScaleFactorAutoSizeText(
-              textAlign: TextAlign.start,
-              text: "controller.selectedProjectDetails.value?.solution",
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                color: AppColors.grey700Color,
-              ),
-            ),
-          ],
-        ),
       );
 
   Widget get _buildShowMore => Center(

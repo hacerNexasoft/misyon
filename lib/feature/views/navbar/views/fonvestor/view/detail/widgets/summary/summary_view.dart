@@ -80,7 +80,9 @@ class SummaryView extends BaseGetView<DetailViewController> {
         SizedBox(
           height: 15.h,
         ),
-        CompanytextDetailWidget(),
+        if (controller.selectedProjectDetails != null &&
+            controller.selectedProjectDetails!.description.isNotEmpty)
+          CompanytextDetailWidget(),
         SizedBox(
           height: 15.h,
         ),

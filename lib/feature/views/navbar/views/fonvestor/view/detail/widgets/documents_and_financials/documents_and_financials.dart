@@ -6,6 +6,7 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widg
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/chart_data_model.dart';
+import 'package:misyonbank/product/models/project/project_finansial_model.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 part 'widgets/detail_platform_documents.widget.dart';

@@ -19,9 +19,9 @@ class DetailPlatformDocumentsWidget extends BaseStatelessWidget {
             height: 10.h,
           ),
           _buildP,
-          _buildplatformDocuments,
+          if (controller.selectedProjectDocuments != null) _buildplatformDocuments,
           _buildK,
-          campaignDocuments
+          if (controller.selectedProjectDocuments != null) campaignDocuments
         ],
       ),
     );
@@ -30,32 +30,29 @@ class DetailPlatformDocumentsWidget extends BaseStatelessWidget {
   Widget get _buildplatformDocuments => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Wrap(
-            spacing: 10.w, // Yatay boşluk
-            runSpacing: 10.w, // Dikey boşluk
-            children: [] /*controller.selectedProjectDetails.value?.platformDocuments
-                  ?.map((document) => CustomDocumentsButton(
-                        title: document,
-                      ))
-                  .toList() ??
-              [],*/
-            ),
+          spacing: 10.w, // Yatay boşluk
+          runSpacing: 10.w, // Dikey boşluk
+          children: controller.selectedProjectDocuments!.platformDocuments
+              .map((document) => CustomDocumentsButton(
+                    title: document.name,
+                    docID: document.documentId,
+                  ))
+              .toList(),
+        ),
       );
 
   Widget get campaignDocuments => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Wrap(
-            spacing: 10.w, // Yatay boşluk
-            runSpacing: 10.w,
-            children: [] /* controller.selectedProjectDetails.value?.campaignDocuments
-                  ?.map((document) => Padding(
-                        padding: EdgeInsets.only(bottom: 20.w),
-                        child: CustomDocumentsButton(
-                          title: document,
-                        ),
-                      ))
-                  .toList() ??
-              [],*/
-            ),
+          spacing: 10.w, // Yatay boşluk
+          runSpacing: 10.w,
+          children: controller.selectedProjectDocuments!.projectDocuments
+              .map((document) => CustomDocumentsButton(
+                    title: document.name,
+                    docID: document.documentId,
+                  ))
+              .toList(),
+        ),
       );
   Widget get _buildTitle => Column(
         mainAxisAlignment: MainAxisAlignment.start,

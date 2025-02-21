@@ -13,7 +13,7 @@ class DetailFeaturedWidget extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
             _buildTitle,
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
             //_buildStar,
             //_buildEye,
             //_buildIncreasing

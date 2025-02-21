@@ -55,7 +55,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 child: CampaignCardWidget(
                   title: LocalizationKeys.startTextKey.tr,
                   data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
-                      controller.selectedProjectFundingInfo!.projectStartDate)),
+                      controller.selectedProjectFundingInfo!.projectStartDate * 1000)),
                   icon: AssetConstants.start,
                 ),
               ),
@@ -64,7 +64,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 child: CampaignCardWidget(
                   title: LocalizationKeys.stopTextKey.tr,
                   data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
-                      controller.selectedProjectFundingInfo!.projectFundingCloseDate)),
+                      controller.selectedProjectFundingInfo!.projectFundingCloseDate * 1000)),
                   icon: AssetConstants.stop,
                 ),
               ),
@@ -79,7 +79,7 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
                 child: CampaignCardWidget(
                   title: LocalizationKeys.finishTextKey.tr,
                   data: dateformatter.format(DateTime.fromMillisecondsSinceEpoch(
-                      controller.selectedProjectFundingInfo!.projectEndDate)),
+                      controller.selectedProjectFundingInfo!.projectEndDate * 1000)),
                   icon: AssetConstants.calendar,
                 ),
               ),

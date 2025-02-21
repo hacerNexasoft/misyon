@@ -12,6 +12,8 @@ enum ProjectStatus {
   unknown,
 }
 
+enum FinancialType { income, balance, unknown }
+
 enum CollateralStructure { RealEstate, unknown }
 
 enum Period { Annual, Monthly, unknown }
@@ -28,12 +30,7 @@ enum InvestmentStatus {
   failureToReachTarget
 }
 
-enum ExploreInvestment {
-  firstInvestment,
-  highestInvestment,
-  lastInvestment,
-  empty
-}
+enum ExploreInvestment { firstInvestment, highestInvestment, lastInvestment, empty }
 
 enum BankAccountType { current, futures }
 
