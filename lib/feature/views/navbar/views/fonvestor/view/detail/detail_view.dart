@@ -1,6 +1,7 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:intl/intl.dart';
 import 'package:misyonbank/feature/components/tabbar/underlined_tab_bar_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/detail_view_controller.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
@@ -32,7 +33,9 @@ class DetailView extends BaseGetView<DetailViewController> {
                 )
               : null,
         ),
-        onLoading: const LoadingWidget(),
+        onLoading: const LoadingWidget(
+          indicatorColor: AppColors.primaryColor,
+        ),
         onError: (error) => CustomErrorWidget(
           text: LocalizationKeys.tryAgainTextKey.tr,
           onRetry: controller.initView,
@@ -116,62 +119,65 @@ class DetailView extends BaseGetView<DetailViewController> {
     );
   }
 
-  Widget get _buildMakeanInvestment => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ScaleFactorAutoSizeText(
-                  text: LocalizationKeys.detailsdayTextKey.tr,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
-                    color: AppColors.primaryGreyColor,
-                  ),
+  Widget get _buildMakeanInvestment {
+    final numformatter = NumberFormat.decimalPattern('tr');
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ScaleFactorAutoSizeText(
+                text:
+                    "${numformatter.format(controller.selectedProjectFundingInfo!.unitShareValue)} TL minimum",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
+                  color: AppColors.primaryGreyColor,
                 ),
-                ScaleFactorAutoSizeText(
-                  text:
-                      "${controller.remainingDayText()} ${LocalizationKeys.detailsdaysTextKey.tr}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
-                    color: AppColors.primaryGreyColor,
-                  ),
+              ),
+              ScaleFactorAutoSizeText(
+                text: "${controller.remainingDayText()} ${LocalizationKeys.detailsdaysTextKey.tr}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
+                  color: AppColors.primaryGreyColor,
                 ),
-              ],
-            ),
-            SizedBox(width: 50.w),
-            Flexible(
-              child: CustomButton(
-                borderRadius: 999.r,
-                onTap: () {
-                  final jwtTokenService = Get.find<JwtTokenService>();
-                  if (jwtTokenService.jwtToken != null) {
-                    Get.toNamed(
-                      AppRoutes.investView,
-                      //arguments: controller.selectedProjectDetails.value
-                    );
-                  } else {
-                    Get.toNamed(
-                      AppRoutes.signInView,
-                      //arguments: controller.selectedProjectDetails.value
-                    );
-                  }
-                },
-                child: ScaleFactorAutoSizeText(
-                  text: LocalizationKeys.investTextKey.tr,
-                  style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
-                    color: AppColors.white,
-                  ),
+              ),
+            ],
+          ),
+          SizedBox(width: 50.w),
+          Flexible(
+            child: CustomButton(
+              borderRadius: 999.r,
+              onTap: () {
+                final jwtTokenService = Get.find<JwtTokenService>();
+                if (jwtTokenService.jwtToken != null) {
+                  Get.toNamed(
+                    AppRoutes.investView,
+                    //arguments: controller.selectedProjectDetails.value
+                  );
+                } else {
+                  Get.toNamed(
+                    AppRoutes.signInView,
+                    //arguments: controller.selectedProjectDetails.value
+                  );
+                }
+              },
+              child: ScaleFactorAutoSizeText(
+                text: LocalizationKeys.investTextKey.tr,
+                style: theme.primaryTextTheme.bodyLarge!.semibold.copyWith(
+                  color: AppColors.white,
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -8,8 +8,6 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widg
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/summary/summary_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/updates/updates_view.dart';
 import 'package:misyonbank/product/constants/app_constants.dart';
-import 'package:misyonbank/product/models/details_message_model.dart';
-import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
 import 'package:misyonbank/product/models/project/project_comments_model.dart';
 import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
@@ -66,22 +64,15 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
     const FrequentlyAskedQuestionsView(),
     const QuestionAndAnswerView(),
   ];
-  var years = ['2020', '2021', '2022', '2023', '2024', '2025'];
+
   final PageController pageController = PageController();
   var currentPage = 0.obs;
-
-  //OLD
-  Rx<InvestmentDetailModel?> get investmentDetail => _projectService.investmentDetail;
-  RxList<InvestmentDetailModel?> get projectDetailIremList => _projectService.projectDetailitemList;
-  Rx<DetailsMessageModel?> get projectMessageModel => _projectService.detailMessage;
-  Rx<DetailsManegerMessageModel?> get projectManagerMessageModel =>
-      _projectService.detailManagerMessage;
-  //
 
   @override
   void onInit() async {
     super.onInit();
     selectedProject = Get.arguments["project"];
+    change(state, status: RxStatus.loading());
 
     await initView();
 
@@ -135,11 +126,6 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
       selectedProjectCommentsList =
           await FetcherStaticService.fetchProjectComments(projectID: selectedProject.id, token: "");
 
-      //OLD
-      //await _projectService.fetchProjectDetails();
-      //await _projectService.fetchProjectDetailsItemList();
-      //await _projectService.fetchDetailsMessage();
-      //await _projectService.fetchDetailsManegerMessage();
       if (selectedProjectDetails == null ||
           selectedProjectSummary == null ||
           selectedProjectInvestmentInfo == null) {
@@ -158,10 +144,6 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
     final targetFund = selectedProjectInvestmentInfo!.fundingGoal;
     return fundRaised / targetFund;
   }
-
-  String get fundRaisedText => selectedProjectInvestmentInfo!.fundedAmount.toString();
-
-  String? get targetFundText => selectedProjectInvestmentInfo!.fundingGoal.toString();
 
   String remainingDayText() {
     String remainingDay = "-";

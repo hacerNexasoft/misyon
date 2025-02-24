@@ -13,62 +13,68 @@ class DetailInvestmentWidget extends BaseStatelessWidget {
     );
   }
 
-  Widget get _buildInvestmentInfo => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ScaleFactorAutoSizeText(
-                        text: LocalizationKeys.fundRaisedTextKey.tr,
-                        style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                          color: AppColors.hintColor,
-                        ),
+  Widget get _buildInvestmentInfo {
+    final numformatter = NumberFormat.decimalPattern('tr');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ScaleFactorAutoSizeText(
+                      text: LocalizationKeys.fundRaisedTextKey.tr,
+                      style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                        color: AppColors.hintColor,
                       ),
-                      ScaleFactorAutoSizeText(
-                        text: LocalizationKeys.targetFundTextKey.tr,
-                        style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                          color: AppColors.hintColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ScaleFactorAutoSizeText(
-                        text: '${controller.fundRaisedText} TL',
-                        style: theme.primaryTextTheme.bodyLarge
-                            ?.copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
-                      ),
-                      ScaleFactorAutoSizeText(
-                        text: '${controller.targetFundText} TL',
-                        style: theme.primaryTextTheme.bodyLarge?.copyWith(
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  ClipRRect(
-                    child: LinearProgressIndicator(
-                      borderRadius: BorderRadius.circular(999.r),
-                      value: controller.getProgress(),
-                      backgroundColor: AppColors.hintColor,
-                      color: theme.primaryColor,
-                      minHeight: 20.h,
                     ),
+                    ScaleFactorAutoSizeText(
+                      text: LocalizationKeys.targetFundTextKey.tr,
+                      style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                        color: AppColors.hintColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ScaleFactorAutoSizeText(
+                      text:
+                          '${numformatter.format(controller.selectedProjectInvestmentInfo!.fundedAmount)} TL',
+                      style: theme.primaryTextTheme.bodyLarge
+                          ?.copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
+                    ),
+                    ScaleFactorAutoSizeText(
+                      text:
+                          '${numformatter.format(controller.selectedProjectInvestmentInfo!.fundingGoal)} TL',
+                      style: theme.primaryTextTheme.bodyLarge?.copyWith(
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                ClipRRect(
+                  child: LinearProgressIndicator(
+                    borderRadius: BorderRadius.circular(999.r),
+                    value: controller.getProgress(),
+                    backgroundColor: AppColors.hintColor,
+                    color: theme.primaryColor,
+                    minHeight: 20.h,
                   ),
-                ],
-              )),
-        ],
-      );
+                ),
+              ],
+            )),
+      ],
+    );
+  }
+
   Widget get _buildDataCard {
     return Column(
       children: [

@@ -87,7 +87,8 @@ class DetailCampaignInfoWidget extends BaseStatelessWidget {
               Expanded(
                 child: CampaignCardWidget(
                   title: LocalizationKeys.lotTextKey.tr,
-                  data: "${controller.selectedProjectFundingInfo!.unitShareValue} TL",
+                  data:
+                      "${numformatter.format(controller.selectedProjectFundingInfo!.unitShareValue)} TL",
                   icon: AssetConstants.datavis2,
                 ),
               ),

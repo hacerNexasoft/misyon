@@ -6,26 +6,43 @@ import 'package:widgets/components.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
-class PDFViewerFromBase64 extends BaseStatelessWidget {
+class PDFViewerFromBase64 extends StatefulWidget {
   final String data;
 
   const PDFViewerFromBase64({super.key, required this.data});
 
   @override
+  State<PDFViewerFromBase64> createState() => _PDFViewerFromBase64State();
+}
+
+class _PDFViewerFromBase64State extends State<PDFViewerFromBase64> {
+  PDFViewController? controller;
+  File? file;
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<File>(
-      future: _saveBase64PdfToTempFile(data),
+    return FutureBuilder<void>(
+      future: _saveBase64PdfToTempFile(widget.data),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget(
+            indicatorColor: AppColors.primaryColor,
+          );
         } else if (snapshot.hasError) {
           return CustomErrorWidget(text: snapshot.error.toString());
         } else {
-          final file = snapshot.data!;
           return Scaffold(
             appBar: _buildAppBar(),
-            body: const PDF().fromPath(
-              file.path,
+            body: PDF(
+              onViewCreated: (ct) {
+                if (controller == null) {
+                  setState(() {
+                    controller = ct;
+                  });
+                }
+              },
+            ).fromPath(
+              file!.path,
             ),
           );
         }
@@ -33,12 +50,13 @@ class PDFViewerFromBase64 extends BaseStatelessWidget {
     );
   }
 
-  Future<File> _saveBase64PdfToTempFile(String base64Pdf) async {
+  Future<void> _saveBase64PdfToTempFile(String base64Pdf) async {
+    if (file != null) return;
     final bytes = base64Decode(base64Pdf);
     final directory = await getTemporaryDirectory();
-    final file = File(path.join(directory.path, 'temp.pdf'));
-    await file.writeAsBytes(bytes);
-    return file;
+    final t = File(path.join(directory.path, 'temp.pdf'));
+    await t.writeAsBytes(bytes);
+    file = t;
   }
 
   AppBar _buildAppBar() {
