@@ -13,14 +13,14 @@ final Map<String, String> trTR = {
   LocalizationKeys.allTextKey: 'TÜMÜ',
   LocalizationKeys.allTextslowerKey: 'Tümü',
 
-  LocalizationKeys.earningFrequencyTextKey: 'GETİRİ SIKLIĞI',
-  LocalizationKeys.riskTextKey: 'RİSK',
+  LocalizationKeys.earningFrequencyTextKey: 'GETİRİ PERİYODU',
+  LocalizationKeys.riskTextKey: 'RİSK DERECESİ',
   LocalizationKeys.fundsCollectedKey: 'Toplanan Fon',
   LocalizationKeys.fundingRatioKey: 'Fonlama Oranı',
 
-  LocalizationKeys.frequencyOfReturnTextKey: 'GETİRİ SIKLIĞI',
+  LocalizationKeys.frequencyOfReturnTextKey: 'GETİRİ PERİYODU',
   LocalizationKeys.earningRateKey: 'GETİRİ ORANI',
-  LocalizationKeys.earningRateTextKey: 'GETİRİ ORANI',
+  LocalizationKeys.earningRateTextKey: 'YILLIK GETİRİ ORANI',
   LocalizationKeys.favoriteAlternativeOpportunitiesTextKey: 'Favori Fırsatlar',
   LocalizationKeys.allAlternativeOpportunitiesTextKey: 'Tüm Fırsatlar',
   LocalizationKeys.completedProjectsTextKey: 'Hedefe Ulaşanlar',

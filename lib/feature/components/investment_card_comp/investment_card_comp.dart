@@ -26,9 +26,7 @@ class InvestmentCardComp extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width * 0.9,
-      height: (projectModel.status == ProjectStatus.activeFunding)
-          ? 200.sp
-          : 250.sp,
+      height: (projectModel.status == ProjectStatus.activeFunding) ? 200.sp : 250.sp,
       child: Stack(
         children: [
           if (projectModel.status != ProjectStatus.unknown) ...[
@@ -59,18 +57,17 @@ class InvestmentCardComp extends BaseStatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
             decoration: BoxDecoration(
-              color: projectModel.status.getBackgroundColor(projectModel.term),
+              color: projectModel.status.getBackgroundColor(maturity: projectModel.term),
               borderRadius: BorderRadius.circular(999.r),
             ),
             child: Row(
               children: [
-                const Icon(Icons.check_circle_outline,
-                    color: AppColors.backgroundColor),
+                const Icon(Icons.check_circle_outline, color: AppColors.backgroundColor),
                 SizedBox(width: 5.w),
                 ScaleFactorAutoSizeText(
                   text: projectModel.status.statusText(infoText),
-                  style: theme.primaryTextTheme.bodyMedium
-                      ?.copyWith(color: AppColors.lightTextColor),
+                  style:
+                      theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.lightTextColor),
                 )
               ],
             ),

@@ -13,9 +13,10 @@ import 'package:misyonbank/product/utils/extensions.dart';
 class ProjectService extends BaseGetxService {
   final isAllFetched = false.obs;
   // API'den gelen projeler
-  final projectsList = <ProjectModel>[].obs;
+  final allProjectsList = <ProjectModel>[].obs;
   final activeProjects = <ProjectModel>[].obs;
   final upcomingProjects = <ProjectModel>[].obs;
+  final succeededProjects = <ProjectModel>[].obs;
 
   //Eski değişkenler
   final openInvestmentsOpportunities = <InvestmentModel>[].obs;
@@ -42,7 +43,7 @@ class ProjectService extends BaseGetxService {
     await fetchProjects();
 
     //Dummy Data Methods
-    //activeProjectsDummy();
+    projectsDummy();
     //Olds
     await fetchOpenInvestmentsOpportunities();
     await fetchBuyProjects();
@@ -68,10 +69,10 @@ class ProjectService extends BaseGetxService {
       );*/
 
       // Servisi çağır ve listeyi güncelle
-      projectsList.value = await FetcherStaticService.fetchFilteredProjects();
+      allProjectsList.value = await FetcherStaticService.fetchFilteredProjects();
 
       if (kDebugMode) {
-        print('Çekilen Projeler: ${projectsList.length}');
+        print('Çekilen Projeler: ${allProjectsList.length}');
       }
       filterProjectsByStatus();
     } catch (e) {
@@ -82,9 +83,9 @@ class ProjectService extends BaseGetxService {
   }
 
   void filterProjectsByStatus() {
-    if (projectsList.isEmpty) return;
+    if (allProjectsList.isEmpty) return;
 
-    activeProjects.value = projectsList
+    activeProjects.value = allProjectsList
         .toList()
         .where(
           (element) =>
@@ -93,7 +94,7 @@ class ProjectService extends BaseGetxService {
         )
         .toList();
 
-    upcomingProjects.value = projectsList
+    upcomingProjects.value = allProjectsList
         .toList()
         .where(
           (element) =>
@@ -102,12 +103,17 @@ class ProjectService extends BaseGetxService {
               element.status == ProjectStatus.upcomingDetailedPrerelease,
         )
         .toList();
+
+    succeededProjects.value = allProjectsList
+        .toList()
+        .where((element) => element.status == ProjectStatus.successful)
+        .toList();
   }
 
 //-----------DUMMY DATA--------------------------
 
-  void activeProjectsDummy() {
-    activeProjects.value = [
+  void projectsDummy() {
+    upcomingProjects.value = [
       ProjectModel(
           id: UniqueKey().toString(),
           category: "Fintek",
@@ -121,11 +127,11 @@ class ProjectService extends BaseGetxService {
               'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
           numberOfInvestors: 1,
           projectEndDate: (DateTime.now().add(const Duration(days: 5))).millisecondsSinceEpoch,
-          projectStartDate: 1722870000,
+          projectStartDate: 1722870,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
           statusCode: 0,
-          status: ProjectStatus.activeFundingStopped,
+          status: ProjectStatus.upcomingDetailedPrerelease,
           timeUntilEnd: -146423,
           timeUntilStart: -233003,
           title: "FinStream",
@@ -152,11 +158,11 @@ class ProjectService extends BaseGetxService {
               'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
           numberOfInvestors: 1,
           projectEndDate: (DateTime.now().add(const Duration(hours: 3))).millisecondsSinceEpoch,
-          projectStartDate: 1722870000,
+          projectStartDate: 1722870,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
           statusCode: 0,
-          status: ProjectStatus.activeFunding,
+          status: ProjectStatus.upcomingDetailedPrerelease,
           timeUntilEnd: -146423,
           timeUntilStart: -233003,
           title: 'Mionti Enerji',

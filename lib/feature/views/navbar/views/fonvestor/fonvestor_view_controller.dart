@@ -15,15 +15,21 @@ class FonvestorViewController extends BaseGetxController {
   //RxList<ProjectModel> get projectsAll => _projectService.projectsList;
   RxList<ProjectModel> get activeProjects => _projectService.activeProjects;
   RxList<ProjectModel> get upcomingProjects => _projectService.upcomingProjects;
+  RxList<ProjectModel> get succeededProjects => _projectService.succeededProjects;
+  List<ProjectModel> get upcomingPrerelease => _projectService.upcomingProjects
+      .where((p) => p.status == ProjectStatus.upcomingPrerelease)
+      .toList();
+  List<ProjectModel> get upcomingPreview => _projectService.upcomingProjects
+      .where((p) => p.status == ProjectStatus.upcomingPreview)
+      .toList();
+  List<ProjectModel> get upcomingDetailedPrerelease => _projectService.upcomingProjects
+      .where((p) => p.status == ProjectStatus.upcomingDetailedPrerelease)
+      .toList();
 
-  RxList<InvestmentModel> get preOrderCollectors =>
-      _projectService.preOrderCollectors;
-  RxList<InvestmentModel> get upcomingCollectors =>
-      _projectService.upcomingCollectors;
-  RxList<InvestmentModel?> get completedCollectors =>
-      _projectService.completedCollectors;
-  RxList<CommunityItemModel?> get communityList =>
-      _projectService.communityList;
+  RxList<InvestmentModel> get preOrderCollectors => _projectService.preOrderCollectors;
+  RxList<InvestmentModel> get upcomingCollectors => _projectService.upcomingCollectors;
+  RxList<InvestmentModel?> get completedCollectors => _projectService.completedCollectors;
+  RxList<CommunityItemModel?> get communityList => _projectService.communityList;
 
   // Banner
   final List<String> investmentBanner = [

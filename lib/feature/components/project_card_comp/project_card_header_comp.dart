@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
 class ProjectCardHeaderComp extends BaseStatelessWidget {
-  final String headerTitile;
-  const ProjectCardHeaderComp({super.key, required this.headerTitile});
+  final String headerTitle;
+  const ProjectCardHeaderComp({super.key, required this.headerTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ProjectCardHeaderComp extends BaseStatelessWidget {
               children: [
                 Flexible(
                   child: ScaleFactorAutoSizeText(
-                    text: headerTitile,
+                    text: headerTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.primaryTextTheme.bodyLarge?.copyWith(
@@ -32,14 +32,13 @@ class ProjectCardHeaderComp extends BaseStatelessWidget {
                 SizedBox(
                   width: 5.w,
                 ),
-                ToolTipWidget(infoText: headerTitile),
+                ToolTipWidget(infoText: headerTitle),
               ],
             ),
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(AppRoutes.investmentOpportunities,
-                  arguments: headerTitile);
+              Get.toNamed(AppRoutes.investmentOpportunities, arguments: headerTitle);
             },
             child: ScaleFactorAutoSizeText(
               text: LocalizationKeys.allTextKey.tr,

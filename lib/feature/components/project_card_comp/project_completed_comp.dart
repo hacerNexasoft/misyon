@@ -1,12 +1,13 @@
 import 'package:common/common.dart';
+import 'package:intl/intl.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
 
 class ProjectCompletedComp extends BaseStatelessWidget {
-  final InvestmentModel projectModel;
+  final ProjectModel projectModel;
   const ProjectCompletedComp({
     super.key,
     required this.projectModel,
@@ -49,13 +50,13 @@ class ProjectCompletedComp extends BaseStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ProjectCustomCachedNetworkImageComp(
-            imageUrl: projectModel.imageUrl,
+            imageUrl: projectModel.logoUrl,
             size: 30.sp,
             isCircular: true,
             fit: BoxFit.contain,
           ),
           ScaleFactorAutoSizeText(
-            text: projectModel.ownerName,
+            text: projectModel.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: theme.primaryTextTheme.bodyLarge!.copyWith(
@@ -79,7 +80,7 @@ class ProjectCompletedComp extends BaseStatelessWidget {
           ),
           Flexible(
             child: ScaleFactorAutoSizeText(
-              text: projectModel.completedAmount,
+              text: "${NumberFormat.decimalPattern('tr').format(projectModel.fundedAmount)} TL",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.primaryTextTheme.bodyLarge!.copyWith(
@@ -104,7 +105,7 @@ class ProjectCompletedComp extends BaseStatelessWidget {
           ),
           Flexible(
             child: ScaleFactorAutoSizeText(
-              text: Formatter.formatPercent(projectModel.completedTargetRate),
+              text: Formatter.formatPercent(projectModel.fundingPercentage),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.primaryTextTheme.bodyLarge!.copyWith(

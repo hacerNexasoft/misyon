@@ -2,7 +2,7 @@ part of '../fonvestor_view.dart';
 
 class _CompletedProjectsWidget extends BaseStatelessWidget {
   final String headerTitle;
-  final List<InvestmentModel?> projects;
+  final List<ProjectModel?> projects;
 
   const _CompletedProjectsWidget({
     required this.headerTitle,
@@ -15,7 +15,7 @@ class _CompletedProjectsWidget extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        InvestmentCardHeaderComp(headerTitile: headerTitle),
+        ProjectCardHeaderComp(headerTitle: headerTitle),
         SizedBox(height: 20.h),
         _buildList(),
       ],
@@ -31,10 +31,9 @@ class _CompletedProjectsWidget extends BaseStatelessWidget {
         shrinkWrap: true,
         itemCount: projects.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              left: 0.w, right: (index == projects.length - 1 ? 0 : 0).w),
+          padding: EdgeInsets.only(left: 0.w, right: (index == projects.length - 1 ? 0 : 0).w),
           child: projects[index] != null
-              ? InvestmentCompletedComp(
+              ? ProjectCompletedComp(
                   projectModel: projects[index]!,
                 )
               : const SizedBox(),

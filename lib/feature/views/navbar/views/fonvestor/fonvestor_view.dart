@@ -1,17 +1,17 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misyonbank/feature/components/categories_comp/categories_comp.dart';
-import 'package:misyonbank/feature/components/horizontal_investment_list_comp.dart';
 import 'package:misyonbank/feature/components/horizontal_project_list_comp.dart';
+import 'package:misyonbank/feature/components/project_card_comp/project_card_header_comp.dart';
+import 'package:misyonbank/feature/components/project_card_comp/project_completed_comp.dart';
 import 'package:misyonbank/feature/components/yield_calcuator_tool_comp/yield_calculator_tool_widget.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/community_card_comp.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/investment_card_header_comp.dart';
-import 'package:misyonbank/feature/components/investment_card_comp/investment_completed_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/fonvestor_view_controller.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,17 +67,17 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                 SizedBox(height: 20.h),
                 _CompletedProjectsWidget(
                   headerTitle: LocalizationKeys.completedProjectsTextKey.tr,
-                  projects: controller.completedCollectors,
+                  projects: controller.succeededProjects.toList(),
                 ),
                 SizedBox(height: 20.h),
-                HorizontalInvestmentListComp(
+                HorizontalProjectListComp(
                   headerTitle: LocalizationKeys.preDemandStatusTextKey.tr,
-                  projects: controller.preOrderCollectors,
+                  projects: controller.upcomingDetailedPrerelease,
                 ),
                 SizedBox(height: 20.h),
-                HorizontalInvestmentListComp(
+                HorizontalProjectListComp(
                   headerTitle: LocalizationKeys.soonTextKey.tr,
-                  projects: controller.upcomingCollectors,
+                  projects: controller.upcomingPrerelease + controller.upcomingPreview,
                 ),
                 SizedBox(height: 20.h),
               ],

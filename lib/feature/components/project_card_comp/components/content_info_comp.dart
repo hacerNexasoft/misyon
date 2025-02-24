@@ -11,9 +11,13 @@ class _ContentInfoComp extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.detailView, arguments: {
-          'project': projectModel,
-        });
+        if (projectModel.status != ProjectStatus.upcomingPreview &&
+            projectModel.status != ProjectStatus.upcomingPrerelease &&
+            projectModel.status != ProjectStatus.unknown) {
+          Get.toNamed(AppRoutes.detailView, arguments: {
+            'project': projectModel,
+          });
+        }
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.w),
@@ -29,11 +33,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
               SizedBox(
                 height: 5.sp,
               ),
-              projectModel.status == ProjectStatus.activeFunding
-                  ? const SizedBox()
-                  : (projectModel.status == ProjectStatus.activeFundingStopped
-                      ? _values
-                      : _upcomingValues),
+              innerContextSelector(projectModel.status),
               SizedBox(
                 height: 5.sp,
               ),
@@ -43,6 +43,25 @@ class _ContentInfoComp extends BaseStatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget innerContextSelector(ProjectStatus status) {
+    switch (status) {
+      case ProjectStatus.activeFunding:
+        return _context1;
+      case ProjectStatus.activeFundingStopped:
+        return _context1;
+      case ProjectStatus.successful:
+        return _context1;
+      case ProjectStatus.upcomingPreview:
+        return _context2;
+      case ProjectStatus.upcomingPrerelease:
+        return _context2;
+      case ProjectStatus.upcomingDetailedPrerelease:
+        return const SizedBox();
+      default:
+        return const SizedBox();
+    }
   }
 
   Widget get _infoHeader => Row(
@@ -102,7 +121,7 @@ class _ContentInfoComp extends BaseStatelessWidget {
         ],
       );
 
-  Widget get _values {
+  Widget get _context1 {
     String periodText = "-";
     switch (projectModel.period) {
       case Period.Annual:
@@ -132,19 +151,23 @@ class _ContentInfoComp extends BaseStatelessWidget {
     );
   }
 
-  Widget get _upcomingValues => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _valueItem(
-            title: LocalizationKeys.startDateTextKey.tr,
-            value: '${DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate)}',
-          ),
-          _valueItem(
-            title: LocalizationKeys.earningRateTextKey.tr,
-            value: '%${DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate)}',
-          ),
-        ],
-      );
+  Widget get _context2 {
+    final DateFormat dateformatter = DateFormat('dd MMM yyyy');
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _valueItem(
+          title: LocalizationKeys.startDateTextKey.tr,
+          value: dateformatter
+              .format(DateTime.fromMillisecondsSinceEpoch(projectModel.projectStartDate * 1000)),
+        ),
+        _valueItem(
+          title: LocalizationKeys.earningRateTextKey.tr,
+          value: Formatter.formatPercent(projectModel.yearlyReturnRate),
+        ),
+      ],
+    );
+  }
 
   Widget _valueItem({
     required String value,
@@ -182,22 +205,27 @@ class _ContentInfoComp extends BaseStatelessWidget {
           ],
         ),
       );
+
   Widget get _infoBottomRow => Row(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (projectModel.riskForDebit != null) _riskRatio,
+          if (projectModel.riskForDebit != null &&
+              projectModel.status != ProjectStatus.upcomingDetailedPrerelease)
+            _riskRatio, // Risk Kısmı burada
           SizedBox(
             height: 16.w,
           ),
-          _categoryChips,
+
+          Flexible(child: _categoryChips),
         ],
       );
   Widget get _riskRatio => Row(
         children: [
           ScaleFactorAutoSizeText(
             text: LocalizationKeys.riskTextKey.tr,
-            style: theme.primaryTextTheme.bodyMedium!
+            style: theme.primaryTextTheme.bodySmall!
                 .copyWith(fontWeight: FontWeight.bold, color: AppColors.darkGreyColor),
           ),
           SizedBox(
@@ -213,46 +241,44 @@ class _ContentInfoComp extends BaseStatelessWidget {
       );
 
   Widget get _categoryChips {
-    return Flexible(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: Get.height * 0.004),
-            decoration: BoxDecoration(
-              color: AppColors.fillColor,
-              borderRadius: BorderRadius.circular(999.r),
-            ),
-            child: ScaleFactorAutoSizeText(
-              text: projectModel.category,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.darkGreyColor,
-              ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5.w),
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: Get.height * 0.004),
+          decoration: BoxDecoration(
+            color: AppColors.fillColor,
+            borderRadius: BorderRadius.circular(999.r),
+          ),
+          child: ScaleFactorAutoSizeText(
+            text: projectModel.category,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.primaryTextTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.darkGreyColor,
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: Get.height * 0.004),
-            decoration: BoxDecoration(
-              color: AppColors.fillColor,
-              borderRadius: BorderRadius.circular(999.r),
-            ),
-            child: ScaleFactorAutoSizeText(
-              text: ModelHelpers.localizedCollateralStructure(projectModel.collateralStructure),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.darkGreyColor,
-              ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5.w),
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: Get.height * 0.004),
+          decoration: BoxDecoration(
+            color: AppColors.fillColor,
+            borderRadius: BorderRadius.circular(999.r),
+          ),
+          child: ScaleFactorAutoSizeText(
+            text: ModelHelpers.localizedCollateralStructure(projectModel.collateralStructure),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.primaryTextTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.darkGreyColor,
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }

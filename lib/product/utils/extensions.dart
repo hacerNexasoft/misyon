@@ -133,18 +133,20 @@ extension ProjectStatusExtension on ProjectStatus? {
     }
   }
 
-  Color getBackgroundColor(int? maturity) {
+  Color getBackgroundColor({int? maturity}) {
     switch (this) {
+      case ProjectStatus.activeFunding:
+        return AppColors.primaryGreenColor;
+      case ProjectStatus.activeFundingStopped:
+        return AppColors.borderRedColor; // AppColors.black.withOpacity(0.5);
       case ProjectStatus.upcomingPreview:
         return AppColors.primaryGreenColor;
       case ProjectStatus.upcomingPrerelease:
         return AppColors.borderRedColor;
-      case ProjectStatus.activeFunding:
-        return AppColors.primaryGreenColor;
+
       case ProjectStatus.successful:
         return AppColors.primaryGreenColor;
-      case ProjectStatus.activeFundingStopped:
-        return AppColors.black.withOpacity(0.5);
+
       default:
         if (maturity == null) {
           return AppColors.primaryGreenColor;

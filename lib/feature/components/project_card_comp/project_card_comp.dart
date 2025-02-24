@@ -1,9 +1,11 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
+import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:misyonbank/product/utils/model_helpers.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 import 'package:widgets/components.dart';
@@ -12,47 +14,77 @@ import 'package:misyonbank/product/utils/extensions.dart';
 part 'components/content_info_comp.dart';
 
 class ProjectCardComp extends BaseStatelessWidget {
-  final String infoText;
   final String image;
   final ProjectModel projectModel;
   const ProjectCardComp({
     super.key,
-    required this.infoText,
     required this.image,
     required this.projectModel,
   });
 
+  String statusText({required ProjectStatus status}) {
+    Duration duration = DateTime.fromMillisecondsSinceEpoch(projectModel.projectEndDate * 1000)
+        .difference(DateTime.now());
+
+    if (duration.inDays > 0) {
+      return "${duration.inDays} Gün Kaldı";
+    } else if (duration.inHours > 0) {
+      return "${duration.inHours} Saat Kaldı";
+    } else if (duration.inMinutes > 0) {
+      return "${duration.inMinutes} Dakika Kaldı";
+    } else {
+      switch (status) {
+        case ProjectStatus.activeFunding:
+          return "Fonlamada";
+        case ProjectStatus.activeFundingStopped:
+          return "Fonlama Sona Erdi";
+        case ProjectStatus.successful:
+          return "Başarılı";
+        case ProjectStatus.upcomingPreview:
+          return "Çok Yakında"; //LocalizationKeys.completionStatusTextKey.tr;
+        case ProjectStatus.upcomingDetailedPrerelease:
+          return "Çok Yakında";
+        case ProjectStatus.upcomingPrerelease:
+          return "Çok Yakında";
+
+        default:
+          return "";
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String infoText = statusText(status: projectModel.status);
     return SizedBox(
       width: Get.width * 0.9,
-      height: (projectModel.status == ProjectStatus.activeFunding)
-          ? 200.sp
-          : 250.sp,
+      // height: (projectModel.status == ProjectStatus.upcomingDetailedPrerelease) ? 200.sp : 250.sp,
       child: Stack(
         children: [
           if (projectModel.status != ProjectStatus.unknown) ...[
             _backgroundImage,
-            _cardContent,
+            _cardContent(infoText),
           ]
         ],
       ),
     );
   }
 
-  Widget get _cardContent => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _contentHeader,
-            const Spacer(),
-            _ContentInfoComp(projectModel: projectModel),
-          ],
-        ),
-      );
+  Widget _cardContent(String infoText) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _contentHeader(infoText),
+          const Spacer(),
+          _ContentInfoComp(projectModel: projectModel),
+        ],
+      ),
+    );
+  }
 
-  Widget get _contentHeader => Row(
+  Widget _contentHeader(String infoText) => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.max,
@@ -61,14 +93,12 @@ class ProjectCardComp extends BaseStatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
               decoration: BoxDecoration(
-                /*color:
-                  projectModel.status.getBackgroundColor(projectModel.maturity),*/ // Artık olmayan bir parametre sebebiyle iptal
+                color: projectModel.status.getBackgroundColor(),
                 borderRadius: BorderRadius.circular(999.r),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_outline,
-                      color: AppColors.backgroundColor),
+                  const Icon(Icons.check_circle_outline, color: AppColors.backgroundColor),
                   SizedBox(width: 5.w),
                   ScaleFactorAutoSizeText(
                     text: infoText,

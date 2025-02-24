@@ -3,6 +3,7 @@ import 'package:common/common.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:misyonbank/product/config/network.dart';
 import 'package:misyonbank/product/models/document_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
 import 'package:misyonbank/product/models/project/project_comments_model.dart';
@@ -26,7 +27,7 @@ class FetcherStaticService {
     var data = json.encode({});
     var dio = Dio();
     var response = await dio.request(
-      'https://crwdapi.nexasoft.io/api/projectdbit/getfilteredprojects',
+      '$baseURL/projectdbit/getfilteredprojects',
       options: Options(
         method: 'POST',
         headers: headers,
@@ -45,7 +46,7 @@ class FetcherStaticService {
   // API'den veri çekme
   static Future<List<ProjectModel>> fetchFilteredProjects(
       {ProjectFilterModel? requestModel}) async {
-    const String url = 'https://crwdapi.nexasoft.io/api/projectdbit/getfilteredprojects';
+    const String url = '$baseURL/projectdbit/getfilteredprojects';
     final Dio dioObj = Get.find();
     var data = requestModel != null ? requestModel.toJson() : json.encode({});
     try {
@@ -85,8 +86,7 @@ class FetcherStaticService {
 
   static Future<ProjectDetailsModel?> fetchProjectDetails({required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectdetails?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectdetails?projectId=$projectID';
     ProjectDetailsModel? model;
     try {
       final dio.Response response = await dioObj.request(
@@ -118,8 +118,7 @@ class FetcherStaticService {
 
   static Future<ProjectSummaryModel?> fetchProjectSummary({required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectsummary?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectsummary?projectId=$projectID';
     ProjectSummaryModel? model;
     try {
       final dio.Response response = await dioObj.request(
@@ -152,8 +151,7 @@ class FetcherStaticService {
   static Future<ProjectFundingInfoModel?> fetchProjectFundingInfo(
       {required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectfundinginfo?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectfundinginfo?projectId=$projectID';
     ProjectFundingInfoModel? model;
     try {
       final dio.Response response = await dioObj.request(
@@ -185,7 +183,7 @@ class FetcherStaticService {
 
   static Future<String?> fetchProjectAbout({required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url = 'https://crwdapi.nexasoft.io/api/projectdbit/getprojectabout?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectabout?projectId=$projectID';
     //ProjectFundingInfoModel? model;
     try {
       final dio.Response response = await dioObj.request(
@@ -218,8 +216,7 @@ class FetcherStaticService {
   static Future<ProjectInvestmentInfoModel?> fetchProjectInvestmentInfo(
       {required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectinvestmentinfo?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectinvestmentinfo?projectId=$projectID';
     ProjectInvestmentInfoModel? model;
     try {
       final dio.Response response = await dioObj.request(
@@ -258,8 +255,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectcreatehighlightsbyprojectid?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectcreatehighlightsbyprojectid?projectId=$projectID';
     List<ProjectCreateHighlightsModel> model = [];
     try {
       final dio.Response response = await dioObj.get(
@@ -296,8 +292,7 @@ class FetcherStaticService {
   static Future<List<InvestmentProjection>?> fetchInvestmentProjections(
       {required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getinvestmentprojectionsbyprojectid?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getinvestmentprojectionsbyprojectid?projectId=$projectID';
     List<InvestmentProjection> model = [];
     try {
       final dio.Response response = await dioObj.get(
@@ -339,8 +334,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectmember/getprojectteam?projectId=$projectID';
+    String url = '$baseURL/projectmember/getprojectteam?projectId=$projectID';
     ProjectTeamModel? model;
     try {
       final dio.Response response = await dioObj.get(
@@ -380,8 +374,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectcreatetrophiesbyprojectid?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectcreatetrophiesbyprojectid?projectId=$projectID';
     List<ProjectTrophiesModel> trophiesList = [];
     try {
       final dio.Response response = await dioObj.get(
@@ -421,8 +414,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdocument/getprojectdocuments?projectId=$projectID';
+    String url = '$baseURL/projectdocument/getprojectdocuments?projectId=$projectID';
     ProjectDocumentsModel? model;
     try {
       final dio.Response response = await dioObj.get(
@@ -456,8 +448,7 @@ class FetcherStaticService {
   static Future<List<ProjectFinancialModel>?> fetchProjectFinansials(
       {required String projectID}) async {
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectdbit/getprojectfinancialbyprojectid?projectId=$projectID';
+    String url = '$baseURL/projectdbit/getprojectfinancialbyprojectid?projectId=$projectID';
     List<ProjectFinancialModel> model = [];
     try {
       final dio.Response response = await dioObj.get(
@@ -499,7 +490,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url = 'https://crwdapi.nexasoft.io/api/document/getdocument?documentId=$docID';
+    String url = '$baseURL/document/getdocument?documentId=$docID';
     DocumentModel? model;
     try {
       final dio.Response response = await dioObj.get(
@@ -539,8 +530,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectupdate/getprojectupdates?projectId=$projectID';
+    String url = '$baseURL/projectupdate/getprojectupdates?projectId=$projectID';
     List<ProjectUpdateModel>? model;
     try {
       final dio.Response response = await dioObj.get(
@@ -584,7 +574,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url = 'https://crwdapi.nexasoft.io/api/projectfaq/getprojectfaq?projectId=$projectID';
+    String url = '$baseURL/projectfaq/getprojectfaq?projectId=$projectID';
     List<ProjectFaqModel>? model;
     try {
       final dio.Response response = await dioObj.get(
@@ -628,8 +618,7 @@ class FetcherStaticService {
       return null;
     }
     final Dio dioObj = Get.find();
-    String url =
-        'https://crwdapi.nexasoft.io/api/projectcomment/getprojectcomments?projectId=$projectID';
+    String url = '$baseURL/projectcomment/getprojectcomments?projectId=$projectID';
     List<ProjectCommentsModel>? model;
     try {
       final dio.Response response = await dioObj.get(
