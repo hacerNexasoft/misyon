@@ -98,15 +98,15 @@ class SummaryView extends BaseGetView<DetailViewController> {
         SizedBox(
           height: 15.h,
         ),
-        FrequentlyAskedQuestionsWidget(),
+        if (controller.selectedProjectFaqList != null) FrequentlyAskedQuestionsWidget(),
         SizedBox(
           height: 15.h,
         ),
-        UpdatesWidget(),
+        if (controller.selectedProjectUpdateList != null) UpdatesWidget(),
         SizedBox(
           height: 15.h,
         ),
-        const QuestionAndAnswerView(),
+        if (controller.selectedProjectCommentsList != null) const QuestionAndAnswerView(),
         SizedBox(
           height: 80.h,
         ),

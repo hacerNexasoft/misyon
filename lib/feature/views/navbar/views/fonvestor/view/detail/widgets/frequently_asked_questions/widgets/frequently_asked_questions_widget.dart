@@ -14,80 +14,28 @@ class FrequentlyAskedQuestionsWidget extends BaseStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTitle,
-          SizedBox(
-            height: 25.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently1',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently2',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently3',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently4',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently5',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently6',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          CustomDetailWidget(
-            tag: 'Frequently7',
-            title: LocalizationKeys.faqTitleTextKey.tr,
-            showBorder: false,
-            child: ScaleFactorAutoSizeText(
-              text:
-                  "Biz, 21. yüzyılın en büyük zorluklarından üçünü (düşük maliyetli temiz elektrik, şebeke ölçeğinde enerji depolama ve deniz suyunun tuzdan arındırılması) çözmek için çığır açıcı bir teknoloji geliştiren bir teknoloji girişimiyiz. Bunların hepsi sonuçta dikey eksenli rüzgar rotorları ve açık deniz tabanlı uçurtma sistemleri kullanılarak açık denizdeki rüzgardan sağlanır. Ayrıca insani amaçlar, afet yardımı ve açık deniz denizcilik sektörü için dünyanın tek düşük maliyetli, elde taşınabilen deniz suyu tuzdan arındırma cihazını (QuenchSea) geliştirdik ve ticarileştirdik.",
-              style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                color: AppColors.hintColor,
+              _buildTitle,
+              SizedBox(
+                height: 25.h,
               ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-        ],
+            ] +
+            (List.generate(
+                controller.selectedProjectFaqList!.length,
+                (index) => Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: CustomDetailWidget(
+                        tag: 'Frequently$index',
+                        title: controller.selectedProjectFaqList![index].question,
+                        showBorder: false,
+                        child: ScaleFactorAutoSizeText(
+                          text: controller.selectedProjectFaqList![index].answer,
+                          style: theme.primaryTextTheme.bodyMedium?.copyWith(
+                            color: AppColors.hintColor,
+                          ),
+                        ),
+                      ),
+                    ))) +
+            [SizedBox(height: 20.h)],
       ),
     );
   }

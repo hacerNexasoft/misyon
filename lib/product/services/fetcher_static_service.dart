@@ -5,9 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/models/document_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
+import 'package:misyonbank/product/models/project/project_comments_model.dart';
 import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
 import 'package:misyonbank/product/models/project/project_details_model.dart';
 import 'package:misyonbank/product/models/project/project_documents_model.dart';
+import 'package:misyonbank/product/models/project/project_faq_model.dart';
 import 'package:misyonbank/product/models/project/project_finansial_model.dart';
 import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
@@ -16,6 +18,7 @@ import 'package:misyonbank/product/models/project/project_filter_model.dart';
 import 'package:misyonbank/product/models/project/project_summary_model.dart';
 import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/models/project/project_trophies_model.dart';
+import 'package:misyonbank/product/models/project/project_update_model.dart';
 
 class FetcherStaticService {
   static testRequest() async {
@@ -522,6 +525,140 @@ class FetcherStaticService {
     } catch (e) {
       if (kDebugMode) {
         print('API İstek Hatası(fetchDocument): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<List<ProjectUpdateModel>?> fetchProjectUpdates(
+      {required String projectID, required String token}) async {
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
+    projectID = "a2305a22-1a53-ef11-8384-005056b0cf81";
+    if (token.isEmpty) {
+      return null;
+    }
+    final Dio dioObj = Get.find();
+    String url =
+        'https://crwdapi.nexasoft.io/api/projectupdate/getprojectupdates?projectId=$projectID';
+    List<ProjectUpdateModel>? model;
+    try {
+      final dio.Response response = await dioObj.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200 && response.data['result']) {
+        List data = response.data['data'];
+
+        model = data
+            .map(
+              (e) => ProjectUpdateModel.fromJson(e),
+            )
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return model;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchProjectUpdates): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<List<ProjectFaqModel>?> fetchProjectFaqs(
+      {required String projectID, required String token}) async {
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
+    projectID = "52ed1768-10be-ef11-8386-005056b0cf81";
+    if (token.isEmpty) {
+      return null;
+    }
+    final Dio dioObj = Get.find();
+    String url = 'https://crwdapi.nexasoft.io/api/projectfaq/getprojectfaq?projectId=$projectID';
+    List<ProjectFaqModel>? model;
+    try {
+      final dio.Response response = await dioObj.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200 && response.data['result']) {
+        List data = response.data['data'];
+
+        model = data
+            .map(
+              (e) => ProjectFaqModel.fromJson(e),
+            )
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return model;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchProjectFaqs): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<List<ProjectCommentsModel>?> fetchProjectComments(
+      {required String projectID, required String token}) async {
+    token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
+    projectID = "52ed1768-10be-ef11-8386-005056b0cf81";
+    if (token.isEmpty) {
+      return null;
+    }
+    final Dio dioObj = Get.find();
+    String url =
+        'https://crwdapi.nexasoft.io/api/projectcomment/getprojectcomments?projectId=$projectID';
+    List<ProjectCommentsModel>? model;
+    try {
+      final dio.Response response = await dioObj.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200 && response.data['result']) {
+        List data = response.data['data'];
+
+        model = data
+            .map(
+              (e) => ProjectCommentsModel.fromJson(e),
+            )
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return model;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchProjectComments): $e');
       }
       return null;
     }

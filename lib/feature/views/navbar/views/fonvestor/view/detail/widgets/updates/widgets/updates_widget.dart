@@ -32,15 +32,12 @@ class UpdatesWidget extends BaseStatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(
-            controller.investmentDetail.value?.historyofUpdates?.length ?? 0,
+            controller.selectedProjectUpdateList!.length,
             (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 10.w),
                 child: CustomUpdatesWidget(
-                  history: controller.investmentDetail.value?.historyofUpdates?[index],
-                  years: controller.investmentDetail.value?.yearsofUpdates?[index],
-                  title: controller.investmentDetail.value?.updatesTitle?[index],
-                  description: controller.investmentDetail.value?.updatesDescription?[index] ?? "",
+                  projectUpdateModel: controller.selectedProjectUpdateList![index],
                 ),
               );
             },

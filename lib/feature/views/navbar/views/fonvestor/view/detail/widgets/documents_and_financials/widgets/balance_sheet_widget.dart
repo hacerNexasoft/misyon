@@ -9,6 +9,7 @@ class BalanceSheetWidget extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    balanceFinancials.clear();
     for (var e in controller.selectedProjectFinancials!) {
       if (e.finansialType == FinancialType.balance) {
         balanceFinancials.add(e);

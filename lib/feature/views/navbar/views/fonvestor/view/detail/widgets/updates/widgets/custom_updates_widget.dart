@@ -1,24 +1,19 @@
 import 'package:common/common.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';
+import 'package:misyonbank/product/models/project/project_update_model.dart';
 import 'package:widgets/components.dart';
 
 class CustomUpdatesWidget extends BaseStatelessWidget {
-  final String? history;
-  final String? years;
-  final String? title;
-  final String? description;
+  final ProjectUpdateModel projectUpdateModel;
 
-  const CustomUpdatesWidget({
-    super.key,
-    this.history,
-    this.years,
-    this.title,
-    this.description,
-  });
+  const CustomUpdatesWidget({super.key, required this.projectUpdateModel});
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat dateformatter1 = DateFormat('dd MMM');
+    final DateFormat dateformatter2 = DateFormat('yyyy');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,7 +24,8 @@ class CustomUpdatesWidget extends BaseStatelessWidget {
               padding: EdgeInsets.only(right: 10.w),
               child: ScaleFactorAutoSizeText(
                 textAlign: TextAlign.start,
-                text: history ?? '',
+                text: dateformatter1.format(
+                    DateTime.fromMillisecondsSinceEpoch(projectUpdateModel.updateDate * 1000)),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
@@ -41,7 +37,8 @@ class CustomUpdatesWidget extends BaseStatelessWidget {
               padding: EdgeInsets.only(right: 10.w),
               child: ScaleFactorAutoSizeText(
                 textAlign: TextAlign.start,
-                text: years ?? '',
+                text: dateformatter2.format(
+                    DateTime.fromMillisecondsSinceEpoch(projectUpdateModel.updateDate * 1000)),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
@@ -56,8 +53,7 @@ class CustomUpdatesWidget extends BaseStatelessWidget {
           flex: 2,
           child: Container(
             decoration: BoxDecoration(
-                color: AppColors.fillColor,
-                borderRadius: BorderRadius.circular(Get.width * 0.02)),
+                color: AppColors.fillColor, borderRadius: BorderRadius.circular(Get.width * 0.02)),
             padding: EdgeInsets.all(8.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +61,7 @@ class CustomUpdatesWidget extends BaseStatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 6.w),
                   child: ScaleFactorAutoSizeText(
-                    text: title,
+                    text: projectUpdateModel.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
@@ -73,13 +69,13 @@ class CustomUpdatesWidget extends BaseStatelessWidget {
                     ),
                   ),
                 ),
-                if (description != null && description!.isNotEmpty)
-                  ScaleFactorAutoSizeText(
-                    text: description ?? '',
-                    style: theme.primaryTextTheme.bodySmall?.copyWith(
-                      color: AppColors.grey500Color,
-                    ),
+                // if (description != null && description!.isNotEmpty)
+                ScaleFactorAutoSizeText(
+                  text: projectUpdateModel.description,
+                  style: theme.primaryTextTheme.bodySmall?.copyWith(
+                    color: AppColors.grey500Color,
                   ),
+                ),
               ],
             ),
           ),

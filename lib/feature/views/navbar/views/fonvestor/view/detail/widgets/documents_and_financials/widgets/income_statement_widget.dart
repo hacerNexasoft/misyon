@@ -10,6 +10,7 @@ class IncomeStatementWidget extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    incomeFinancials.clear();
     for (var e in controller.selectedProjectFinancials!) {
       if (e.finansialType == FinancialType.income) {
         incomeFinancials.add(e);

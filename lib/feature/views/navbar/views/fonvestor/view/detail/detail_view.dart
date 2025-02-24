@@ -22,7 +22,8 @@ class DetailView extends BaseGetView<DetailViewController> {
       body: controller.obx(
         (state) => Scaffold(
           body: _buildContent(),
-          bottomSheet: controller.status.isSuccess
+          //resizeToAvoidBottomInset: true,
+          bottomNavigationBar: controller.status.isSuccess
               ? Container(
                   height: 80.h,
                   width: Get.width,

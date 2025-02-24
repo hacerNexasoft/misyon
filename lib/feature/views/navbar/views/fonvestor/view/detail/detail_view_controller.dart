@@ -11,9 +11,11 @@ import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
 import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
+import 'package:misyonbank/product/models/project/project_comments_model.dart';
 import 'package:misyonbank/product/models/project/project_create_highlights_model.dart';
 import 'package:misyonbank/product/models/project/project_details_model.dart';
 import 'package:misyonbank/product/models/project/project_documents_model.dart';
+import 'package:misyonbank/product/models/project/project_faq_model.dart';
 import 'package:misyonbank/product/models/project/project_finansial_model.dart';
 import 'package:misyonbank/product/models/project/project_funding_info_model.dart';
 import 'package:misyonbank/product/models/project/project_investment_info_model.dart';
@@ -21,6 +23,7 @@ import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/models/project/project_summary_model.dart';
 import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/models/project/project_trophies_model.dart';
+import 'package:misyonbank/product/models/project/project_update_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
 import 'package:misyonbank/product/services/fetcher_static_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -49,6 +52,9 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   List<ProjectTrophiesModel>? selectedProjectTrophiesList;
   ProjectDocumentsModel? selectedProjectDocuments;
   List<ProjectFinancialModel>? selectedProjectFinancials;
+  List<ProjectUpdateModel>? selectedProjectUpdateList;
+  List<ProjectFaqModel>? selectedProjectFaqList;
+  List<ProjectCommentsModel>? selectedProjectCommentsList;
 
   final textController = TextEditingController();
   List<Widget> detailsTabbarList = [
@@ -116,9 +122,18 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
       selectedProjectDocuments = await FetcherStaticService.fetchProjectDocuments(
           projectID: selectedProject.id, token: "");
+
       selectedProjectFinancials = await FetcherStaticService.fetchProjectFinansials(
         projectID: "5982e0c9-68b9-ef11-8386-005056b0cf81", //selectedProject.id,
       );
+
+      selectedProjectUpdateList =
+          await FetcherStaticService.fetchProjectUpdates(projectID: selectedProject.id, token: "");
+
+      selectedProjectFaqList =
+          await FetcherStaticService.fetchProjectFaqs(projectID: selectedProject.id, token: "");
+      selectedProjectCommentsList =
+          await FetcherStaticService.fetchProjectComments(projectID: selectedProject.id, token: "");
 
       //OLD
       //await _projectService.fetchProjectDetails();

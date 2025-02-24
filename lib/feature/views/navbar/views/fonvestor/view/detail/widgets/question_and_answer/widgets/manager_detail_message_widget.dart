@@ -39,16 +39,29 @@ class ManagerDetailMessageWidget extends BaseStatelessWidget {
     );
   }
 
+  String shortNameGenerator(String name) {
+    String initials = "";
+    List<String> nameParts = name.split(" ");
+    for (String part in nameParts) {
+      if (part.isNotEmpty) {
+        initials += "${part[0].toUpperCase()} ";
+      }
+    }
+    return initials.trim();
+  }
+
   Widget get _buildMessageHeader => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipOval(
-            child: Image.asset(
-              imageUrl ?? "",
-              width: 32.w,
-              height: 32.h,
-              fit: BoxFit.cover,
-            ),
+            child: imageUrl == null
+                ? CircleAvatar(child: Text(shortNameGenerator(user ?? "")))
+                : CustomCachedNetworkImage(
+                    imageUrl: imageUrl ?? '',
+                    width: 32.w,
+                    height: 32.h,
+                    fit: BoxFit.cover,
+                  ),
           ),
           SizedBox(width: 10.w),
           Expanded(
