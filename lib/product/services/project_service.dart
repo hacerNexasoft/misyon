@@ -4,10 +4,13 @@ import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
 import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/master_data_model.dart';
+import 'package:misyonbank/product/models/project/favorite_project_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
 import 'package:misyonbank/product/services/fetcher_static_service.dart';
+import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 
 class ProjectService extends BaseGetxService {
@@ -17,17 +20,17 @@ class ProjectService extends BaseGetxService {
   final activeProjects = <ProjectModel>[].obs;
   final upcomingProjects = <ProjectModel>[].obs;
   final succeededProjects = <ProjectModel>[].obs;
-  final favoriteProjects = <ProjectModel>[].obs;
+  final favoriteProjects = <FavoriteProjectModel>[].obs;
+
+  // MasterData
+  final masterData = Rx<MasterDataModel?>(null);
 
   //Eski değişkenler
   final openInvestmentsOpportunities = <InvestmentModel>[].obs;
-  final preOrderCollectors = <InvestmentModel>[].obs;
-  final upcomingCollectors = <InvestmentModel>[].obs;
-  final completedCollectors = <InvestmentModel?>[].obs;
+
   final communityList = <CommunityItemModel?>[].obs;
   final buyProjects = <InvestmentModel>[].obs;
   final sellProjects = <InvestmentModel?>[].obs;
-
   final investmentDetail = Rx<InvestmentDetailModel?>(null);
   final projectDetailitemList = <InvestmentDetailModel?>[].obs;
   final detailMessage = Rx<DetailsMessageModel?>(null);
@@ -42,17 +45,20 @@ class ProjectService extends BaseGetxService {
     super.onInit();
     // Projeleri çekme işlemini başlat
     await fetchProjects();
+    if (Get.find<JwtTokenService>().jwtToken != null) {
+      favoriteProjects.value = await FetcherStaticService.fetchFavoriteProjects(
+          token: Get.find<JwtTokenService>().jwtToken!);
+    }
+
+    //MasterDataFetch
+    masterData.value = await FetcherStaticService.fetchMasterData();
 
     //Dummy Data Methods
     //projectsDummy();
     //Olds
     await fetchOpenInvestmentsOpportunities();
     await fetchBuyProjects();
-    await fetchPreOrderCollectors();
-    await fetchUpComingCollectors();
-    await fetchCompletedCollectors();
     await fetchCommunityInvestment();
-
     await fetchMyInvestments();
     //------------
     isAllFetched.value = true;
@@ -453,204 +459,6 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-      ];
-    } catch (e) {
-      logger.e(e);
-      rethrow;
-    }
-  }
-
-  Future<void> fetchPreOrderCollectors() async {
-    try {
-      preOrderCollectors.value = [
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Tunga Soft',
-            backimage: AssetConstants.tunga,
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWL6JqVuWQDs0_23XEC3r92fgNFsZu9O4MQGxxUfV46PsaWp4p',
-            shortDesc: 'Eğitici online mobil platform oyunu',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 12,
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.activeFunding),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Tunga Soft',
-            backimage: AssetConstants.tunga,
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWL6JqVuWQDs0_23XEC3r92fgNFsZu9O4MQGxxUfV46PsaWp4p',
-            shortDesc: 'Eğitici online mobil platform oyunu',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 12,
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.activeFunding),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            backimage: AssetConstants.tunga,
-            ownerName: 'Tunga Soft',
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWL6JqVuWQDs0_23XEC3r92fgNFsZu9O4MQGxxUfV46PsaWp4p',
-            shortDesc: 'Eğitici online mobil platform oyunu',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 12,
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Teknoloji', 'Gayrimenkul'],
-            status: ProjectStatus.activeFunding),
-      ];
-    } catch (e) {
-      logger.e(e);
-      rethrow;
-    }
-  }
-
-  Future<void> fetchUpComingCollectors() async {
-    try {
-      upcomingCollectors.value = [
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Meta 3D Company',
-            backimage: AssetConstants.meta3D,
-            imageUrl:
-                "https://media.licdn.com/dms/image/v2/C560BAQFbFzE-ZoYcPg/company-logo_100_100/company-logo_100_100/0/1678829913371/meta3d_company_logo?e=2147483647&v=beta&t=oswesD8M2g0TLUUwSrQtrouaLvPkY8ETw7_MMlfd_Zc",
-            shortDesc: '3D baskı teknolojileri',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 39,
-            startDate: '23 Aralık 2024',
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.activeFundingStopped),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Meta 3D Company',
-            backimage: AssetConstants.meta3D,
-            imageUrl:
-                "https://media.licdn.com/dms/image/v2/C560BAQFbFzE-ZoYcPg/company-logo_100_100/company-logo_100_100/0/1678829913371/meta3d_company_logo?e=2147483647&v=beta&t=oswesD8M2g0TLUUwSrQtrouaLvPkY8ETw7_MMlfd_Zc",
-            shortDesc: '3D baskı teknolojileri',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 39,
-            startDate: '23 Aralık 2024',
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.activeFundingStopped),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Meta 3D Company',
-            backimage: AssetConstants.meta3D,
-            imageUrl:
-                "https://media.licdn.com/dms/image/v2/C560BAQFbFzE-ZoYcPg/company-logo_100_100/company-logo_100_100/0/1678829913371/meta3d_company_logo?e=2147483647&v=beta&t=oswesD8M2g0TLUUwSrQtrouaLvPkY8ETw7_MMlfd_Zc",
-            shortDesc: '3D baskı teknolojileri',
-            earningFrequency: 'Yıllık',
-            favoriteCount: 22,
-            earningRate: 39,
-            startDate: '23 Aralık 2024',
-            rate: 14,
-            riskType: RiskType.neutral,
-            categories: const ['Yapay Zeka', 'Gayrimenkul'],
-            status: ProjectStatus.activeFundingStopped),
-      ];
-    } catch (e) {
-      logger.e(e);
-      rethrow;
-    }
-  }
-
-  Future<void> fetchCompletedCollectors() async {
-    try {
-      completedCollectors.value = [
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 1',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 2',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Agro Hub',
-            imageUrl:
-                'https://startupmarket.co/cache/100x100/upload/images/startup/61aa4c8e3009c245357561.jpg',
-            shortDesc: 'Yeniden kullanılabilir solunum cihazı 3',
-            completedAmount: '1.6 Milyon TL',
-            completedTargetRate: 120,
-            status: ProjectStatus.upcomingPreview),
       ];
     } catch (e) {
       logger.e(e);

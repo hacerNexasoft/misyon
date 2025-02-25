@@ -48,6 +48,7 @@ class ProjectCompletedComp extends BaseStatelessWidget {
 
   Widget get _imageWithText => Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ProjectCustomCachedNetworkImageComp(
             imageUrl: projectModel.logoUrl,
@@ -55,13 +56,17 @@ class ProjectCompletedComp extends BaseStatelessWidget {
             isCircular: true,
             fit: BoxFit.contain,
           ),
-          ScaleFactorAutoSizeText(
-            text: projectModel.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.primaryTextTheme.bodyLarge!.copyWith(
-              color: AppColors.darkTextColor,
-              fontWeight: FontWeight.w600,
+          Expanded(
+            child: ScaleFactorAutoSizeText(
+              text: projectModel.title,
+              maxLines: 1,
+              minFontSize: 8,
+              maxFontSize: 18,
+              overflow: TextOverflow.ellipsis,
+              style: theme.primaryTextTheme.bodyLarge!.copyWith(
+                color: AppColors.darkTextColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

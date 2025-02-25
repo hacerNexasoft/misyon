@@ -183,9 +183,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<List<ProjectCreateHighlightsModel>?> fetchProjectHighlights(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "5982e0c9-68b9-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -262,9 +259,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<ProjectTeamModel?> fetchProjectTeam(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "5982e0c9-68b9-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -302,9 +296,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<List<ProjectTrophiesModel>?> fetchProjectTrophies(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "ce779f40-91c3-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -342,9 +333,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<ProjectDocumentsModel?> fetchProjectDocuments(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "5982e0c9-68b9-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -458,9 +446,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<List<ProjectUpdateModel>?> fetchProjectUpdates(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "a2305a22-1a53-ef11-8384-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -502,9 +487,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<List<ProjectFaqModel>?> fetchProjectFaqs(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "52ed1768-10be-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }
@@ -546,9 +528,6 @@ class ProjectDetailFetcherStaticService {
 
   static Future<List<ProjectCommentsModel>?> fetchProjectComments(
       {required String projectID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    projectID = "52ed1768-10be-ef11-8386-005056b0cf81";
     if (token.isEmpty) {
       return null;
     }

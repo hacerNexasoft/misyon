@@ -1,6 +1,7 @@
 import 'package:common/common.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/feature/views/auth/sign_in/sign_in_view_controller.dart';
+import 'package:misyonbank/product/config/network.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:widgets/components.dart';
 
@@ -166,7 +167,7 @@ class SignInView extends BaseGetView<SignInViewController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               InkWell(
-                onTap: () => Get.launchURL('https://crowd.nexasoft.io/sifre/sifremi-unuttum'),
+                onTap: () => Get.launchURL(forgotPasswordURL),
                 child: ScaleFactorAutoSizeText(
                   text: "Şifremi Unuttum?",
                   style: theme.primaryTextTheme.bodyMedium!.copyWith(
@@ -218,7 +219,7 @@ class SignInView extends BaseGetView<SignInViewController> {
               ),
               SizedBox(width: 5.w),
               InkWell(
-                onTap: () => Get.launchURL('https://crowd.nexasoft.io/kayit-ol'),
+                onTap: () => Get.launchURL(registerURL),
                 child: ScaleFactorAutoSizeText(
                   text: "Kayıt Ol",
                   style: theme.primaryTextTheme.bodyMedium!.copyWith(

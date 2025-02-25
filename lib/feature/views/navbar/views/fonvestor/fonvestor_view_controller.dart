@@ -1,6 +1,6 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/master_data_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart'; // Detay model eklendi
 import 'package:misyonbank/product/models/widget_models/community_item_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -26,10 +26,14 @@ class FonvestorViewController extends BaseGetxController {
       .where((p) => p.status == ProjectStatus.upcomingDetailedPrerelease)
       .toList();
 
-  RxList<InvestmentModel> get preOrderCollectors => _projectService.preOrderCollectors;
-  RxList<InvestmentModel> get upcomingCollectors => _projectService.upcomingCollectors;
-  RxList<InvestmentModel?> get completedCollectors => _projectService.completedCollectors;
   RxList<CommunityItemModel?> get communityList => _projectService.communityList;
+
+  RxList<Category> get categoryList {
+    if (_projectService.masterData.value == null) {
+      return <Category>[].obs;
+    }
+    return _projectService.masterData.value!.categories.obs;
+  }
 
   // Banner
   final List<String> investmentBanner = [

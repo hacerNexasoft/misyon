@@ -82,7 +82,12 @@ class ProjectOpportunitiesController extends BaseGetxController {
         return _projectService.succeededProjects;
 
       case ProjectOpportunityDetail.favorite:
-        return _projectService.favoriteProjects;
+        final projectIds = _projectService.favoriteProjects.map((fp) => fp.projectId).toSet();
+
+        return _projectService.allProjectsList
+            .where((element) => projectIds.contains(element.id))
+            .toList()
+            .obs;
 
       case ProjectOpportunityDetail.active:
         return _projectService.activeProjects;

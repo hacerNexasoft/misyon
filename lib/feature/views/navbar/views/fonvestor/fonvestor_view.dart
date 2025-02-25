@@ -50,7 +50,7 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   ),
                 ),
                 SizedBox(height: 20.h),
-                CategoriesComp(),
+                const CategoriesComp(),
                 YieldCalculatorToolWidget(isExpandable: false),
                 SizedBox(height: 20.h),
                 _CommunityWidget(
@@ -62,8 +62,8 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   headerTitle: LocalizationKeys.openInvestmentsKey.tr,
                   projects: controller.activeProjects.toList(),
                 ),
-                SizedBox(height: 20.h),
-                _buildPosterDesignImage(),
+                /*SizedBox(height: 20.h),
+                _buildPosterDesignImage(),*/
                 SizedBox(height: 20.h),
                 _CompletedProjectsWidget(
                   headerTitle: LocalizationKeys.completedProjectsTextKey.tr,
