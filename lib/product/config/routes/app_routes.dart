@@ -13,7 +13,7 @@ class AppRoutes {
   static const String community = '/community';
   static const String filterCommunitiesView = '/filter-communities';
   static const String investView = '/invest';
-  static const String investmentOpportunities = '/investment-opportunities';
+  static const String projectOpportunities = '/project-opportunities';
   static const String yieldCalculationRoute = '/yield-calculation';
   static const String detailView = '/detail';
   static const String teamsView = '/teams';

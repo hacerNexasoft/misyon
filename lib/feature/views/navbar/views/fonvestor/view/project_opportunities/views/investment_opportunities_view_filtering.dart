@@ -1,20 +1,19 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/filter_button_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/labels_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/maturity_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/rate_of_return.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/sectors_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/widgets/yield_frequency_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/filter_button_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/labels_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/maturity_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/rate_of_return.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/sectors_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/yield_frequency_widget.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class InvestmentOpportunitiesViewFiltering
-    extends BaseGetView<InvestmentOpportunitiesController> {
-  const InvestmentOpportunitiesViewFiltering({super.key});
+class ProjectOpportunitiesViewFiltering extends BaseGetView<ProjectOpportunitiesController> {
+  const ProjectOpportunitiesViewFiltering({super.key});
 
   @override
   Widget build(Object context) {
@@ -47,8 +46,7 @@ class InvestmentOpportunitiesViewFiltering
     );
   }
 
-  Widget _buildBody() =>
-      GetBuilder<InvestmentOpportunitiesController>(builder: (_) {
+  Widget _buildBody() => GetBuilder<ProjectOpportunitiesController>(builder: (_) {
         return const SafeArea(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),

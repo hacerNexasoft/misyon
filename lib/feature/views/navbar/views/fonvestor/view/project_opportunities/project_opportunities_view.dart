@@ -1,17 +1,16 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
+import 'package:misyonbank/feature/components/project_card_comp/project_card_comp.dart';
 import 'package:misyonbank/feature/components/search_row_comp.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/investment_opportunities_view_filtering.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/views/search_view.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/investment_opportunities_view_filtering.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/search_view.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class InvestmentOpportunitiesView
-    extends BaseGetView<InvestmentOpportunitiesController> {
-  const InvestmentOpportunitiesView({super.key});
+class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesController> {
+  const ProjectOpportunitiesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,8 @@ class InvestmentOpportunitiesView
                     onTap: () => controller.showBottomSheet(),
                     closeOption: false,
                   ),
-                  buildSelectedInvestmentRange(),
+                  //Filtreleme chipleri
+                  buildSelectedProjectRange(),
                   buildSelectedDuration(),
                   buildSelectedMaturities(),
                   buildSelectedTags(),
@@ -55,16 +55,14 @@ class InvestmentOpportunitiesView
         },
       );
 
-  Widget buildSelectedInvestmentRange() {
-    if (controller.bottompress.value == true &&
-        controller.selectedInvestmentRange.value.start > 10) {
+  Widget buildSelectedProjectRange() {
+    if (controller.bottompress.value == true && controller.selectedProjectRange.value.start > 10) {
       return _buildStatusItem(
-        text:
-            "%${controller.selectedInvestmentRange.value.start.toInt().toString()}",
+        text: "%${controller.selectedProjectRange.value.start.toInt().toString()}",
         closeOption: true,
         onClearTap: () {
-          controller.onInvestmentRangeDelete(
-            RangeValues(10, controller.selectedInvestmentRange.value.start),
+          controller.onProjectRangeDelete(
+            RangeValues(10, controller.selectedProjectRange.value.start),
           );
         },
       );
@@ -74,8 +72,7 @@ class InvestmentOpportunitiesView
   }
 
   Widget buildSelectedDuration() {
-    if (controller.bottompress.value == true &&
-        controller.selectedDuration.value.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedDuration.value.isNotEmpty) {
       return _buildStatusItem(
         text: controller.selectedDuration.value,
         closeOption: true,
@@ -89,8 +86,7 @@ class InvestmentOpportunitiesView
   }
 
   Widget buildSelectedMaturities() {
-    if (controller.bottompress.value == true &&
-        controller.selectedMaturities.value.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedMaturities.value.isNotEmpty) {
       return _buildStatusItem(
         text: controller.selectedMaturities.value,
         closeOption: true,
@@ -104,8 +100,7 @@ class InvestmentOpportunitiesView
   }
 
   Widget buildSelectedTags() {
-    if (controller.bottompress.value == true &&
-        controller.selectedTags.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedTags.isNotEmpty) {
       return _buildStatusItem(
         text: controller.selectedTags.join(', '),
         closeOption: true,
@@ -119,8 +114,7 @@ class InvestmentOpportunitiesView
   }
 
   Widget buildSelectedSectors() {
-    if (controller.bottompress.value == true &&
-        controller.selectedSectors.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedSectors.isNotEmpty) {
       return _buildStatusItem(
         text: controller.selectedSectors.join(', '),
         closeOption: true,
@@ -190,19 +184,11 @@ class InvestmentOpportunitiesView
             shrinkWrap: true,
             itemCount: controller.filteredProjects.length,
             itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.w),
-              child: controller.filteredProjects[index] != null
-                  ? InvestmentCardComp(
-                      infoText:
-                          'Son ${controller.filteredProjects.elementAt(index)?.term.toString()} Gün',
-                      image: controller.filteredProjects
-                          .elementAt(index)!
-                          .backimage
-                          .toString(),
-                      projectModel: controller.filteredProjects[index]!,
-                    )
-                  : const SizedBox(),
-            ),
+                padding: EdgeInsets.symmetric(vertical: 15.w),
+                child: ProjectCardComp(
+                  image: controller.filteredProjects.elementAt(index).coverImage,
+                  projectModel: controller.filteredProjects[index],
+                )),
           ),
         ),
       );
@@ -216,12 +202,11 @@ class InvestmentOpportunitiesView
             leftIcon: AssetConstants.searchComp,
             rightIcon: AssetConstants.filterIcon,
             onLeftIconTap: () => controller.sortingShowBottomSheet(),
-            onRightIconTap: () =>
-                Get.to(const InvestmentOpportunitiesViewFiltering()),
+            onRightIconTap: () => Get.to(const ProjectOpportunitiesViewFiltering()),
             additionalFunction: () => Get.to(
               const SearchView(),
               transition: Transition.fade,
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 500),
             ),
           ),
         ),

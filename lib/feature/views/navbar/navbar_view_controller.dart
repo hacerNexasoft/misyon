@@ -14,10 +14,10 @@ import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
+import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 
-class NavbarViewController extends BaseGetxController
-    with GetTickerProviderStateMixin {
+class NavbarViewController extends BaseGetxController with GetTickerProviderStateMixin {
   final RxInt selectedIndex = 2.obs;
   var isAppBarExpanded = true.obs;
   @override
@@ -27,8 +27,7 @@ class NavbarViewController extends BaseGetxController
   }
 
   final _projectService = Get.put(ProjectService());
-  RxList<InvestmentsItemModel?> get investmentsItemList =>
-      _projectService.investmentsItemList;
+  RxList<InvestmentsItemModel?> get investmentsItemList => _projectService.investmentsItemList;
   final List<String> routes = const [
     AppRoutes.investments,
     AppRoutes.transactions,
@@ -39,19 +38,10 @@ class NavbarViewController extends BaseGetxController
 
   final List<Map<String, dynamic>> navBarViews = [
     {"route": AppRoutes.investments, "appbarTitle": null},
-    {
-      "route": AppRoutes.transactions,
-      "appbarTitle": LocalizationKeys.transactionsTextKey.tr
-    },
+    {"route": AppRoutes.transactions, "appbarTitle": LocalizationKeys.transactionsTextKey.tr},
     {"route": AppRoutes.fonvestor, "appbarTitle": null},
-    {
-      "route": AppRoutes.buySell,
-      "appbarTitle": LocalizationKeys.buySellTextKey.tr
-    },
-    {
-      "route": AppRoutes.community,
-      "appbarTitle": LocalizationKeys.communityTextKey.tr
-    },
+    {"route": AppRoutes.buySell, "appbarTitle": LocalizationKeys.buySellTextKey.tr},
+    {"route": AppRoutes.community, "appbarTitle": LocalizationKeys.communityTextKey.tr},
   ];
 
   List<BottomNavigationBarItem> get bottomNavigationBarItems => [
@@ -59,8 +49,7 @@ class NavbarViewController extends BaseGetxController
           icon: SvgPicture.asset(AssetConstants.investmentsIcon),
           activeIcon: SvgPicture.asset(
             AssetConstants.investmentsIcon,
-            colorFilter:
-                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
           ),
           label: LocalizationKeys.investmentsTextKey.tr,
         ),
@@ -68,16 +57,14 @@ class NavbarViewController extends BaseGetxController
           icon: SvgPicture.asset(AssetConstants.transactionsIcon),
           activeIcon: SvgPicture.asset(
             AssetConstants.transactionsIcon,
-            colorFilter:
-                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
           ),
           label: LocalizationKeys.transactionsTextKey.tr,
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             AssetConstants.alternativeIcon,
-            colorFilter: const ColorFilter.mode(
-                AppColors.primaryGreyColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(AppColors.primaryGreyColor, BlendMode.srcIn),
           ),
           activeIcon: SvgPicture.asset(
             AssetConstants.alternativeIcon,
@@ -88,8 +75,7 @@ class NavbarViewController extends BaseGetxController
           icon: SvgPicture.asset(AssetConstants.buySellIcon),
           activeIcon: SvgPicture.asset(
             AssetConstants.buySellIcon,
-            colorFilter:
-                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
           ),
           label: LocalizationKeys.buySellTextKey.tr,
         ),
@@ -97,8 +83,7 @@ class NavbarViewController extends BaseGetxController
           icon: SvgPicture.asset(AssetConstants.communityIcon),
           activeIcon: SvgPicture.asset(
             AssetConstants.communityIcon,
-            colorFilter:
-                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
           ),
           label: LocalizationKeys.communityTextKey.tr,
         ),
@@ -146,13 +131,34 @@ class NavbarViewController extends BaseGetxController
     }
   }
 
-  void changeView(int index) {
-    if (index != selectedIndex.value) {
-      isAppBarExpanded.value = routes[index] == AppRoutes.fonvestor ||
-          routes[index] == AppRoutes.investments;
-
+  void checkLogin(int index) {
+    if (Get.find<JwtTokenService>().jwtToken != null) {
       selectedIndex.value = index;
       Get.offAndToNamed(routes[index], id: 1);
+    } else {
+      Get.toNamed(AppRoutes.signInView);
+    }
+  }
+
+  void changeView(int index) {
+    if (index != selectedIndex.value) {
+      isAppBarExpanded.value =
+          routes[index] == AppRoutes.fonvestor || routes[index] == AppRoutes.investments;
+
+      switch (routes[index]) {
+        case AppRoutes.investments:
+          checkLogin(index);
+          break;
+        case AppRoutes.transactions:
+          checkLogin(index);
+          break;
+        case AppRoutes.buySell:
+          checkLogin(index);
+          break;
+        default:
+          selectedIndex.value = index;
+          Get.offAndToNamed(routes[index], id: 1);
+      }
     }
     update();
   }

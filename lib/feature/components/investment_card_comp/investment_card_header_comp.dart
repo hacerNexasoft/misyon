@@ -38,8 +38,7 @@ class InvestmentCardHeaderComp extends BaseStatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(AppRoutes.investmentOpportunities,
-                  arguments: headerTitile);
+              Get.toNamed(AppRoutes.projectOpportunities, arguments: headerTitile);
             },
             child: ScaleFactorAutoSizeText(
               text: LocalizationKeys.allTextKey.tr,

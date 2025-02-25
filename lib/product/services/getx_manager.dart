@@ -17,9 +17,9 @@ class GetxManager {
     Get.put(CacheService(), permanent: true);
     Get.put(JwtTokenService());
     Get.put(ProjectService(), permanent: true);
+    Get.put(SignInService());
     Get.put(InvestmentService(), permanent: true);
     Get.put(BankService(), permanent: true);
-    Get.put(SignInService());
     Get.put(BankAccountService(), permanent: true);
     await Get.put(LocalizationService(), permanent: true).initLocale();
   }

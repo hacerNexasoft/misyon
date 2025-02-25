@@ -17,6 +17,7 @@ class ProjectService extends BaseGetxService {
   final activeProjects = <ProjectModel>[].obs;
   final upcomingProjects = <ProjectModel>[].obs;
   final succeededProjects = <ProjectModel>[].obs;
+  final favoriteProjects = <ProjectModel>[].obs;
 
   //Eski değişkenler
   final openInvestmentsOpportunities = <InvestmentModel>[].obs;
@@ -26,7 +27,7 @@ class ProjectService extends BaseGetxService {
   final communityList = <CommunityItemModel?>[].obs;
   final buyProjects = <InvestmentModel>[].obs;
   final sellProjects = <InvestmentModel?>[].obs;
-  final fetchAllInvestmentsOpportunitiesList = <InvestmentModel?>[].obs;
+
   final investmentDetail = Rx<InvestmentDetailModel?>(null);
   final projectDetailitemList = <InvestmentDetailModel?>[].obs;
   final detailMessage = Rx<DetailsMessageModel?>(null);
@@ -43,7 +44,7 @@ class ProjectService extends BaseGetxService {
     await fetchProjects();
 
     //Dummy Data Methods
-    projectsDummy();
+    //projectsDummy();
     //Olds
     await fetchOpenInvestmentsOpportunities();
     await fetchBuyProjects();
@@ -51,7 +52,7 @@ class ProjectService extends BaseGetxService {
     await fetchUpComingCollectors();
     await fetchCompletedCollectors();
     await fetchCommunityInvestment();
-    await fetchAllInvestmentsOpportunities();
+
     await fetchMyInvestments();
     //------------
     isAllFetched.value = true;
@@ -452,71 +453,6 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-      ];
-    } catch (e) {
-      logger.e(e);
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAllInvestmentsOpportunities() async {
-    try {
-      fetchAllInvestmentsOpportunitiesList.value = [
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Mionti Enerji',
-            backimage:
-                'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
-            imageUrl:
-                'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
-            shortDesc: 'Araç şarj istasyon ağı',
-            earningFrequency: 'Aylık',
-            term: 12,
-            earningRate: 55,
-            rate: 46,
-            favoriteCount: 46,
-            completedTargetRate: 30,
-            riskType: RiskType.neutral,
-            categories: const ['Teknoloji', 'Yazılım'],
-            startDate: '23 Temmuz 2024',
-            investmentStatus: InvestmentStatus.openInvestments,
-            status: ProjectStatus.successful),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'melda io',
-            backimage:
-                'https://samunnativentures.com/wp-content/uploads/2023/12/AI-through-his-laptop-computer-in-office-to-help-him-analyze-data-or-generate-virtual-images-and-using-big-data-810x500.jpg',
-            imageUrl:
-                'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
-            shortDesc: 'Yeni nesil data analizi & LMS platformu',
-            earningFrequency: 'Yıllık',
-            term: 4,
-            earningRate: 12,
-            rate: 14,
-            favoriteCount: 76,
-            categories: const ['Teknoloji', 'Yazılım'],
-            startDate: '23 Temmuz 2024',
-            riskType: RiskType.neutral,
-            investmentStatus: InvestmentStatus.preRequest,
-            status: ProjectStatus.activeFunding),
-        InvestmentModel(
-            id: UniqueKey().toString(),
-            ownerName: 'Mionti Enerji',
-            backimage:
-                'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
-            imageUrl:
-                'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
-            shortDesc: 'Araç şarj istasyon ağı',
-            earningFrequency: 'Aylık',
-            earningRate: 55,
-            rate: 46,
-            favoriteCount: 46,
-            completedTargetRate: 30,
-            riskType: RiskType.risky,
-            categories: const ['Teknoloji', 'Yazılım'],
-            startDate: '23 Temmuz 2024',
-            investmentStatus: InvestmentStatus.reachedTarget,
-            status: ProjectStatus.upcomingPreview),
       ];
     } catch (e) {
       logger.e(e);

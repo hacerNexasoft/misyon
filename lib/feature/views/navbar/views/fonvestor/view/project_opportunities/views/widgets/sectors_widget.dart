@@ -1,18 +1,18 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/check_list_item_comp.dart';
 import 'package:misyonbank/feature/components/tool_tip_comp.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/widget_models/check_list_comp_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class SectorsWidget extends BaseGetView<InvestmentOpportunitiesController> {
+class SectorsWidget extends BaseGetView<ProjectOpportunitiesController> {
   const SectorsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InvestmentOpportunitiesController>(builder: (_) {
+    return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Column(
@@ -84,8 +84,7 @@ class SectorsWidget extends BaseGetView<InvestmentOpportunitiesController> {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor),
+              style: theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.primaryColor),
             )),
       ),
     );

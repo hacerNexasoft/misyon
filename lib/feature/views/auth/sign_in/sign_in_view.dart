@@ -79,9 +79,8 @@ class SignInView extends BaseGetView<SignInViewController> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16.sp,
                     ),
-                    errorText: controller.emailError.value.isEmpty
-                        ? null
-                        : controller.emailError.value,
+                    errorText:
+                        controller.emailError.value.isEmpty ? null : controller.emailError.value,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide(
@@ -103,8 +102,7 @@ class SignInView extends BaseGetView<SignInViewController> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  onSubmitted: (_) =>
-                      controller.focusNodePassword.requestFocus(),
+                  onSubmitted: (_) => controller.focusNodePassword.requestFocus(),
                 );
               }),
             ),
@@ -151,9 +149,7 @@ class SignInView extends BaseGetView<SignInViewController> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      controller.isPasswordVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: controller.togglePasswordVisibility,
                   ),
@@ -170,8 +166,7 @@ class SignInView extends BaseGetView<SignInViewController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               InkWell(
-                onTap: () => Get.launchURL(
-                    'https://crowd.nexasoft.io/sifre/sifremi-unuttum'),
+                onTap: () => Get.launchURL('https://crowd.nexasoft.io/sifre/sifremi-unuttum'),
                 child: ScaleFactorAutoSizeText(
                   text: "Şifremi Unuttum?",
                   style: theme.primaryTextTheme.bodyMedium!.copyWith(
@@ -197,8 +192,7 @@ class SignInView extends BaseGetView<SignInViewController> {
                       height: 24, // Set the desired height
                       child: CircularProgressIndicator(
                         backgroundColor: AppColors.primaryColor,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColors.white),
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
                       ),
                     ),
                   if (controller.isLoading.value) SizedBox(width: 10.w),
@@ -224,8 +218,7 @@ class SignInView extends BaseGetView<SignInViewController> {
               ),
               SizedBox(width: 5.w),
               InkWell(
-                onTap: () =>
-                    Get.launchURL('https://crowd.nexasoft.io/kayit-ol'),
+                onTap: () => Get.launchURL('https://crowd.nexasoft.io/kayit-ol'),
                 child: ScaleFactorAutoSizeText(
                   text: "Kayıt Ol",
                   style: theme.primaryTextTheme.bodyMedium!.copyWith(

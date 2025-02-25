@@ -38,7 +38,7 @@ class ProjectCardHeaderComp extends BaseStatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(AppRoutes.investmentOpportunities, arguments: headerTitle);
+              Get.toNamed(AppRoutes.projectOpportunities, arguments: headerTitle);
             },
             child: ScaleFactorAutoSizeText(
               text: LocalizationKeys.allTextKey.tr,

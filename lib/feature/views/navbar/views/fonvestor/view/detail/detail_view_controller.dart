@@ -23,7 +23,7 @@ import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/models/project/project_trophies_model.dart';
 import 'package:misyonbank/product/models/project/project_update_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
-import 'package:misyonbank/product/services/fetcher_static_service.dart';
+import 'package:misyonbank/product/services/fetchers/projectdetail_fetcher_static_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 
 class DetailViewController extends BaseGetxController with GetTickerProviderStateMixin {
@@ -71,7 +71,14 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   @override
   void onInit() async {
     super.onInit();
-    selectedProject = Get.arguments["project"];
+    if (Get.arguments["project"].runtimeType == ProjectModel) {
+      selectedProject = Get.arguments["project"];
+    } else {
+      change(state, status: RxStatus.error("Proje modeli bulunamadı!"));
+      logger.e("Proje modeli bulunamadı!");
+      return;
+    }
+
     change(state, status: RxStatus.loading());
 
     await initView();
@@ -88,43 +95,47 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   Future<void> initView({Function()? action}) async {
     try {
       //print(selectedProject.id);
+
       change(state, status: RxStatus.loading());
       tabController = TabController(length: tabs.length, vsync: this);
-      selectedProjectDetails =
-          await FetcherStaticService.fetchProjectDetails(projectID: selectedProject.id);
-      selectedProjectSummary =
-          await FetcherStaticService.fetchProjectSummary(projectID: selectedProject.id);
-      selectedProjectFundingInfo =
-          await FetcherStaticService.fetchProjectFundingInfo(projectID: selectedProject.id);
+      selectedProjectDetails = await ProjectDetailFetcherStaticService.fetchProjectDetails(
+          projectID: selectedProject.id);
+      selectedProjectSummary = await ProjectDetailFetcherStaticService.fetchProjectSummary(
+          projectID: selectedProject.id);
+      selectedProjectFundingInfo = await ProjectDetailFetcherStaticService.fetchProjectFundingInfo(
+          projectID: selectedProject.id);
       selectedProjectAbout =
-          await FetcherStaticService.fetchProjectAbout(projectID: selectedProject.id);
+          await ProjectDetailFetcherStaticService.fetchProjectAbout(projectID: selectedProject.id);
       selectedProjectInvestmentInfo =
-          await FetcherStaticService.fetchProjectInvestmentInfo(projectID: selectedProject.id);
-      selectedProjectHighlightsList = await FetcherStaticService.fetchProjectHighlights(
-          projectID: selectedProject.id, token: "");
+          await ProjectDetailFetcherStaticService.fetchProjectInvestmentInfo(
+              projectID: selectedProject.id);
+      selectedProjectHighlightsList =
+          await ProjectDetailFetcherStaticService.fetchProjectHighlights(
+              projectID: selectedProject.id, token: "");
       selectedInvestmentProjectionList =
-          await FetcherStaticService.fetchInvestmentProjections(projectID: selectedProject.id);
+          await ProjectDetailFetcherStaticService.fetchInvestmentProjections(
+              projectID: selectedProject.id);
 
-      selectedProjectTeam =
-          await FetcherStaticService.fetchProjectTeam(projectID: selectedProject.id, token: "");
-
-      selectedProjectTrophiesList =
-          await FetcherStaticService.fetchProjectTrophies(projectID: selectedProject.id, token: "");
-
-      selectedProjectDocuments = await FetcherStaticService.fetchProjectDocuments(
+      selectedProjectTeam = await ProjectDetailFetcherStaticService.fetchProjectTeam(
           projectID: selectedProject.id, token: "");
 
-      selectedProjectFinancials = await FetcherStaticService.fetchProjectFinansials(
+      selectedProjectTrophiesList = await ProjectDetailFetcherStaticService.fetchProjectTrophies(
+          projectID: selectedProject.id, token: "");
+
+      selectedProjectDocuments = await ProjectDetailFetcherStaticService.fetchProjectDocuments(
+          projectID: selectedProject.id, token: "");
+
+      selectedProjectFinancials = await ProjectDetailFetcherStaticService.fetchProjectFinansials(
         projectID: "5982e0c9-68b9-ef11-8386-005056b0cf81", //selectedProject.id,
       );
 
-      selectedProjectUpdateList =
-          await FetcherStaticService.fetchProjectUpdates(projectID: selectedProject.id, token: "");
+      selectedProjectUpdateList = await ProjectDetailFetcherStaticService.fetchProjectUpdates(
+          projectID: selectedProject.id, token: "");
 
-      selectedProjectFaqList =
-          await FetcherStaticService.fetchProjectFaqs(projectID: selectedProject.id, token: "");
-      selectedProjectCommentsList =
-          await FetcherStaticService.fetchProjectComments(projectID: selectedProject.id, token: "");
+      selectedProjectFaqList = await ProjectDetailFetcherStaticService.fetchProjectFaqs(
+          projectID: selectedProject.id, token: "");
+      selectedProjectCommentsList = await ProjectDetailFetcherStaticService.fetchProjectComments(
+          projectID: selectedProject.id, token: "");
 
       if (selectedProjectDetails == null ||
           selectedProjectSummary == null ||

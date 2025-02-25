@@ -47,8 +47,7 @@ class InvestmentModel {
     this.backimage,
     this.riskType,
   });
-  factory InvestmentModel.fromJson(Map<String, dynamic> json) =>
-      InvestmentModel(
+  factory InvestmentModel.fromJson(Map<String, dynamic> json) => InvestmentModel(
         id: json["id"],
         ownerName: json["ownerName"],
         imageUrl: json["imageUrl"],
@@ -60,12 +59,10 @@ class InvestmentModel {
         completedTargetRate: json["completedTargetRate"]?.toDouble(),
         startDate: json["startDate"],
         backimage: json["backimage"],
-        categories: json["categories"] != null
-            ? List<String>.from(json["categories"])
-            : null,
+        categories: json["categories"] != null ? List<String>.from(json["categories"]) : null,
         status: ProjectStatusExtension.fromString(json["status"]),
-        investmentStatus: InvestmentStatusExtension.fromString(
-            json["investmentStatus"] ?? ''),
+        investmentStatus:
+            null, // ProjectOpportunityExtension.fromString(json["investmentStatus"] ?? ''),
         favoriteCount: json["favoriteCount"],
         completedAmount: json["completedAmount"]?.toString(),
         monthlyPaymentCount: json["monthlyPaymentCount"]?.toString(),

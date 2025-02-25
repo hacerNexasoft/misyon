@@ -14,7 +14,7 @@ class SearchRowComp extends BaseStatelessWidget {
   final Function()? onLeftIconTap;
   final Function()? onRightIconTap;
   final Function()? additionalFunction;
-  final TextEditingController? controller;
+  final TextEditingController? textEditingController;
 
   const SearchRowComp({
     super.key,
@@ -25,7 +25,7 @@ class SearchRowComp extends BaseStatelessWidget {
     this.onLeftIconTap,
     this.onRightIconTap,
     this.additionalFunction,
-    this.controller,
+    this.textEditingController,
   });
 
   @override
@@ -37,6 +37,9 @@ class SearchRowComp extends BaseStatelessWidget {
           child: additionalFunction == null
               ? SearchComp(
                   hintText: LocalizationKeys.searchfecTextKey.tr,
+                  onChanged: (txt) {
+                    //Search işlemi burada
+                  },
                 )
               : _buildSearchContainer(),
         ),
@@ -79,8 +82,7 @@ class SearchRowComp extends BaseStatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 0.w),
               child: SvgPicture.asset(
                 AssetConstants.searchIcon,
-                colorFilter: const ColorFilter.mode(
-                    AppColors.darkGreyColor, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(AppColors.darkGreyColor, BlendMode.srcIn),
               ),
             ),
             SizedBox(width: 10.w),

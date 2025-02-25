@@ -2,7 +2,6 @@ import 'package:common/common.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/config/network.dart';
-
 import 'package:misyonbank/product/models/sign_in_request_model.dart';
 import 'package:dio/dio.dart' as dio;
 

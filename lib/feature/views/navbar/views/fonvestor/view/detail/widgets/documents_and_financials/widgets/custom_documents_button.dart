@@ -5,7 +5,7 @@ import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/product/models/document_model.dart';
-import 'package:misyonbank/product/services/fetcher_static_service.dart';
+import 'package:misyonbank/product/services/fetchers/projectdetail_fetcher_static_service.dart';
 import 'package:widgets/components.dart';
 
 class CustomDocumentsButton extends BaseStatelessWidget {
@@ -19,7 +19,7 @@ class CustomDocumentsButton extends BaseStatelessWidget {
     return GestureDetector(
       onTap: () async {
         DocumentModel? documentModel =
-            await FetcherStaticService.fetchDocument(docID: docID, token: "");
+            await ProjectDetailFetcherStaticService.fetchDocument(docID: docID, token: "");
         if (documentModel != null) {
           Get.to(() => PDFViewerFromBase64(
                 data: documentModel.base64document,

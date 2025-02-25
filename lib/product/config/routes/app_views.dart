@@ -5,8 +5,8 @@ import 'package:misyonbank/feature/views/navbar/navbar_view.dart';
 import 'package:misyonbank/feature/views/navbar/navbar_view_binding.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/summary/teams_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/widgets/summary/teams_view_binding.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_binding.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_view.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_binding.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/detail_view.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/detail/detail_view_binding.dart';
 import 'package:misyonbank/feature/views/navbar/views/explore/views/filter_communities/filter_communities_binding.dart';
@@ -43,9 +43,9 @@ class AppViews {
       binding: InvestViewBinding(),
     ),
     GetPage(
-      name: AppRoutes.investmentOpportunities,
-      page: () => const InvestmentOpportunitiesView(),
-      binding: InvestmentOpportunitiesBinding(),
+      name: AppRoutes.projectOpportunities,
+      page: () => const ProjectOpportunitiesView(),
+      binding: ProjectOpportunitiesBinding(),
     ),
     GetPage(
         name: AppRoutes.detailView, page: () => const DetailView(), binding: DetailViewBinding()),

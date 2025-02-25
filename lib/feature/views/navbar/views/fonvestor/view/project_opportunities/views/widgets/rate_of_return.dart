@@ -1,17 +1,17 @@
 import 'package:common/common.dart';
 import 'package:flutter/services.dart';
 import 'package:misyonbank/feature/components/tool_tip_comp.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class RateOfReturn extends BaseGetView<InvestmentOpportunitiesController> {
+class RateOfReturn extends BaseGetView<ProjectOpportunitiesController> {
   const RateOfReturn({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InvestmentOpportunitiesController>(builder: (_) {
+    return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Column(
@@ -92,8 +92,7 @@ class RateOfReturn extends BaseGetView<InvestmentOpportunitiesController> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding:
-            suffix != null ? EdgeInsets.only(right: 40.w) : EdgeInsets.zero,
+        padding: suffix != null ? EdgeInsets.only(right: 40.w) : EdgeInsets.zero,
         decoration: BoxDecoration(
           color: fillColor ?? AppColors.textFieldFillColor,
           borderRadius: borderRadius,

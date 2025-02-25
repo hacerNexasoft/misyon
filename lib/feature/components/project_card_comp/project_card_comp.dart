@@ -58,7 +58,7 @@ class ProjectCardComp extends BaseStatelessWidget {
     String infoText = statusText(status: projectModel.status);
     return SizedBox(
       width: Get.width * 0.9,
-      // height: (projectModel.status == ProjectStatus.upcomingDetailedPrerelease) ? 200.sp : 250.sp,
+      height: (projectModel.status == ProjectStatus.upcomingDetailedPrerelease) ? 200.sp : 250.sp,
       child: Stack(
         children: [
           if (projectModel.status != ProjectStatus.unknown) ...[

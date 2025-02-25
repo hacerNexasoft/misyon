@@ -1,17 +1,16 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/tool_tip_comp.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class YieldFrequencyWidget
-    extends BaseGetView<InvestmentOpportunitiesController> {
+class YieldFrequencyWidget extends BaseGetView<ProjectOpportunitiesController> {
   const YieldFrequencyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InvestmentOpportunitiesController>(builder: (_) {
+    return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: Column(
@@ -73,8 +72,7 @@ class YieldFrequencyWidget
             child: ScaleFactorAutoSizeText(
               text: duration,
               style: isSelected
-                  ? theme.primaryTextTheme.bodyMedium
-                      ?.copyWith(color: AppColors.backgroundColor)
+                  ? theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.backgroundColor)
                   : theme.primaryTextTheme.bodyMedium,
             ),
           ),

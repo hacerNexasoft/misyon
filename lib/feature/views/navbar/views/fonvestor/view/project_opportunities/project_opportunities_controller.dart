@@ -1,16 +1,16 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/list_filtering_comp/list_filtering_comp.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 
-class InvestmentOpportunitiesController extends BaseGetxController {
+class ProjectOpportunitiesController extends BaseGetxController {
   final _projectService = Get.find<ProjectService>();
   var bottompress = false.obs;
-  var statuses = InvestmentStatus.values.toList();
-  var selectedStatus = InvestmentStatus.all.obs;
-  var selectedInvestmentRange = const RangeValues(10, 150).obs;
+  var statuses = ProjectOpportunityDetail.values.toList();
+  var selectedStatus = ProjectOpportunityDetail.all.obs;
+  var selectedProjectRange = const RangeValues(10, 150).obs;
   var selectedSortingOptions = ''.obs;
   RxString selectedDuration = ''.obs;
   RxString selectedMaturities = ''.obs;
@@ -25,8 +25,7 @@ class InvestmentOpportunitiesController extends BaseGetxController {
     if (Get.arguments != null && Get.arguments is String) {
       String headerTitle = Get.arguments as String;
 
-      selectedStatus.value =
-          InvestmentStatusExtension.fromDescription(headerTitle);
+      selectedStatus.value = ProjectOpportunityExtension.fromDescription(headerTitle);
     }
   }
 
@@ -70,20 +69,29 @@ class InvestmentOpportunitiesController extends BaseGetxController {
     update();
   }
 
-  List<String> get visibleTags =>
-      showAllTags.value ? tags : tags.take(9).toList();
+  List<String> get visibleTags => showAllTags.value ? tags : tags.take(9).toList();
 
-  List<String> get visibleSectors =>
-      showAllSectors.value ? sectors : sectors.take(3).toList();
+  List<String> get visibleSectors => showAllSectors.value ? sectors : sectors.take(3).toList();
 
-  RxList<InvestmentModel?> get filteredProjects {
-    if (selectedStatus.value == InvestmentStatus.all) {
-      return _projectService.fetchAllInvestmentsOpportunitiesList;
-    } else {
-      return _projectService.fetchAllInvestmentsOpportunitiesList
-          .where((project) => project?.investmentStatus == selectedStatus.value)
-          .toList()
-          .obs;
+  RxList<ProjectModel> get filteredProjects {
+    switch (selectedStatus.value) {
+      case ProjectOpportunityDetail.all:
+        return _projectService.allProjectsList;
+
+      case ProjectOpportunityDetail.successful:
+        return _projectService.succeededProjects;
+
+      case ProjectOpportunityDetail.favorite:
+        return _projectService.favoriteProjects;
+
+      case ProjectOpportunityDetail.active:
+        return _projectService.activeProjects;
+
+      case ProjectOpportunityDetail.upcoming:
+        return _projectService.upcomingProjects;
+
+      default:
+        return <ProjectModel>[].obs;
     }
   }
 
@@ -103,7 +111,7 @@ class InvestmentOpportunitiesController extends BaseGetxController {
     selectedDuration.value = newDuration;
   }
 
-  void onSelectStatus(InvestmentStatus selected) {
+  void onSelectStatus(ProjectOpportunityDetail selected) {
     selectedStatus.value = selected;
     update();
   }
@@ -115,7 +123,7 @@ class InvestmentOpportunitiesController extends BaseGetxController {
 
   Future<void> showBottomSheet() async {
     await Get.dropdownBottomSheet(
-      child: ListFilteringComp<InvestmentStatus>(
+      child: ListFilteringComp<ProjectOpportunityDetail>(
         height: Get.height * 0.6,
         headerTitle: LocalizationKeys.listViewKey.tr,
         items: statuses,
@@ -143,13 +151,13 @@ class InvestmentOpportunitiesController extends BaseGetxController {
     );
   }
 
-  void onInvestmentRangeChanged(RangeValues rangeValues) {
-    selectedInvestmentRange.value = rangeValues;
+  void onProjectRangeChanged(RangeValues rangeValues) {
+    selectedProjectRange.value = rangeValues;
     update();
   }
 
-  void onInvestmentRangeDelete(RangeValues rangeValues) {
-    selectedInvestmentRange.value = rangeValues;
+  void onProjectRangeDelete(RangeValues rangeValues) {
+    selectedProjectRange.value = rangeValues;
     update();
   }
 

@@ -48,22 +48,22 @@ extension InvestmentProcessExtension on MyInvestmentsProcess {
   }
 }
 
-extension InvestmentStatusExtension on InvestmentStatus {
+extension ProjectOpportunityExtension on ProjectOpportunityDetail {
   String get description {
     switch (this) {
-      case InvestmentStatus.all:
+      case ProjectOpportunityDetail.all:
         return LocalizationKeys.allTextslowerKey.tr;
-      case InvestmentStatus.upcoming:
+      case ProjectOpportunityDetail.upcoming:
         return LocalizationKeys.soonTextKey.tr;
-      case InvestmentStatus.preRequest:
-        return LocalizationKeys.preDemandStatusTextKey.tr;
-      case InvestmentStatus.reachedTarget:
+      /* case InvestmentStatus.preRequest:
+        return LocalizationKeys.preDemandStatusTextKey.tr;*/
+      case ProjectOpportunityDetail.successful:
         return LocalizationKeys.completedProjectsTextKey.tr;
-      case InvestmentStatus.openInvestments:
+      case ProjectOpportunityDetail.active:
         return LocalizationKeys.openInvestmentsKey.tr;
-      case InvestmentStatus.failureToReachTarget:
-        return LocalizationKeys.failureToReachTargetKey.tr;
-      case InvestmentStatus.favorites:
+      /*case InvestmentStatus.failureToReachTarget:
+        return LocalizationKeys.failureToReachTargetKey.tr;*/
+      case ProjectOpportunityDetail.favorite:
         return LocalizationKeys.favoritesTextKey.tr;
     }
   }
@@ -72,17 +72,17 @@ extension InvestmentStatusExtension on InvestmentStatus {
     return toString().split('.').last;
   }
 
-  static InvestmentStatus fromDescription(String description) {
-    return InvestmentStatus.values.firstWhere(
+  static ProjectOpportunityDetail fromDescription(String description) {
+    return ProjectOpportunityDetail.values.firstWhere(
       (status) => status.description == description,
-      orElse: () => InvestmentStatus.all,
+      orElse: () => ProjectOpportunityDetail.all,
     );
   }
 
-  static InvestmentStatus fromString(String status) {
-    return InvestmentStatus.values.firstWhere(
+  static ProjectOpportunityDetail fromString(String status) {
+    return ProjectOpportunityDetail.values.firstWhere(
       (e) => e.toShortString() == status,
-      orElse: () => InvestmentStatus.all,
+      orElse: () => ProjectOpportunityDetail.all,
     );
   }
 }

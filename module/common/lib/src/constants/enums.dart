@@ -20,6 +20,7 @@ enum Period { Annual, Monthly, unknown }
 
 enum MyInvestmentsProcess { openInvestment, atTermination, returnPeriod }
 
+//Silinecek
 enum InvestmentStatus {
   all,
   reachedTarget,
@@ -45,4 +46,12 @@ enum RiskType {
   risky,
   neutral,
   profitable,
+}
+
+enum ProjectOpportunityDetail {
+  all,
+  favorite,
+  active,
+  successful,
+  upcoming,
 }

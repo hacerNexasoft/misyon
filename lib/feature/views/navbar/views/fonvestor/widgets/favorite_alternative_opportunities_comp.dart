@@ -4,7 +4,7 @@ class _FavoriteAlternativeOpportunitiesWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(AppRoutes.investmentOpportunities,
+      onTap: () => Get.toNamed(AppRoutes.projectOpportunities,
           arguments: LocalizationKeys.favoritesTextKey.tr),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -19,8 +19,7 @@ class _FavoriteAlternativeOpportunitiesWidget extends BaseStatelessWidget {
           children: [
             Expanded(
               child: ScaleFactorAutoSizeText(
-                text:
-                    LocalizationKeys.favoriteAlternativeOpportunitiesTextKey.tr,
+                text: LocalizationKeys.favoriteAlternativeOpportunitiesTextKey.tr,
                 style: theme.primaryTextTheme.bodyMedium?.copyWith(
                   color: AppColors.lightTextColor,
                   fontWeight: FontWeight.bold,

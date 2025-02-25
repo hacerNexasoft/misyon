@@ -1,16 +1,16 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/tool_tip_comp.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/investment_opportunities/investment_opportunities_controller.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class LabelsWidget extends BaseGetView<InvestmentOpportunitiesController> {
+class LabelsWidget extends BaseGetView<ProjectOpportunitiesController> {
   const LabelsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InvestmentOpportunitiesController>(builder: (_) {
+    return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Column(
@@ -65,8 +65,7 @@ class LabelsWidget extends BaseGetView<InvestmentOpportunitiesController> {
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: controller.selectedTags
-                        .contains(controller.visibleTags[index])
+                color: controller.selectedTags.contains(controller.visibleTags[index])
                     ? AppColors.primaryPinkColor
                     : AppColors.borderGray,
                 borderRadius: BorderRadius.circular(16.r),
@@ -76,12 +75,9 @@ class LabelsWidget extends BaseGetView<InvestmentOpportunitiesController> {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: controller.selectedTags
-                        .contains(controller.visibleTags[index])
-                    ? theme.primaryTextTheme.bodyMedium
-                        ?.copyWith(color: AppColors.black)
-                    : theme.primaryTextTheme.bodyMedium
-                        ?.copyWith(color: AppColors.black),
+                style: controller.selectedTags.contains(controller.visibleTags[index])
+                    ? theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.black)
+                    : theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.black),
               ),
             ),
           );
@@ -105,8 +101,7 @@ class LabelsWidget extends BaseGetView<InvestmentOpportunitiesController> {
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: theme.primaryTextTheme.bodyMedium
-                ?.copyWith(color: AppColors.primaryColor),
+            style: theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.primaryColor),
           );
         }),
       ),

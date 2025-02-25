@@ -4,7 +4,7 @@ class _AllAlternativeOpportunitiesWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(AppRoutes.investmentOpportunities,
+      onTap: () => Get.toNamed(AppRoutes.projectOpportunities,
           arguments: LocalizationKeys.allTextslowerKey.tr),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
