@@ -1,19 +1,20 @@
 import 'package:common/common.dart';
+import 'package:intl/intl.dart';
 import 'package:misyonbank/feature/components/cancel_comp/cancel_bottom_sheet_comp.dart';
 import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_models/investment_model.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 
-class TransactionsViewController extends BaseGetxController
-    with GetTickerProviderStateMixin {
+class TransactionsViewController extends BaseGetxController with GetTickerProviderStateMixin {
   final _projectService = Get.find<ProjectService>();
   final transactionStartDateController = TextEditingController();
   final transactionEndDateController = TextEditingController();
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
+  Rx<String> searchText = ''.obs;
 
   RxBool isDateRangePickerVisible = false.obs;
   var selectedIndex = 0.obs;
@@ -27,8 +28,7 @@ class TransactionsViewController extends BaseGetxController
   RxList<String> selectedSectors = <String>[].obs;
   var bottompress = false.obs;
   var showAllSectors = false.obs;
-  Rx<PaymentTypeModel> selectedPaymentType =
-      AppConstants.paymentTypes.first.obs;
+  Rx<PaymentTypeModel> selectedPaymentType = AppConstants.paymentTypes.first.obs;
 
   final List<String> durations = [
     "Aylık",
@@ -46,8 +46,7 @@ class TransactionsViewController extends BaseGetxController
     "Son 1 Yıl",
   ];
 
-  List<String> get visibleTags =>
-      showAllTags.value ? tags : tags.take(9).toList();
+  List<String> get visibleTags => showAllTags.value ? tags : tags.take(9).toList();
 
   TabController? tabController;
   final List<String> tabs = [
@@ -56,42 +55,23 @@ class TransactionsViewController extends BaseGetxController
     LocalizationKeys.cancelledTransactionsTextKey.tr,
   ];
 
-  // Tarih aralığına göre gruplama
-  Map<String, List<InvestmentModel>> groupByDate(
-      List<InvestmentModel> transactions) {
-    Map<String, List<InvestmentModel>> groupedTransactions = {};
-    for (var transaction in transactions) {
-      final date = transaction.startDate ?? '';
-      if (!groupedTransactions.containsKey(date)) {
-        groupedTransactions[date] = [];
-      }
-      groupedTransactions[date]?.add(transaction);
-    }
-    return groupedTransactions;
-  }
-
-  RxList<InvestmentModel?> get realizedTransactionList =>
-      _projectService.realizedTransactionList;
-  RxList<InvestmentModel?> get pendingTransactionList =>
-      _projectService.pendingTransactionList;
-  RxList<InvestmentModel?> get canceldTransactionList =>
-      _projectService.canceldTransactionList;
+  RxList<InvestmentModel> get completedInvestmentsList => _projectService.completedInvestments;
+  RxList<InvestmentModel> get waitingInvestmentsList => _projectService.waitingInvestments;
+  RxList<InvestmentModel> get failedInvestmentsList => _projectService.failedInvestments;
 
   Future<void> initView({Function()? action}) async {
     try {
       change(state, status: RxStatus.loading());
-      await _projectService.fetchRealizedTransactionList();
-      await _projectService.fetchpendingTransactionList();
-      await _projectService.fetchcanceldTransactionList();
+      await _projectService.fetchInvestments();
 
-      if (realizedTransactionList.isEmpty) {
-        change(state, status: RxStatus.error(""));
+      if (_projectService.allInvestments.isEmpty) {
+        change(state, status: RxStatus.error("No investments!"));
         return;
       }
-      if (pendingTransactionList.isEmpty) {
+      /*if (pendingTransactionList.isEmpty) {
         change(state, status: RxStatus.error(""));
         return;
-      }
+      }*/
       change(state, status: RxStatus.success());
     } catch (e) {
       change(state, status: RxStatus.error(e.toString()));
@@ -99,24 +79,40 @@ class TransactionsViewController extends BaseGetxController
     }
   }
 
-  Future<void> showBottomSheet() async {
-    await Get.dropdownBottomSheet(
-      child: CancelBottomSheetComp(
-        title: "Yatırımı iptal etmek istediğine emin misin?",
-        subtitle:
-            "İptal ettiğinde yatırım tutarı Fonvestor hesabına iade edilecektir.",
-        onApply: () {
-          Get.back();
-        },
-      ),
-    );
-  }
-
   @override
   void onInit() {
     tabController = TabController(length: tabs.length, vsync: this);
     initView();
     super.onInit();
+  }
+
+  set setSearchText(String txt) {
+    searchText.value = txt;
+    update();
+  }
+
+  Map<String, List<InvestmentModel>> groupByDate(List<InvestmentModel> investments) {
+    Map<String, List<InvestmentModel>> groupedInvestments = {};
+    for (var investment in investments) {
+      String dateKey = DateFormat('dd MMMM yyyy', 'tr_TR').format(investment.investmentDate);
+      if (!groupedInvestments.containsKey(dateKey)) {
+        groupedInvestments[dateKey] = [];
+      }
+      groupedInvestments[dateKey]?.add(investment);
+    }
+    return groupedInvestments;
+  }
+
+  Future<void> showBottomSheet() async {
+    await Get.dropdownBottomSheet(
+      child: CancelBottomSheetComp(
+        title: "Yatırımı iptal etmek istediğine emin misin?",
+        subtitle: "İptal ettiğinde yatırım tutarı Fonvestor hesabına iade edilecektir.",
+        onApply: () {
+          Get.back();
+        },
+      ),
+    );
   }
 
   void resetMaturities() {
@@ -178,8 +174,7 @@ class TransactionsViewController extends BaseGetxController
 
     if (pickedDate != null) {
       selectedStartDate.value = pickedDate;
-      transactionStartDateController.text =
-          Formatter.formatDateTime(pickedDate);
+      transactionStartDateController.text = Formatter.formatDateTime(pickedDate);
     }
   }
 

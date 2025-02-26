@@ -13,10 +13,9 @@ class InvestableModel {
       required this.renderButton,
       required this.message});
 
-  factory InvestableModel.fromJson({required Map<String, dynamic> json}) =>
-      InvestableModel(
-          status: ModelHelpers.findStatusByCode(json['statusCode']),
-          canInvestable: json['canInvestable'],
-          renderButton: json['renderButton'],
-          message: json['message']);
+  factory InvestableModel.fromJson({required Map<String, dynamic> json}) => InvestableModel(
+      status: ModelHelpers.findProjectStatusByCode(json['statusCode']),
+      canInvestable: json['canInvestable'],
+      renderButton: json['renderButton'],
+      message: json['message']);
 }

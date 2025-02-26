@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_model_old.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:skeleton_text/skeleton_text.dart';
@@ -14,7 +14,7 @@ part 'components/content_info_comp.dart';
 class InvestmentCardComp extends BaseStatelessWidget {
   final String infoText;
   final String image;
-  final InvestmentModel projectModel;
+  final InvestmentModelOld projectModel;
   const InvestmentCardComp({
     super.key,
     required this.infoText,

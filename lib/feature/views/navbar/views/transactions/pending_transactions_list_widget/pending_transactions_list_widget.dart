@@ -1,33 +1,39 @@
 part of '../transactions_view.dart';
 
-class _PendingTransactionsListWidget
-    extends BaseGetView<TransactionsViewController> {
-  const _PendingTransactionsListWidget();
+class _PendingInvestmentListWidget extends BaseGetView<TransactionsViewController> {
+  const _PendingInvestmentListWidget();
 
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-      (state) => ListView(
-        padding: EdgeInsets.only(top: 15.w),
-        children: controller
-            .groupByDate(controller.pendingTransactionList
-                .where((transaction) => transaction != null)
-                .cast<InvestmentModel>()
-                .toList())
-            .entries
-            .toList()
-            .asMap()
-            .entries
-            .map((groupEntry) => _buildTransactionGroup(
-                  groupEntry.value.key,
-                  groupEntry.value.value,
-                  groupEntry.key,
-                ))
-            .toList(),
-      ),
+      (state) {
+        List<InvestmentModel> filteredInvestmentList = [];
+        if (controller.searchText.isNotEmpty) {
+          filteredInvestmentList = controller.waitingInvestmentsList
+              .where((element) =>
+                  element.project.title.toLowerCase().contains(controller.searchText.toLowerCase()))
+              .toList();
+        }
+        return ListView(
+          padding: EdgeInsets.only(top: 15.w),
+          children: controller
+              .groupByDate(controller.searchText.isNotEmpty
+                  ? filteredInvestmentList
+                  : controller.waitingInvestmentsList)
+              .entries
+              .toList()
+              .asMap()
+              .entries
+              .map((groupEntry) => _buildTransactionGroup(
+                    groupEntry.value.key,
+                    groupEntry.value.value,
+                    groupEntry.key,
+                  ))
+              .toList(),
+        );
+      },
       onLoading: const LoadingWidget(),
-      onEmpty: EmptyWidget(
-          image: AssetConstants.emptyItemIcon, text: "Hata", size: 100.w),
+      onEmpty: EmptyWidget(image: AssetConstants.emptyItemIcon, text: "Hata", size: 100.w),
       onError: (error) => CustomErrorWidget(
         text: "Hata",
         image: AssetConstants.emptyItemIcon,
@@ -37,21 +43,21 @@ class _PendingTransactionsListWidget
     );
   }
 
-  Widget _buildTransactionGroup(
-      String date, List<InvestmentModel> transactions, int index) {
+  Widget _buildTransactionGroup(String date, List<InvestmentModel> investmentList, int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildDateTitle(date),
         _buildDivider(),
-        ...transactions.map(
-          (item) => _PendingTransactionsListItemWidget(projectModel: item),
-        ),
+        for (int i = 0; i < investmentList.length; i++) ...[
+          _PendingInvestmentsListItemWidget(investment: investmentList[i]),
+          if (i != investmentList.length - 1) _buildDivider(),
+        ],
         SizedBox(height: 15.sp),
-        if (index < controller.textPendingTransactions.length)
+        /* if (index < controller.textPendingTransactions.length)
           _buildDescription(controller.textPendingTransactions[index]),
-        SizedBox(height: 15.sp),
+        SizedBox(height: 15.sp),*/
       ],
     );
   }
@@ -67,7 +73,7 @@ class _PendingTransactionsListWidget
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: ScaleFactorAutoSizeText(
-        text: Formatter.formatDateTime(date),
+        text: date,
         style: theme.primaryTextTheme.bodyMedium!.copyWith(
           color: AppColors.toolTipGreyColor,
           fontWeight: FontWeight.bold,

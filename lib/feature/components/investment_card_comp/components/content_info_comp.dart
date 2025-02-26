@@ -1,7 +1,7 @@
 part of '../investment_card_comp.dart';
 
 class _ContentInfoComp extends BaseStatelessWidget {
-  final InvestmentModel projectModel;
+  final InvestmentModelOld projectModel;
 
   const _ContentInfoComp({
     required this.projectModel,

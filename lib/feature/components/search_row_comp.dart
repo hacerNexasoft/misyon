@@ -2,11 +2,12 @@ import 'package:common/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/feature/components/search/search_comp.dart';
+import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:widgets/components.dart';
 
-class SearchRowComp extends BaseStatelessWidget {
+class SearchRowComp extends BaseGetView<TransactionsViewController> {
   final String? leftIcon;
   final String? rightIcon;
   final bool? backIcon;
@@ -38,7 +39,11 @@ class SearchRowComp extends BaseStatelessWidget {
               ? SearchComp(
                   hintText: LocalizationKeys.searchfecTextKey.tr,
                   onChanged: (txt) {
-                    //Search işlemi burada
+                    if (txt.length >= 2) {
+                      controller.setSearchText = txt;
+                    } else {
+                      controller.setSearchText = '';
+                    }
                   },
                 )
               : _buildSearchContainer(),

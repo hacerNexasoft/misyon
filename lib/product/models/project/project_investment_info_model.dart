@@ -44,7 +44,7 @@ class ProjectInvestmentInfoModel {
         fundingGoal: json["fundingGoal"],
         fundingPercentage: json["fundingPercentage"],
         additionalFundingRate: json["additionalFundingRate"],
-        status: ModelHelpers.findStatusByCode(json["status"]),
+        status: ModelHelpers.findProjectStatusByCode(json["status"]),
         numberOfInvestors: json["numberOfInvestors"],
         timeUntilEnd: json["timeUntilEnd"],
         timeUntilStart: json["timeUntilStart"],

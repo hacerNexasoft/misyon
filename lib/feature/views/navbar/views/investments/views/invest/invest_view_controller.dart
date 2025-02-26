@@ -4,7 +4,7 @@ import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/bank_account_model.dart';
 import 'package:misyonbank/product/models/bank_model.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_model_old.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
 import 'package:misyonbank/product/models/investment_details_model.dart';
 import 'package:misyonbank/product/services/bank_account_service.dart';
@@ -13,8 +13,7 @@ import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
 
-class InvestViewController extends BaseGetxController
-    with GetTickerProviderStateMixin {
+class InvestViewController extends BaseGetxController with GetTickerProviderStateMixin {
   final InvestmentDetailModel? projectDetailModel;
   final _bankAccountService = Get.find<BankAccountService>();
 
@@ -46,8 +45,7 @@ class InvestViewController extends BaseGetxController
   final craditAmountTextColor = AppColors.black.obs;
 
   Rx<DateTime?> selectedTransactionDate = Rx<DateTime?>(null);
-  Rx<PaymentTypeModel> selectedPaymentType =
-      AppConstants.paymentTypes.first.obs;
+  Rx<PaymentTypeModel> selectedPaymentType = AppConstants.paymentTypes.first.obs;
   TabController? tabController;
 
   static const double minInvestAmount = 100000;
@@ -57,9 +55,9 @@ class InvestViewController extends BaseGetxController
     LocalizationKeys.moneyTransferEFTTextKey.tr,
     LocalizationKeys.creditCardTextKey.tr,
   ];
-  RxList<InvestmentModel> get openInvestmentsOpportunities =>
+  RxList<InvestmentModelOld> get openInvestmentsOpportunities =>
       _projectService.openInvestmentsOpportunities;
-  InvestmentModel? selectedProject;
+  InvestmentModelOld? selectedProject;
   @override
   void onInit() {
     super.onInit();
@@ -113,8 +111,7 @@ class InvestViewController extends BaseGetxController
 
   void useAllBalance() {
     final balance = selectedBankAccount.value?.availableBalance ?? 0;
-    transactionAmountController.text =
-        Formatter.formatMoney(balance, showCurrency: false);
+    transactionAmountController.text = Formatter.formatMoney(balance, showCurrency: false);
     transactionAmount.value = balance;
 
     _updateTextFieldColors();
@@ -135,18 +132,15 @@ class InvestViewController extends BaseGetxController
     }
   }
 
-  bool _isWithinRange(double amount) =>
-      amount >= minInvestAmount && amount <= maxInvestAmount;
+  bool _isWithinRange(double amount) => amount >= minInvestAmount && amount <= maxInvestAmount;
 
   void _updateTextFieldColors() {
     final amount = _getAmount();
     final isValid = _isWithinRange(amount) || amount == 0;
 
-    borderColor.value =
-        isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
-    fillColor.value = isValid
-        ? AppColors.textFieldFillColor
-        : AppColors.primaryRedColor.withOpacity(0.2);
+    borderColor.value = isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
+    fillColor.value =
+        isValid ? AppColors.textFieldFillColor : AppColors.primaryRedColor.withOpacity(0.2);
     textColor.value = isValid ? AppColors.black : AppColors.primaryRedColor;
   }
 
@@ -154,8 +148,7 @@ class InvestViewController extends BaseGetxController
     if (value.isEmpty) {
       investAmount.value = 0;
     } else {
-      investAmount.value =
-          Formatter.convertFormattedAmountStringToDouble(value);
+      investAmount.value = Formatter.convertFormattedAmountStringToDouble(value);
     }
     _updateTextFieldColors();
     _checkButtonEnableStatus();
@@ -165,8 +158,7 @@ class InvestViewController extends BaseGetxController
     if (value.isEmpty) {
       investAmount.value = 0;
     } else {
-      investAmount.value =
-          Formatter.convertFormattedAmountStringToDouble(value);
+      investAmount.value = Formatter.convertFormattedAmountStringToDouble(value);
     }
     _updateCradiCardTextFieldColors();
     _checkCradiCardButtonEnableStatus();
@@ -176,13 +168,10 @@ class InvestViewController extends BaseGetxController
     final amount = investAmount.value;
     final isValid = amount >= minInvestAmount && amount <= maxInvestAmount;
 
-    craditAmountBorderColor.value =
-        isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
-    craditAmountFillColor.value = isValid
-        ? AppColors.textFieldFillColor
-        : AppColors.primaryRedColor.withOpacity(0.2);
-    craditAmountTextColor.value =
-        isValid ? AppColors.black : AppColors.primaryRedColor;
+    craditAmountBorderColor.value = isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
+    craditAmountFillColor.value =
+        isValid ? AppColors.textFieldFillColor : AppColors.primaryRedColor.withOpacity(0.2);
+    craditAmountTextColor.value = isValid ? AppColors.black : AppColors.primaryRedColor;
   }
 
   void _checkCradiCardButtonEnableStatus() {
@@ -196,8 +185,7 @@ class InvestViewController extends BaseGetxController
     if (value.isEmpty) {
       transactionAmount.value = 0;
     } else {
-      transactionAmount.value =
-          Formatter.convertFormattedAmountStringToDouble(value);
+      transactionAmount.value = Formatter.convertFormattedAmountStringToDouble(value);
     }
     _updateTextFieldColors();
     _checkButtonEnableStatus();
@@ -205,9 +193,8 @@ class InvestViewController extends BaseGetxController
 
   void _checkButtonEnableStatus() {
     final amount = _getAmount();
-    isButtonEnabled.value = isCampaignAccepted.value &&
-        isRiskAccepted.value &&
-        _isWithinRange(amount);
+    isButtonEnabled.value =
+        isCampaignAccepted.value && isRiskAccepted.value && _isWithinRange(amount);
   }
 
   void onCampaignAccepted(bool? value) {
@@ -225,14 +212,12 @@ class InvestViewController extends BaseGetxController
   }
 
   bool get showInvestAmountError {
-    final amount =
-        selectedTabIndex.value == 0 ? _getAmount() : investAmount.value;
+    final amount = selectedTabIndex.value == 0 ? _getAmount() : investAmount.value;
     return amount != 0 && !_isWithinRange(amount);
   }
 
   String? getInvestAmountErrorText() {
-    final amount =
-        selectedTabIndex.value == 0 ? _getAmount() : investAmount.value;
+    final amount = selectedTabIndex.value == 0 ? _getAmount() : investAmount.value;
 
     if (amount != 0) {
       if (amount > maxInvestAmount) {
@@ -253,8 +238,7 @@ class InvestViewController extends BaseGetxController
     return '';
   }
 
-  Rx<BankAccountModel?> get selectedBankAccount =>
-      _bankAccountService.selectedAccount;
+  Rx<BankAccountModel?> get selectedBankAccount => _bankAccountService.selectedAccount;
   Rx<BankModel?> get selectedBank => Get.find<BankService>().selectedBank;
 
   @override

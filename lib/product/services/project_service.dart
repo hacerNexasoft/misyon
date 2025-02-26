@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/details_message_model.dart';
 import 'package:misyonbank/product/models/investment_details_model.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_model_old.dart';
+import 'package:misyonbank/product/models/investment_models/investment_model.dart';
 import 'package:misyonbank/product/models/master_data_model.dart';
 import 'package:misyonbank/product/models/project/favorite_project_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
@@ -15,7 +16,8 @@ import 'package:misyonbank/product/utils/extensions.dart';
 
 class ProjectService extends BaseGetxService {
   final isAllFetched = false.obs;
-  // API'den gelen projeler
+  String? jwtToken = Get.find<JwtTokenService>().jwtToken;
+  // Projects--Fonvestor
   final allProjectsList = <ProjectModel>[].obs;
   final activeProjects = <ProjectModel>[].obs;
   final upcomingProjects = <ProjectModel>[].obs;
@@ -25,19 +27,22 @@ class ProjectService extends BaseGetxService {
   // MasterData
   final masterData = Rx<MasterDataModel?>(null);
 
-  //Eski değişkenler
-  final openInvestmentsOpportunities = <InvestmentModel>[].obs;
+  //Investments--işlemler
+  final allInvestments = <InvestmentModel>[].obs;
+  final completedInvestments = <InvestmentModel>[].obs;
+  final waitingInvestments = <InvestmentModel>[].obs;
+  final failedInvestments = <InvestmentModel>[].obs;
 
+  //Eski değişkenler
+  final openInvestmentsOpportunities = <InvestmentModelOld>[].obs;
   final communityList = <CommunityItemModel?>[].obs;
-  final buyProjects = <InvestmentModel>[].obs;
-  final sellProjects = <InvestmentModel?>[].obs;
+  final buyProjects = <InvestmentModelOld>[].obs;
+  final sellProjects = <InvestmentModelOld?>[].obs;
   final investmentDetail = Rx<InvestmentDetailModel?>(null);
   final projectDetailitemList = <InvestmentDetailModel?>[].obs;
   final detailMessage = Rx<DetailsMessageModel?>(null);
   final detailManagerMessage = Rx<DetailsManegerMessageModel?>(null);
-  final realizedTransactionList = <InvestmentModel?>[].obs;
-  final pendingTransactionList = <InvestmentModel?>[].obs;
-  final canceldTransactionList = <InvestmentModel?>[].obs;
+
   final investmentsItemList = <InvestmentsItemModel?>[].obs;
 
   @override
@@ -45,9 +50,8 @@ class ProjectService extends BaseGetxService {
     super.onInit();
     // Projeleri çekme işlemini başlat
     await fetchProjects();
-    if (Get.find<JwtTokenService>().jwtToken != null) {
-      favoriteProjects.value = await FetcherStaticService.fetchFavoriteProjects(
-          token: Get.find<JwtTokenService>().jwtToken!);
+    if (jwtToken != null) {
+      favoriteProjects.value = await FetcherStaticService.fetchFavoriteProjects(token: jwtToken!);
     }
 
     //MasterDataFetch
@@ -114,6 +118,36 @@ class ProjectService extends BaseGetxService {
     succeededProjects.value = allProjectsList
         .toList()
         .where((element) => element.status == ProjectStatus.successful)
+        .toList();
+  }
+
+  Future<void> fetchInvestments() async {
+    //InvestmentFetchs
+    if (jwtToken != null) {
+      allInvestments.value = await FetcherStaticService.fetchAllInvestments(token: jwtToken!);
+      filterInvestmentsByStatus();
+    }
+  }
+
+  void filterInvestmentsByStatus() {
+    if (allInvestments.isEmpty) return;
+    completedInvestments.value = allInvestments
+        .toList()
+        .where((element) => element.statusCode == InvestmentStateFilter.Completed.index)
+        .toList();
+    waitingInvestments.value = allInvestments
+        .toList()
+        .where((element) => element.statusCode == InvestmentStateFilter.Waiting.index)
+        .toList();
+    failedInvestments.value = allInvestments
+        .toList()
+        .where((element) =>
+            element.status == InvestmentStatus.canceled ||
+            element.status == InvestmentStatus.waitingCancel ||
+            element.status == InvestmentStatus.waitingRefund ||
+            element.status == InvestmentStatus.underPayment ||
+            element.status == InvestmentStatus.refunded ||
+            element.status == InvestmentStatus.paymentFailed)
         .toList();
   }
 
@@ -261,7 +295,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchOpenInvestmentsOpportunities() async {
     try {
       openInvestmentsOpportunities.value = [
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -279,7 +313,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -297,7 +331,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -315,7 +349,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -333,7 +367,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -351,7 +385,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -369,7 +403,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -387,7 +421,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -405,7 +439,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -423,7 +457,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.risky,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -441,7 +475,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.activeFunding),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -559,7 +593,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchBuyProjects() async {
     try {
       buyProjects.value = [
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -577,7 +611,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
             status: ProjectStatus.successful),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -595,7 +629,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.successful),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -613,7 +647,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
             status: ProjectStatus.successful),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -631,7 +665,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.profitable,
             status: ProjectStatus.successful),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'Mionti Enerji',
             backimage:
@@ -649,7 +683,7 @@ class ProjectService extends BaseGetxService {
             startDate: '23 Temmuz 2024',
             riskType: RiskType.neutral,
             status: ProjectStatus.successful),
-        InvestmentModel(
+        InvestmentModelOld(
             id: UniqueKey().toString(),
             ownerName: 'melda io',
             backimage:
@@ -677,7 +711,7 @@ class ProjectService extends BaseGetxService {
   Future<void> fetchSellProjects() async {
     try {
       sellProjects.value = [
-        InvestmentModel(),
+        InvestmentModelOld(),
       ];
     } catch (e) {
       logger.e(e);
@@ -1800,115 +1834,6 @@ class ProjectService extends BaseGetxService {
       logger.i("Project details fetched successfully");
     } catch (e) {
       logger.e("Error fetching project details: $e");
-      rethrow;
-    }
-  }
-
-  Future<void> fetchRealizedTransactionList() async {
-    try {
-      realizedTransactionList.value = [
-        InvestmentModel(
-            ownerName: 'Tunga Soft',
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWL6JqVuWQDs0_23XEC3r92fgNFsZu9O4MQGxxUfV46PsaWp4p',
-            monthlyPaymentCount: 'Ön Talep',
-            amountReceived: -22325.13,
-            startDate: '2024-09-20',
-            accountPaymentMethod: 'İptal Et',
-            paymentMethod: PaymentMethod.takeMoney),
-        InvestmentModel(
-            ownerName: 'Oleatex',
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
-            monthlyPaymentCount: 'Yatırım (Havale/EFT)',
-            amountReceived: -22325.13,
-            startDate: '2024-09-16',
-            accountPaymentMethod: 'İptal Et',
-            paymentMethod: PaymentMethod.takeMoney),
-        InvestmentModel(
-            ownerName: 'melda io',
-            backimage:
-                'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
-            imageUrl:
-                'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
-            amountReceived: -22325.13,
-            startDate: '2024-09-14',
-            monthlyPaymentCount: 'Yatırım(Kredi Kartı)',
-            paymentMethod: PaymentMethod.takeMoney),
-        InvestmentModel(
-            backimage:
-                'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
-            imageUrl:
-                'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
-            ownerName: 'Mionti Enerji',
-            amountReceived: 1200.13,
-            startDate: '2024-09-12',
-            monthlyPaymentCount: 'Aylık Ödeme 7/12',
-            paymentMethod: PaymentMethod.sendMoney)
-      ];
-    } catch (e) {
-      logger.e("Error fetching project transaction : $e");
-      rethrow;
-    }
-  }
-
-  Future<void> fetchpendingTransactionList() async {
-    try {
-      pendingTransactionList.value = [
-        InvestmentModel(
-            ownerName: 'Mionti Enerji',
-            imageUrl:
-                'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
-            monthlyPaymentCount: 'Aylık Ödeme 7/12',
-            amountReceived: 1200.13,
-            startDate: '2024-10-29',
-            accountPaymentMethod: 'Gecikmede',
-            paymentMethod: PaymentMethod.sendMoney),
-        InvestmentModel(
-            ownerName: 'Oleatex',
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
-            monthlyPaymentCount: 'iptal isteği',
-            amountReceived: 22325.13,
-            startDate: '2024-10-29',
-            paymentMethod: PaymentMethod.sendMoney),
-        InvestmentModel(
-            ownerName: 'TiPlay',
-            imageUrl:
-                'https://media.licdn.com/dms/image/v2/D4E22AQEfsmmHBS7b3w/feedshare-shrink_800/feedshare-shrink_800/0/1723472812613?e=2147483647&v=beta&t=-_zaEJNPP--0LiSIvc7sMpslvWUbFKyeCoEaL6SZk2E',
-            amountReceived: 22325.13,
-            startDate: '2024-09-04',
-            monthlyPaymentCount: 'Parçalı İade',
-            paymentMethod: PaymentMethod.sendMoney),
-      ];
-    } catch (e) {
-      logger.e("Error fetching project transaction : $e");
-      rethrow;
-    }
-  }
-
-  Future<void> fetchcanceldTransactionList() async {
-    try {
-      canceldTransactionList.value = [
-        InvestmentModel(
-            ownerName: 'Oleatex',
-            imageUrl:
-                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-OgP2VdeMuQc5I3sh7tZczgfnr0ROybRBLaPN7W5vVnGgg-O8',
-            monthlyPaymentCount: 'Aylık Ödeme 7/12',
-            amountReceived: 1200.13,
-            startDate: '2024-10-29',
-            paymentMethod: PaymentMethod.sendMoney),
-        InvestmentModel(
-            ownerName: 'melda io',
-            imageUrl:
-                'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
-            monthlyPaymentCount: 'iptal isteği',
-            amountReceived: 22325.13,
-            startDate: '2024-10-29',
-            paymentMethod: PaymentMethod.sendMoney),
-      ];
-    } catch (e) {
-      logger.e("Error fetching project transaction : $e");
       rethrow;
     }
   }

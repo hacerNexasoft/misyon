@@ -78,7 +78,7 @@ class ProjectModel {
         shortDescription:
             json['shortDescription'] ?? '', // Null kontrolü ile varsayılan değer ataması
         statusCode: json['status'] ?? 0, // Null kontrolü ile varsayılan değer ataması
-        status: ModelHelpers.findStatusByCode(json['status'] ?? 0),
+        status: ModelHelpers.findProjectStatusByCode(json['status'] ?? 0),
         timeUntilEnd: json['timeUntilEnd'] ?? 0, // Null kontrolü ile varsayılan değer ataması
         timeUntilStart: json['timeUntilStart'] ?? 0, // Null kontrolü ile varsayılan değer ataması
         title: json['title'] ?? '', // Null kontrolü ile varsayılan değer ataması

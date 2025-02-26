@@ -1,23 +1,20 @@
 part of '../transactions_view.dart';
 
-class _PendingTransactionsListItemWidget
-    extends BaseGetView<TransactionsViewController> {
-  final InvestmentModel? projectModel;
-  const _PendingTransactionsListItemWidget({required this.projectModel});
+class _PendingInvestmentsListItemWidget extends BaseGetView<TransactionsViewController> {
+  final InvestmentModel investment;
+  const _PendingInvestmentsListItemWidget({required this.investment});
 
   @override
   Widget build(BuildContext context) {
-    return projectModel != null
-        ? Container(
-            margin: EdgeInsets.symmetric(vertical: 5.w),
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0.w),
-            decoration: BoxDecoration(
-              color: AppColors.backgroundColor,
-              borderRadius: BorderRadius.circular(Get.width * 0.03),
-            ),
-            child: _content,
-          )
-        : const SizedBox();
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0.w),
+      decoration: BoxDecoration(
+        color: AppColors.backgroundColor,
+        borderRadius: BorderRadius.circular(Get.width * 0.03),
+      ),
+      child: _content,
+    );
   }
 
   Widget get _content => Row(
@@ -27,7 +24,7 @@ class _PendingTransactionsListItemWidget
             child: Row(
               children: [
                 ProjectCustomCachedNetworkImageComp(
-                  imageUrl: projectModel?.imageUrl,
+                  imageUrl: investment.projectLogoUrl,
                   size: 40.w,
                 ),
                 SizedBox(width: 20.w),
@@ -50,7 +47,7 @@ class _PendingTransactionsListItemWidget
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ScaleFactorAutoSizeText(
-            text: projectModel?.ownerName ?? '',
+            text: investment.seoName,
             style: theme.primaryTextTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -58,10 +55,9 @@ class _PendingTransactionsListItemWidget
           SizedBox(height: 5.h),
           ScaleFactorAutoSizeText(
             maxLines: 1,
-            text: "${projectModel?.monthlyPaymentCount}",
+            text: "Yatırım(${investment.investmentType.toStringValue})",
             overflow: TextOverflow.ellipsis,
-            style: theme.primaryTextTheme.bodyMedium!
-                .copyWith(color: AppColors.darkGreyColor),
+            style: theme.primaryTextTheme.bodyMedium!.copyWith(color: AppColors.darkGreyColor),
           )
         ],
       ),
@@ -76,28 +72,34 @@ class _PendingTransactionsListItemWidget
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           ScaleFactorAutoSizeText(
-            text: Formatter.formatMoney(projectModel?.amountReceived),
+            text: Formatter.formatMoney(investment.committedInvestment),
             maxLines: 1,
             style: theme.primaryTextTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 5.h),
-          if (projectModel?.accountPaymentMethod != null) _buildDelayStatus
+          if (investment.status.toStringValue.isNotEmpty) _buildDelayStatus
         ],
       ),
     );
   }
 
   Widget _buildPaymentMethodIcon() {
-    return Expanded(
-      child: projectModel?.paymentMethod != null
-          ? projectModel!.paymentMethod!.icon
-          : const Icon(
+    return Expanded(child: iconSelector(value: investment.committedInvestment)
+        /*const Icon(
               Icons.help_outline,
               color: AppColors.black,
-            ),
-    );
+            ),*/
+        );
+  }
+
+  Widget iconSelector({required double value}) {
+    if (value > 0) {
+      return SvgPicture.asset(AssetConstants.arrowDownLeftIcon);
+    } else {
+      return SvgPicture.asset(AssetConstants.arrowUpRightIcon);
+    }
   }
 
   Widget get _buildDelayStatus => Container(
@@ -106,7 +108,7 @@ class _PendingTransactionsListItemWidget
             borderRadius: BorderRadius.circular(9999.r),
             color: AppColors.orangeColorText.withAlpha(40)),
         child: ScaleFactorAutoSizeText(
-          text: projectModel?.accountPaymentMethod,
+          text: investment.status.toStringValue,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: theme.primaryTextTheme.bodySmall!.copyWith(

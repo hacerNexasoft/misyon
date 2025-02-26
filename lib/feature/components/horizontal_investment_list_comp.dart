@@ -2,11 +2,11 @@ import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/investment_card_comp.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/investment_card_header_comp.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_model_old.dart';
 
 class HorizontalInvestmentListComp extends BaseStatelessWidget {
   final String headerTitle;
-  final List<InvestmentModel> projects;
+  final List<InvestmentModelOld> projects;
 
   const HorizontalInvestmentListComp(
       {super.key, required this.headerTitle, required this.projects});
@@ -25,10 +25,9 @@ class HorizontalInvestmentListComp extends BaseStatelessWidget {
   }
 
   Widget _buildList() {
-    double listHeight =
-        projects.any((project) => project.status == ProjectStatus.activeFunding)
-            ? 200.sp
-            : 250.sp; // Burada sıkıntı çıkabilir!!
+    double listHeight = projects.any((project) => project.status == ProjectStatus.activeFunding)
+        ? 200.sp
+        : 250.sp; // Burada sıkıntı çıkabilir!!
 
     return SizedBox(
       height: listHeight,
@@ -38,8 +37,7 @@ class HorizontalInvestmentListComp extends BaseStatelessWidget {
         shrinkWrap: true,
         itemCount: projects.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              left: 10.w, right: (index == projects.length - 1 ? 10 : 0).w),
+          padding: EdgeInsets.only(left: 10.w, right: (index == projects.length - 1 ? 10 : 0).w),
           child: InvestmentCardComp(
             infoText: 'Son ${projects.elementAt(index).term.toString()} Gün',
             image: projects.elementAt(index).backimage.toString(),

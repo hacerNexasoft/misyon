@@ -1,9 +1,10 @@
 import 'package:common/common.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:misyonbank/feature/components/search_row_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/filtering_transactions_view.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_models/investment_model.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
@@ -44,8 +45,7 @@ class TransactionsView extends BaseGetView<TransactionsViewController> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0.w),
       child: TabBar(
-        tabs: List.generate(controller.tabs.length,
-            (index) => Tab(text: controller.tabs[index])),
+        tabs: List.generate(controller.tabs.length, (index) => Tab(text: controller.tabs[index])),
         controller: controller.tabController,
         onTap: controller.onTabSelected,
         dividerColor: Colors.transparent,
@@ -57,10 +57,9 @@ class TransactionsView extends BaseGetView<TransactionsViewController> {
         tabAlignment: TabAlignment.start,
         splashFactory: NoSplash.splashFactory,
         isScrollable: true,
-        labelStyle:
-            theme.primaryTextTheme.bodyLarge!.copyWith(color: AppColors.black),
-        unselectedLabelStyle: theme.primaryTextTheme.bodyLarge
-            ?.copyWith(color: AppColors.primaryGreyColor),
+        labelStyle: theme.primaryTextTheme.bodyLarge!.copyWith(color: AppColors.black),
+        unselectedLabelStyle:
+            theme.primaryTextTheme.bodyLarge?.copyWith(color: AppColors.primaryGreyColor),
       ),
     );
   }
@@ -72,8 +71,8 @@ class TransactionsView extends BaseGetView<TransactionsViewController> {
         child: TabBarView(
           controller: controller.tabController,
           children: const [
-            _TransactionsActualsListWidget(),
-            _PendingTransactionsListWidget(),
+            _ComplatedInvestmentListWidget(),
+            _PendingInvestmentListWidget(),
             _CanceldTransactionsListWidget(),
           ],
         ),

@@ -1,7 +1,3 @@
-enum SnackBarType { success, error, warning }
-
-enum TimeRange { Day1, Day3, Week1, Month1, Month6, Year1 }
-
 enum ProjectStatus {
   activeFunding,
   activeFundingStopped,
@@ -20,8 +16,52 @@ enum Period { Annual, Monthly, unknown }
 
 enum MyInvestmentsProcess { openInvestment, atTermination, returnPeriod }
 
-//Silinecek
+enum RiskType {
+  risky,
+  neutral,
+  profitable,
+}
+
+enum ProjectOpportunityDetail {
+  all,
+  favorite,
+  active,
+  successful,
+  upcoming,
+}
+
+enum InvestmentStateFilter { All, Waiting, Completed, Failed }
+
 enum InvestmentStatus {
+  waitingPayment,
+  paymentReceived,
+  paymentFinalized,
+  partiallyRefunded,
+  waitingCancel,
+  waitingRefund,
+  shareDistributed,
+  waitingRemainingPayment,
+  canceled,
+  refunded,
+  noPaymentMade,
+  paymentFailed,
+  notSentToTakasbank,
+  underPayment,
+  takasbankBadRequest,
+  waitingExcessFundRefund,
+  unknown
+}
+
+enum InvestmentType { CreditCard, Eft, unknown }
+
+//Old Enums
+
+enum SnackBarType { success, error, warning }
+
+enum TimeRange { Day1, Day3, Week1, Month1, Month6, Year1 }
+
+//Silinecek
+enum InvestmentStatusOld {
   all,
   reachedTarget,
   openInvestments,
@@ -40,18 +80,4 @@ enum BankAccountCategory { mission, otherAccounts, bankInstitution }
 enum PaymentMethod {
   sendMoney,
   takeMoney,
-}
-
-enum RiskType {
-  risky,
-  neutral,
-  profitable,
-}
-
-enum ProjectOpportunityDetail {
-  all,
-  favorite,
-  active,
-  successful,
-  upcoming,
 }

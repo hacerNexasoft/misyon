@@ -3,6 +3,7 @@ import 'package:common/common.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:misyonbank/product/config/network.dart';
+import 'package:misyonbank/product/models/investment_models/investment_model.dart';
 import 'package:misyonbank/product/models/master_data_model.dart';
 import 'package:misyonbank/product/models/project/favorite_project_model.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
@@ -140,6 +141,52 @@ class FetcherStaticService {
         print('API İstek Hatası(fetchMasterData): $e');
       }
       return null;
+    }
+  }
+
+  static Future<List<InvestmentModel>> fetchAllInvestments({required String token}) async {
+    List<InvestmentModel> list = [];
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      var data = json.encode({"investmentState": 0});
+
+      Dio dio = Get.find();
+      var response = await dio.request(
+        '$baseURL/portfoliodbit/getinvestments',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200 && response.data['result']) {
+        //Data Geldi
+        List data = response.data['data']['investments'];
+
+        list = data
+            .map(
+              (e) => InvestmentModel.fromJson(e),
+            )
+            .toList();
+        if (kDebugMode) {
+          print('Çekilen Investments: ${list.length}');
+        }
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+      }
+      return list;
+    } catch (e) {
+      if (kDebugMode) {
+        print('API İstek Hatası(fetchInvestments): $e');
+      }
+      return [];
     }
   }
 }

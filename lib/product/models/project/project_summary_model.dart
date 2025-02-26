@@ -39,7 +39,7 @@ class ProjectSummaryModel {
         tags: json["tags"] != null ? List<String>.from(json["tags"]) : null,
         coverImage: json["coverImage"],
         logo: json["logo"],
-        status: ModelHelpers.findStatusByCode(json["status"]),
+        status: ModelHelpers.findProjectStatusByCode(json["status"]),
         isFavorite: json["isFavorite"],
         canPreInvestment: json["canPreInvestment"],
       );

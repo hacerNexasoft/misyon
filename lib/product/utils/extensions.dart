@@ -322,3 +322,62 @@ extension RiskTypeExtension on RiskType {
     }
   }
 }
+
+extension InvestmentStatusExtension on InvestmentStatus {
+  String get toStringValue {
+    final map = <InvestmentStatus, String>{
+      InvestmentStatus.waitingPayment: "Bekleyen Ödeme",
+      InvestmentStatus.paymentReceived: "Ödeme Alındı",
+      InvestmentStatus.paymentFinalized: "Ödeme Başarılı",
+      InvestmentStatus.partiallyRefunded: "Kısmi İade",
+      InvestmentStatus.waitingCancel: "İptal/İade Bekleniyor",
+      InvestmentStatus.waitingRefund: "Bekleyen Geri Ödeme",
+      InvestmentStatus.shareDistributed: "Pay Dağıtıldı",
+      InvestmentStatus.waitingRemainingPayment: "Kalan Ödeme Bekleniyor",
+      InvestmentStatus.canceled: "İptal Edildi",
+      InvestmentStatus.refunded: "İade Edildi",
+      InvestmentStatus.noPaymentMade: "Ödeme Yapılmadı",
+      InvestmentStatus.paymentFailed: "Ödeme Başarısız",
+      InvestmentStatus.notSentToTakasbank: "Talep Alınamadı",
+      InvestmentStatus.underPayment: "Eksik Ödeme",
+      InvestmentStatus.takasbankBadRequest: "Takasbank Hatası",
+      InvestmentStatus.waitingExcessFundRefund: "Fazla Fon İadesi Bekleniyor",
+    };
+    return map[this] ?? "";
+  }
+
+  Color get toColor {
+    final map = <InvestmentStatus, Color>{
+      InvestmentStatus.waitingPayment: Colors.orange,
+      InvestmentStatus.paymentReceived: Colors.green,
+      InvestmentStatus.paymentFinalized: Colors.green,
+      InvestmentStatus.partiallyRefunded: Colors.orange,
+      InvestmentStatus.waitingCancel: Colors.orange,
+      InvestmentStatus.waitingRefund: Colors.orange,
+      InvestmentStatus.shareDistributed: Colors.green,
+      InvestmentStatus.waitingRemainingPayment: Colors.yellow,
+      InvestmentStatus.canceled: Colors.red,
+      InvestmentStatus.refunded: Colors.red,
+      InvestmentStatus.noPaymentMade: Colors.red,
+      InvestmentStatus.paymentFailed: Colors.red,
+      InvestmentStatus.notSentToTakasbank: Colors.red,
+      InvestmentStatus.underPayment: Colors.orange,
+      InvestmentStatus.takasbankBadRequest: Colors.red,
+      InvestmentStatus.waitingExcessFundRefund: Colors.orange,
+    };
+    return map[this] ?? Colors.transparent;
+  }
+}
+
+extension InvestmentTypeExtension on InvestmentType {
+  String get toStringValue {
+    switch (this) {
+      case InvestmentType.CreditCard:
+        return "Kredi Kartı";
+      case InvestmentType.Eft:
+        return "EFT";
+      default:
+        return "-";
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
-import 'package:misyonbank/product/models/investment_model.dart';
+import 'package:misyonbank/product/models/investment_model_old.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
@@ -10,7 +10,7 @@ class YieldCalculationViewController extends BaseGetxController {
   final rateController = TextEditingController();
   final _projectService = Get.find<ProjectService>();
 
-  RxList<InvestmentModel?> get openInvestmentsOpportunities =>
+  RxList<InvestmentModelOld?> get openInvestmentsOpportunities =>
       _projectService.openInvestmentsOpportunities;
   final investAmount = 0.0.obs;
   final borderColor = Colors.transparent.obs;
@@ -32,7 +32,7 @@ class YieldCalculationViewController extends BaseGetxController {
 
   static const double minInvestAmount = 1;
   static const double maxInvestAmount = 75000000;
-  RxList<InvestmentModel> filteredProjects = <InvestmentModel>[].obs;
+  RxList<InvestmentModelOld> filteredProjects = <InvestmentModelOld>[].obs;
   void filterEarningRates() {
     double? targetRate = double.tryParse(rateController.text);
     if (targetRate == null) {
@@ -53,8 +53,7 @@ class YieldCalculationViewController extends BaseGetxController {
     if (value.isEmpty) {
       investAmount.value = 0;
     } else {
-      investAmount.value =
-          Formatter.convertFormattedAmountStringToDouble(value);
+      investAmount.value = Formatter.convertFormattedAmountStringToDouble(value);
     }
     _updateTextFieldColors();
     _checkButtonEnableStatus();
@@ -69,16 +68,13 @@ class YieldCalculationViewController extends BaseGetxController {
     final amount = investAmount.value;
     final isValid = _isWithinRange(amount) || amount == 0;
 
-    borderColor.value =
-        isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
-    fillColor.value = isValid
-        ? AppColors.textFieldFillColor
-        : AppColors.primaryRedColor.withOpacity(0.2);
+    borderColor.value = isValid ? AppColors.primaryColor : AppColors.primaryRedColor;
+    fillColor.value =
+        isValid ? AppColors.textFieldFillColor : AppColors.primaryRedColor.withOpacity(0.2);
     textColor.value = isValid ? AppColors.black : AppColors.primaryRedColor;
   }
 
-  bool _isWithinRange(double amount) =>
-      amount >= minInvestAmount && amount <= maxInvestAmount;
+  bool _isWithinRange(double amount) => amount >= minInvestAmount && amount <= maxInvestAmount;
 
   Future<void> selectMaturity(BuildContext context) async {
     await Get.dropdownBottomSheet<int>(

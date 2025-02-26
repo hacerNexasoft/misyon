@@ -1,7 +1,7 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 
-class InvestmentModel {
+class InvestmentModelOld {
   final String? id;
   final String? ownerName; //Title
   final String? imageUrl; //logourl
@@ -14,7 +14,7 @@ class InvestmentModel {
   final String? startDate;
   final List<String>? categories;
   final ProjectStatus? status;
-  final InvestmentStatus? investmentStatus; // status
+  final InvestmentStatusOld? investmentStatus; // status
   final int? favoriteCount;
   final String? completedAmount;
   final String? monthlyPaymentCount;
@@ -24,7 +24,7 @@ class InvestmentModel {
   final RiskType? riskType;
   final String? backimage; //coverimage
 
-  InvestmentModel({
+  InvestmentModelOld({
     this.id,
     this.ownerName,
     this.imageUrl,
@@ -47,7 +47,7 @@ class InvestmentModel {
     this.backimage,
     this.riskType,
   });
-  factory InvestmentModel.fromJson(Map<String, dynamic> json) => InvestmentModel(
+  factory InvestmentModelOld.fromJson(Map<String, dynamic> json) => InvestmentModelOld(
         id: json["id"],
         ownerName: json["ownerName"],
         imageUrl: json["imageUrl"],

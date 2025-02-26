@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/config/theme/themes.dart';
 import 'package:misyonbank/product/localization/localization_service.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   await CacheBoxService.initBoxes(); //Storage
   await GetxManager.setupServices();
+  await initializeDateFormatting('tr_TR');
   runApp(const MyApp());
 }
 

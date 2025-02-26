@@ -1,0 +1,4 @@
+name: JsonToDataClass
+description: json converter
+---
+vereceğim json formatına uygun dart data class kodlarını yaz.

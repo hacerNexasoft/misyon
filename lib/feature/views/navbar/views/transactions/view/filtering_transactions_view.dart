@@ -1,6 +1,5 @@
 import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/filter_button_widget.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/labels_widget.dart';
@@ -11,12 +10,11 @@ import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class FilteringTransactionsView
-    extends BaseGetView<TransactionsViewController> {
+class FilteringTransactionsView extends BaseGetView<TransactionsViewController> {
   const FilteringTransactionsView({super.key});
 
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
