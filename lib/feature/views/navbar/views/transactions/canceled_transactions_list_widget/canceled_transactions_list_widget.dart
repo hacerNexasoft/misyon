@@ -7,6 +7,9 @@ class _CanceldTransactionsListWidget extends BaseGetView<TransactionsViewControl
   Widget build(BuildContext context) {
     return controller.obx((state) {
       List<InvestmentModel> filteredInvestmentList = [];
+      if (controller.investmentListFilter != null) {
+        filteredInvestmentList = controller.investmentListFilter!.filteredFailedInvestmentsList;
+      }
       if (controller.searchText.isNotEmpty) {
         filteredInvestmentList = controller.failedInvestmentsList
             .where((element) =>
@@ -16,7 +19,7 @@ class _CanceldTransactionsListWidget extends BaseGetView<TransactionsViewControl
       return ListView(
         padding: EdgeInsets.only(top: 15.w),
         children: controller
-            .groupByDate(controller.searchText.isNotEmpty
+            .groupByDate(controller.searchText.isNotEmpty || controller.investmentListFilter != null
                 ? filteredInvestmentList
                 : controller.failedInvestmentsList)
             .entries
@@ -49,7 +52,17 @@ class _CanceldTransactionsListWidget extends BaseGetView<TransactionsViewControl
         _buildDateTitle(date),
         _buildDivider(),
         for (int i = 0; i < investmentList.length; i++) ...[
-          _CanceledTransactionsListItemWidget(investment: investmentList[i]),
+          GestureDetector(
+              onTap: () {
+                ProjectModel? projectModel =
+                    controller.bringProjectModel(investmentList[i].project.id);
+                if (projectModel != null && projectModel.isClickable) {
+                  Get.toNamed(AppRoutes.detailView, arguments: {
+                    'project': projectModel,
+                  });
+                }
+              },
+              child: _CanceledTransactionsListItemWidget(investment: investmentList[i])),
           if (i != investmentList.length - 1) _buildDivider(),
         ],
         SizedBox(

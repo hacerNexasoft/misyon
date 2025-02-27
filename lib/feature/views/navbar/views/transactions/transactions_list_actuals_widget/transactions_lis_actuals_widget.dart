@@ -7,6 +7,11 @@ class _ComplatedInvestmentListWidget extends BaseGetView<TransactionsViewControl
   Widget build(BuildContext context) {
     return controller.obx((state) {
       List<InvestmentModel> filteredInvestmentList = [];
+
+      if (controller.investmentListFilter != null) {
+        filteredInvestmentList = controller.investmentListFilter!.filteredCompletedInvestmentsList;
+      }
+
       if (controller.searchText.isNotEmpty) {
         filteredInvestmentList = controller.completedInvestmentsList
             .where((element) =>
@@ -17,7 +22,7 @@ class _ComplatedInvestmentListWidget extends BaseGetView<TransactionsViewControl
       return ListView(
         padding: EdgeInsets.only(top: 15.w),
         children: controller
-            .groupByDate(controller.searchText.isNotEmpty
+            .groupByDate(controller.searchText.isNotEmpty || controller.investmentListFilter != null
                 ? filteredInvestmentList
                 : controller.completedInvestmentsList)
             .entries
@@ -50,7 +55,17 @@ class _ComplatedInvestmentListWidget extends BaseGetView<TransactionsViewControl
         _buildDateTitle(date),
         _buildDivider(),
         for (int i = 0; i < investmentList.length; i++) ...[
-          _TransactionsListItemWidget(investment: investmentList[i]),
+          GestureDetector(
+              onTap: () {
+                ProjectModel? projectModel =
+                    controller.bringProjectModel(investmentList[i].project.id);
+                if (projectModel != null && projectModel.isClickable) {
+                  Get.toNamed(AppRoutes.detailView, arguments: {
+                    'project': projectModel,
+                  });
+                }
+              },
+              child: _TransactionsListItemWidget(investment: investmentList[i])),
           if (i != investmentList.length - 1) _buildDivider(),
         ],
         SizedBox(

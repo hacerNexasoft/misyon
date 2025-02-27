@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:misyonbank/feature/components/search_row_comp.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/filtering_transactions_view.dart';
+import 'package:misyonbank/product/config/routes/app_views.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/models/investment_models/investment_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
@@ -38,7 +40,7 @@ class TransactionsView extends BaseGetView<TransactionsViewController> {
         padding: EdgeInsets.symmetric(vertical: 10.w),
         child: SearchRowComp(
           leftIcon: AssetConstants.filterIcon,
-          onLeftIconTap: () => Get.to(const FilteringTransactionsView()),
+          onLeftIconTap: () => Get.to(() => const FilteringTransactionsView()),
         ),
       );
   Padding _buildTabBar() {

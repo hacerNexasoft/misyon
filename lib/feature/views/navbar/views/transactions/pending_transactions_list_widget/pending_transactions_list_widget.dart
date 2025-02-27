@@ -8,6 +8,9 @@ class _PendingInvestmentListWidget extends BaseGetView<TransactionsViewControlle
     return controller.obx(
       (state) {
         List<InvestmentModel> filteredInvestmentList = [];
+        if (controller.investmentListFilter != null) {
+          filteredInvestmentList = controller.investmentListFilter!.filtereedWaitingInvestmentsList;
+        }
         if (controller.searchText.isNotEmpty) {
           filteredInvestmentList = controller.waitingInvestmentsList
               .where((element) =>
@@ -17,9 +20,10 @@ class _PendingInvestmentListWidget extends BaseGetView<TransactionsViewControlle
         return ListView(
           padding: EdgeInsets.only(top: 15.w),
           children: controller
-              .groupByDate(controller.searchText.isNotEmpty
-                  ? filteredInvestmentList
-                  : controller.waitingInvestmentsList)
+              .groupByDate(
+                  controller.searchText.isNotEmpty || controller.investmentListFilter != null
+                      ? filteredInvestmentList
+                      : controller.waitingInvestmentsList)
               .entries
               .toList()
               .asMap()
@@ -51,7 +55,17 @@ class _PendingInvestmentListWidget extends BaseGetView<TransactionsViewControlle
         _buildDateTitle(date),
         _buildDivider(),
         for (int i = 0; i < investmentList.length; i++) ...[
-          _PendingInvestmentsListItemWidget(investment: investmentList[i]),
+          GestureDetector(
+              onTap: () {
+                ProjectModel? projectModel =
+                    controller.bringProjectModel(investmentList[i].project.id);
+                if (projectModel != null && projectModel.isClickable) {
+                  Get.toNamed(AppRoutes.detailView, arguments: {
+                    'project': projectModel,
+                  });
+                }
+              },
+              child: _PendingInvestmentsListItemWidget(investment: investmentList[i])),
           if (i != investmentList.length - 1) _buildDivider(),
         ],
         SizedBox(height: 15.sp),

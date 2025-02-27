@@ -11,8 +11,7 @@ class FilterButtonWidget extends BaseGetView<TransactionsViewController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
-        child: _filterButton());
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w), child: _filterButton());
   }
 
   Widget _filterButton() {
@@ -20,7 +19,7 @@ class FilterButtonWidget extends BaseGetView<TransactionsViewController> {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
       child: CustomButton(
           onTap: () {
-            controller.filteredBottomPress();
+            controller.onClickfilterButton();
             Get.back();
           },
           borderRadius: Get.width * 0.1,

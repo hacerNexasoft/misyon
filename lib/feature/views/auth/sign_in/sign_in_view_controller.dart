@@ -22,8 +22,7 @@ class SignInViewController extends BaseGetxController {
   var passwordError = ''.obs;
   var isLoading = false.obs; // Add this line
 
-  static const platform =
-      MethodChannel('com.misyonbank.misyonbank/device_info');
+  static const platform = MethodChannel('com.misyonbank.misyonbank/device_info');
 
   SignInViewController() {
     focusNodeEmail.addListener(() {
@@ -50,8 +49,7 @@ class SignInViewController extends BaseGetxController {
         return 'Location services are disabled.';
       }
 
-      geo.LocationPermission permission =
-          await geo.Geolocator.checkPermission();
+      geo.LocationPermission permission = await geo.Geolocator.checkPermission();
       if (permission == geo.LocationPermission.denied) {
         permission = await geo.Geolocator.requestPermission();
         if (permission == geo.LocationPermission.denied) {
@@ -119,7 +117,7 @@ class SignInViewController extends BaseGetxController {
         final response = await _signInService.signIn(signInRequestModel);
 
         if (response != null && response.statusCode == 200) {
-          final jwtToken = response.data['data']['jwt'];
+          String? jwtToken = response.data['data']['jwt'];
           if (jwtToken != null) {
             final jwtTokenService = Get.find<JwtTokenService>();
             jwtTokenService.setJwtToken(jwtToken);

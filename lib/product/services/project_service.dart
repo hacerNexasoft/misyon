@@ -16,7 +16,7 @@ import 'package:misyonbank/product/utils/extensions.dart';
 
 class ProjectService extends BaseGetxService {
   final isAllFetched = false.obs;
-  String? jwtToken = Get.find<JwtTokenService>().jwtToken;
+  String? jwtToken;
   // Projects--Fonvestor
   final allProjectsList = <ProjectModel>[].obs;
   final activeProjects = <ProjectModel>[].obs;
@@ -47,6 +47,7 @@ class ProjectService extends BaseGetxService {
 
   @override
   void onInit() async {
+    jwtToken = Get.find<JwtTokenService>().jwtToken;
     super.onInit();
     // Projeleri çekme işlemini başlat
     await fetchProjects();
@@ -122,6 +123,7 @@ class ProjectService extends BaseGetxService {
   }
 
   Future<void> fetchInvestments() async {
+    jwtToken = Get.find<JwtTokenService>().jwtToken;
     //InvestmentFetchs
     if (jwtToken != null) {
       allInvestments.value = await FetcherStaticService.fetchAllInvestments(token: jwtToken!);

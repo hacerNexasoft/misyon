@@ -6,6 +6,7 @@ import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/investment_models/investment_model.dart';
 import 'package:misyonbank/product/models/payment_type_model.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 
@@ -106,6 +107,12 @@ class TransactionsViewController extends BaseGetxController with GetTickerProvid
     return groupedInvestments;
   }
 
+  ProjectModel? bringProjectModel(String projectId) {
+    return _projectService.allProjectsList.firstWhereOrNull(
+      (element) => element.id == projectId,
+    );
+  }
+
   Future<void> showBottomSheet() async {
     await Get.dropdownBottomSheet(
       child: CancelBottomSheetComp(
@@ -135,6 +142,7 @@ class TransactionsViewController extends BaseGetxController with GetTickerProvid
     bottompress.value = false;
     transactionEndDateController.text = "";
     transactionStartDateController.text = "";
+    investmentListFilter = null;
   }
 
   void selectMaturity(String maturity) {
@@ -154,8 +162,20 @@ class TransactionsViewController extends BaseGetxController with GetTickerProvid
     }
   }
 
-  void filteredBottomPress() {
+  void onClickfilterButton() {
     bottompress.value = true;
+
+    investmentListFilter = InvestmentListFilter(
+        tags: selectedTags,
+        selectedPeriod: selectedperiods.value,
+        startDate: selectedStartDate.value,
+        endDate: selectedEndDate.value);
+
+    investmentListFilter!.applyFilter(
+        completedInvestmentsList: completedInvestmentsList.toList(),
+        waitingInvestmentsList: waitingInvestmentsList.toList(),
+        failedInvestmentsList: failedInvestmentsList.toList());
+
     update();
   }
 

@@ -19,9 +19,9 @@ class JwtTokenService extends BaseGetxService {
     }
   }
 
-  void setJwtToken(String token) {
+  void setJwtToken(String token) async {
     _jwtToken.value = token;
-    CacheBoxService.saveJwtToken(token);
+    await CacheBoxService.saveJwtToken(token);
     _logger.i('JWT token önbelleğe kaydedildi: $token');
   }
 

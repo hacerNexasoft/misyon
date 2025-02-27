@@ -2,7 +2,6 @@ import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/filter_button_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/labels_widget.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/period_widget.dart';
 import 'package:misyonbank/feature/views/navbar/views/transactions/view/widgets/transaction_direction_widget.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
@@ -54,7 +53,7 @@ class FilteringTransactionsView extends BaseGetView<TransactionsViewController> 
                   children: [
                     const PeriodWidget(),
                     const TransactionDirectionWidget(),
-                    const LabelsWidget(),
+                    //const LabelsWidget(),
                     SizedBox(
                       height: 50.sp,
                     ),
