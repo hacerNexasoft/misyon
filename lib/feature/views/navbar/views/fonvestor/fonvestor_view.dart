@@ -63,7 +63,7 @@ class FonvestorView extends BaseGetView<FonvestorViewController> {
                   projects: controller.activeProjects.toList(),
                 ),
                 SizedBox(height: 20.h),
-                _buildPosterDesignImage(),
+                //_buildPosterDesignImage(),
                 SizedBox(height: 20.h),
                 _CompletedProjectsWidget(
                   headerTitle: LocalizationKeys.completedProjectsTextKey.tr,

@@ -17,6 +17,7 @@ class IncomeStatementWidget extends BaseStatelessWidget {
       }
     }
     incomeFinancials.sort((a, b) => a.year.compareTo(b.year));
+
     controller.selectedIncomeYear.value = incomeFinancials[0].year.toString();
 
     return Padding(

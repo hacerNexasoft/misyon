@@ -17,6 +17,7 @@ class ChartComp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (chartData.isEmpty) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,8 +36,7 @@ class ChartComp extends StatelessWidget {
                     pointColorMapper: (ChartData data, _) {
                       int index = chartData.indexOf(data);
 
-                      return controller
-                          .chartData[index % controller.chartData.length];
+                      return controller.chartData[index % controller.chartData.length];
                     },
                     innerRadius: '85%',
                     radius: '80%',
@@ -46,8 +46,7 @@ class ChartComp extends StatelessWidget {
                     explodeOffset: '3%',
                     animationDuration: 0,
                     onPointTap: (pointTapDetails) {
-                      controller.selectedIndex.value =
-                          pointTapDetails.pointIndex!;
+                      controller.selectedIndex.value = pointTapDetails.pointIndex!;
                     },
                   ),
                 ],
@@ -89,8 +88,7 @@ class ChartComp extends StatelessWidget {
             itemCount: chartData.length,
             itemBuilder: (context, index) {
               final data = chartData[index];
-              final colorData =
-                  controller.chartData[index % controller.chartData.length];
+              final colorData = controller.chartData[index % controller.chartData.length];
               return Padding(
                 padding: EdgeInsets.all(8.h),
                 child: GestureDetector(
@@ -100,8 +98,7 @@ class ChartComp extends StatelessWidget {
                   },
                   child: Obx(
                     () {
-                      final isSelected =
-                          controller.selectedIndex.value == index;
+                      final isSelected = controller.selectedIndex.value == index;
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -117,28 +114,20 @@ class ChartComp extends StatelessWidget {
                           ScaleFactorAutoSizeText(
                             textAlign: TextAlign.start,
                             text: data.category,
-                            style:
-                                Get.theme.primaryTextTheme.bodyLarge!.copyWith(
-                              color: isSelected
-                                  ? AppColors.darkTextColor
-                                  : AppColors.toolTipGreyColor,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                            style: Get.theme.primaryTextTheme.bodyLarge!.copyWith(
+                              color:
+                                  isSelected ? AppColors.darkTextColor : AppColors.toolTipGreyColor,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             ),
                           ),
                           const Spacer(),
                           ScaleFactorAutoSizeText(
                             textAlign: TextAlign.start,
                             text: "%${data.value.toStringAsFixed(2)}",
-                            style:
-                                Get.theme.primaryTextTheme.bodyLarge!.copyWith(
-                              color: isSelected
-                                  ? AppColors.darkTextColor
-                                  : AppColors.toolTipGreyColor,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                            style: Get.theme.primaryTextTheme.bodyLarge!.copyWith(
+                              color:
+                                  isSelected ? AppColors.darkTextColor : AppColors.toolTipGreyColor,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             ),
                           ),
                         ],

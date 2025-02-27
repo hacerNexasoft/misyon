@@ -1,6 +1,7 @@
 import 'package:common/common.dart';
 import 'package:intl/intl.dart';
 import 'package:misyonbank/feature/components/cancel_comp/cancel_bottom_sheet_comp.dart';
+import 'package:misyonbank/feature/views/navbar/views/transactions/util/investment_list_filter.dart';
 import 'package:misyonbank/product/constants/app_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/investment_models/investment_model.dart';
@@ -58,6 +59,8 @@ class TransactionsViewController extends BaseGetxController with GetTickerProvid
   RxList<InvestmentModel> get completedInvestmentsList => _projectService.completedInvestments;
   RxList<InvestmentModel> get waitingInvestmentsList => _projectService.waitingInvestments;
   RxList<InvestmentModel> get failedInvestmentsList => _projectService.failedInvestments;
+
+  InvestmentListFilter? investmentListFilter;
 
   Future<void> initView({Function()? action}) async {
     try {

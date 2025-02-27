@@ -57,6 +57,7 @@ class CustomErrorWidget extends BaseStatelessWidget {
                   text: buttonText ?? 'Yeniden Dene',
                   style: theme.primaryTextTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: AppColors.white,
                   ),
                 ),
               ),

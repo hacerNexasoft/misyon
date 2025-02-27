@@ -73,9 +73,14 @@ class ProjectCardComp extends BaseStatelessWidget {
   Widget _cardContent(String infoText) {
     return GestureDetector(
       onTap: () {
-        if (projectModel.status != ProjectStatus.upcomingPreview &&
+        /*if (projectModel.status != ProjectStatus.upcomingPreview &&
             projectModel.status != ProjectStatus.upcomingPrerelease &&
             projectModel.status != ProjectStatus.unknown) {
+          Get.toNamed(AppRoutes.detailView, arguments: {
+            'project': projectModel,
+          });
+        }*/
+        if (projectModel.isClickable) {
           Get.toNamed(AppRoutes.detailView, arguments: {
             'project': projectModel,
           });

@@ -86,15 +86,19 @@ class SummaryView extends BaseGetView<DetailViewController> {
         SizedBox(
           height: 15.h,
         ),
-        DetailPlatformDocumentsWidget(),
+        if (controller.selectedProjectDocuments != null) DetailPlatformDocumentsWidget(),
         SizedBox(
           height: 15.h,
         ),
         SizedBox(
           height: 15.h,
         ),
-        IncomeStatementWidget(),
-        BalanceSheetWidget(),
+        if (controller.selectedProjectFinancials != null &&
+            controller.selectedProjectFinancials!.isNotEmpty)
+          IncomeStatementWidget(),
+        if (controller.selectedProjectFinancials != null &&
+            controller.selectedProjectFinancials!.isNotEmpty)
+          BalanceSheetWidget(),
         SizedBox(
           height: 15.h,
         ),
