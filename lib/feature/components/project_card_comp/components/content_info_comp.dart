@@ -9,37 +9,26 @@ class _ContentInfoComp extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (projectModel.status != ProjectStatus.upcomingPreview &&
-            projectModel.status != ProjectStatus.upcomingPrerelease &&
-            projectModel.status != ProjectStatus.unknown) {
-          Get.toNamed(AppRoutes.detailView, arguments: {
-            'project': projectModel,
-          });
-        }
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.w),
-        decoration: BoxDecoration(
-          color: AppColors.backgroundColor,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _infoHeader,
-              SizedBox(
-                height: 5.sp,
-              ),
-              innerContextSelector(projectModel.status),
-              SizedBox(
-                height: 5.sp,
-              ),
-              _infoBottomRow,
-            ],
-          ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.w),
+      decoration: BoxDecoration(
+        color: AppColors.backgroundColor,
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _infoHeader,
+            SizedBox(
+              height: 5.sp,
+            ),
+            innerContextSelector(projectModel.status),
+            SizedBox(
+              height: 5.sp,
+            ),
+            _infoBottomRow,
+          ],
         ),
       ),
     );

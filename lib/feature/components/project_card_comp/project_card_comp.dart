@@ -71,15 +71,26 @@ class ProjectCardComp extends BaseStatelessWidget {
   }
 
   Widget _cardContent(String infoText) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _contentHeader(infoText),
-          const Spacer(),
-          _ContentInfoComp(projectModel: projectModel),
-        ],
+    return GestureDetector(
+      onTap: () {
+        if (projectModel.status != ProjectStatus.upcomingPreview &&
+            projectModel.status != ProjectStatus.upcomingPrerelease &&
+            projectModel.status != ProjectStatus.unknown) {
+          Get.toNamed(AppRoutes.detailView, arguments: {
+            'project': projectModel,
+          });
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _contentHeader(infoText),
+            const Spacer(),
+            _ContentInfoComp(projectModel: projectModel),
+          ],
+        ),
       ),
     );
   }

@@ -6,8 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
 class ProjectCardHeaderComp extends BaseStatelessWidget {
+  final bool isEmpty;
   final String headerTitle;
-  const ProjectCardHeaderComp({super.key, required this.headerTitle});
+
+  const ProjectCardHeaderComp(
+      {super.key, required this.headerTitle, required this.isEmpty});
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +39,22 @@ class ProjectCardHeaderComp extends BaseStatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(AppRoutes.projectOpportunities, arguments: headerTitle);
-            },
-            child: ScaleFactorAutoSizeText(
-              text: LocalizationKeys.allTextKey.tr,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.primaryTextTheme.bodyMedium!.copyWith(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.w600,
+          if (!isEmpty)
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.projectOpportunities,
+                    arguments: headerTitle);
+              },
+              child: ScaleFactorAutoSizeText(
+                text: LocalizationKeys.allTextKey.tr,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.primaryTextTheme.bodyMedium!.copyWith(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

@@ -15,7 +15,7 @@ class _CompletedProjectsWidget extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        ProjectCardHeaderComp(headerTitle: headerTitle),
+        ProjectCardHeaderComp(headerTitle: headerTitle, isEmpty: projects.isEmpty),
         SizedBox(height: 20.h),
         _buildList(),
       ],

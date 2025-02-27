@@ -8,7 +8,8 @@ class HorizontalProjectListComp extends BaseStatelessWidget {
   final String headerTitle;
   final List<ProjectModel> projects;
 
-  const HorizontalProjectListComp({super.key, required this.headerTitle, required this.projects});
+  const HorizontalProjectListComp(
+      {super.key, required this.headerTitle, required this.projects});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class HorizontalProjectListComp extends BaseStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        ProjectCardHeaderComp(headerTitle: headerTitle),
+        ProjectCardHeaderComp(headerTitle: headerTitle, isEmpty: projects.isEmpty, ),
         SizedBox(height: 20.h),
         _buildList(),
       ],
@@ -24,10 +25,22 @@ class HorizontalProjectListComp extends BaseStatelessWidget {
   }
 
   Widget _buildList() {
-    double listHeight =
-        projects.any((project) => project.status == ProjectStatus.upcomingDetailedPrerelease)
-            ? 200.sp
-            : 250.sp;
+    if (projects.isEmpty) {
+      return SizedBox(
+        height: 80.h,
+        child: Center(
+          child: Text(
+            "Henüz gösterilecek proje yok.",
+            style: TextStyle(fontSize: 14.sp),
+          ),
+        ),
+      );
+    }
+
+    double listHeight = projects.any((project) =>
+    project.status == ProjectStatus.upcomingDetailedPrerelease)
+        ? 200.sp
+        : 250.sp;
 
     return SizedBox(
       height: listHeight,
@@ -36,15 +49,17 @@ class HorizontalProjectListComp extends BaseStatelessWidget {
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: projects.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(left: 10.w, right: (index == projects.length - 1 ? 10 : 0).w),
-          child: Builder(builder: (context) {
-            return ProjectCardComp(
-              image: projects.elementAt(index).coverImage.toString(),
-              projectModel: projects[index],
-            );
-          }),
-        ),
+        itemBuilder: (context, index) =>
+            Padding(
+              padding: EdgeInsets.only(
+                left: 10.w,
+                right: (index == projects.length - 1 ? 10 : 0).w,
+              ),
+              child: ProjectCardComp(
+                image: projects[index].coverImage.toString(),
+                projectModel: projects[index],
+              ),
+            ),
       ),
     );
   }

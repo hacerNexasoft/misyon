@@ -46,12 +46,9 @@ class FetcherStaticService {
       );
 
       if (response.statusCode == 200) {
-        List data = response.data['data']; // API verisi
+        List data = response.data['data'];
         if (kDebugMode) {
-          //print('API Cevabı: $data');
-        } // Gelen ham veriyi kontrol et
-
-        // JSON verisini ProjectDetailsModel listesine dönüştür
+        }
         List<ProjectModel> projects = data.map((item) => ProjectModel.fromJson(item)).toList();
         if (kDebugMode) {
           print('Proje Sayısı: ${projects.length}');
@@ -164,7 +161,6 @@ class FetcherStaticService {
       );
 
       if (response.statusCode == 200 && response.data['result']) {
-        //Data Geldi
         List data = response.data['data']['investments'];
 
         list = data

@@ -6,6 +6,8 @@ import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/utils/formatter.dart';
 import 'package:widgets/components.dart';
 
+import '../../../product/config/routes/app_views.dart';
+
 class ProjectCompletedComp extends BaseStatelessWidget {
   final ProjectModel projectModel;
   const ProjectCompletedComp({
@@ -15,33 +17,44 @@ class ProjectCompletedComp extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250.sp,
-      margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundColor,
-        borderRadius: BorderRadius.circular(Get.width * 0.07),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primaryGreyColor.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _imageWithText,
-          _fundCollectedRow,
-          SizedBox(
-            height: 5.sp,
-          ),
-          _fundingRateRow
-        ],
+    return GestureDetector(
+      onTap: (){
+        if (projectModel.status != ProjectStatus.upcomingPreview &&
+            projectModel.status != ProjectStatus.upcomingPrerelease &&
+            projectModel.status != ProjectStatus.unknown) {
+          Get.toNamed(AppRoutes.detailView, arguments: {
+            'project': projectModel,
+          });
+        }
+      },
+      child: Container(
+        width: 250.sp,
+        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
+        decoration: BoxDecoration(
+          color: AppColors.backgroundColor,
+          borderRadius: BorderRadius.circular(Get.width * 0.07),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryGreyColor.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _imageWithText,
+            _fundCollectedRow,
+            SizedBox(
+              height: 5.sp,
+            ),
+            _fundingRateRow
+          ],
+        ),
       ),
     );
   }

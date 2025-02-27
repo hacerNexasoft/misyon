@@ -27,7 +27,7 @@ class DetailTopWidget extends BaseStatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ScaleFactorAutoSizeText(
-              text: controller.selectedProjectDetails!.name,
+              text: controller.selectedProjectDetails!.title,
               style: theme.primaryTextTheme.headlineMedium!.semibold.copyWith(
                 color: AppColors.black,
               ),
