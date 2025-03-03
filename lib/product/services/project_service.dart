@@ -49,7 +49,6 @@ class ProjectService extends BaseGetxService {
   void onInit() async {
     jwtToken = Get.find<JwtTokenService>().jwtToken;
     super.onInit();
-    // Projeleri çekme işlemini başlat
     await fetchProjects();
     if (jwtToken != null) {
       favoriteProjects.value = await FetcherStaticService.fetchFavoriteProjects(token: jwtToken!);
@@ -69,20 +68,9 @@ class ProjectService extends BaseGetxService {
     isAllFetched.value = true;
   }
 
-  // Projeleri API'den çek
   Future<void> fetchProjects() async {
     try {
-      // Örnek bir istek modeli oluştur
-      /* ProjectsModel requestModel = ProjectsModel(
-        stateFilters: [0], // Örnek filtreler
-        categories: ["00000000-0000-0000-0000-000000000000"],
-        cities: ["00000000-0000-0000-0000-000000000000"],
-        pageInfo: PageInfo(pageNumber: 0, count: 0),
-      );*/
-
-      // Servisi çağır ve listeyi güncelle
       allProjectsList.value = await FetcherStaticService.fetchFilteredProjects();
-
       if (kDebugMode) {
         print('Çekilen Projeler: ${allProjectsList.length}');
       }

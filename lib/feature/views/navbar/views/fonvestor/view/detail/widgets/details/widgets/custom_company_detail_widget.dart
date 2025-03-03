@@ -15,7 +15,8 @@ class CustomCompanyDetailWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 26.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
+
       width: Get.width,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

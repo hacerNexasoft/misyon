@@ -229,4 +229,7 @@ class LocalizationKeys {
   static const String periodAnnualyTextKey = 'periodAnnualyTextKey';
   static const String periodMonthlyTextKey = 'periodMonthlyTextKey';
   static const String collateralStructureRealEstateTextKey = 'collateralStructureRealEstateTextKey';
+  //
+  static const String warning = 'warningx';
+  static const String warningForAuthTextKey = 'warningForAuthTextKey';
 }

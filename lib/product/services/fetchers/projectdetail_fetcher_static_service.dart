@@ -2,7 +2,6 @@ import 'package:common/common.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:misyonbank/product/config/network.dart';
 import 'package:misyonbank/product/models/document_model.dart';
 import 'package:misyonbank/product/models/project/investment_projections_model.dart';
 import 'package:misyonbank/product/models/project/project_comments_model.dart';
@@ -17,553 +16,376 @@ import 'package:misyonbank/product/models/project/project_summary_model.dart';
 import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/models/project/project_trophies_model.dart';
 import 'package:misyonbank/product/models/project/project_update_model.dart';
+import '../../../configs/service/api_endpoints.dart';
+import '../../models/project/favorite_project_model.dart';
 
-class ProjectDetailFetcherStaticService {
-  static Future<ProjectDetailsModel?> fetchProjectDetails({required String projectID}) async {
+class FonvestorService extends GetxService {
+  static Map<String, dynamic> _defaultHeaders({String? token}) {
+    final headers = {'Content-Type': 'application/json'};
+    if (token != null && token.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $token';
+    }
+    return headers;
+  }
+
+  static Future<T?> _getModel<T>(
+    String url, {
+    Map<String, dynamic>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
     final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectdetails?projectId=$projectID';
-    ProjectDetailsModel? model;
     try {
-      final dio.Response response = await dioObj.request(
+      final dio.Response response = await dioObj.get(
         url,
-        options: Options(
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        options: Options(headers: headers ?? _defaultHeaders()),
       );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-        model = ProjectDetailsModel.fromJson(id: projectID, json: data);
+      if (response.statusCode == 200 && response.data['result'] == true) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return fromJson(data);
       } else {
         if (kDebugMode) {
           print('Hata Kodu: ${response.statusCode}');
           print('Exeption Detail: ${response.data['exceptionDetail']}');
         }
+        return null;
       }
-      return model;
     } catch (e) {
       if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectDetails): $e');
+        print('API İstek Hatası ($url): $e');
       }
       return null;
     }
   }
 
-  static Future<ProjectSummaryModel?> fetchProjectSummary({required String projectID}) async {
+  static Future<List<T>?> _getList<T>(
+    String url, {
+    Map<String, dynamic>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
     final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectsummary?projectId=$projectID';
-    ProjectSummaryModel? model;
     try {
-      final dio.Response response = await dioObj.request(
+      final dio.Response response = await dioObj.get(
         url,
-        options: Options(
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        options: Options(headers: headers ?? _defaultHeaders()),
       );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-        model = ProjectSummaryModel.fromJson(json: data);
+      if (response.statusCode == 200 && response.data['result'] == true) {
+        List data = response.data['data'];
+        return data
+            .map<T>((item) => fromJson(item as Map<String, dynamic>))
+            .toList();
       } else {
         if (kDebugMode) {
           print('Hata Kodu: ${response.statusCode}');
           print('Exeption Detail: ${response.data['exceptionDetail']}');
         }
+        return null;
       }
-      return model;
     } catch (e) {
       if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectSummary): $e');
+        print('API İstek Hatası ($url): $e');
       }
       return null;
     }
   }
 
-  static Future<ProjectFundingInfoModel?> fetchProjectFundingInfo(
-      {required String projectID}) async {
+  static Future<T?> _postModel<T>(
+      String url,
+      dynamic payload, {
+        Map<String, dynamic>? headers,
+        required T Function(Map<String, dynamic>) fromJson,
+      }) async {
     final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectfundinginfo?projectId=$projectID';
-    ProjectFundingInfoModel? model;
     try {
-      final dio.Response response = await dioObj.request(
+      final dio.Response response = await dioObj.post(
         url,
-        options: Options(
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        data: payload,
+        options: Options(headers: headers ?? _defaultHeaders()),
       );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-        model = ProjectFundingInfoModel.fromJson(projectID: projectID, json: data);
+      if (response.statusCode == 200 && response.data['result'] == true) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return fromJson(data);
       } else {
         if (kDebugMode) {
           print('Hata Kodu: ${response.statusCode}');
           print('Exeption Detail: ${response.data['exceptionDetail']}');
         }
+        return null;
       }
-      return model;
     } catch (e) {
       if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectFundingInfo): $e');
+        print('API POST İstek Hatası ($url): $e');
       }
       return null;
     }
+  }
+
+  static Future<List<T>?> _postList<T>(
+      String url,
+      dynamic payload, {
+        Map<String, dynamic>? headers,
+        required T Function(Map<String, dynamic>) fromJson,
+      }) async {
+    final Dio dioObj = Get.find();
+    try {
+      final dio.Response response = await dioObj.post(
+        url,
+        data: payload,
+        options: Options(headers: headers ?? _defaultHeaders()),
+      );
+      if (response.statusCode == 200 && response.data['result'] == true) {
+        List data = response.data['data'];
+        return data
+            .map<T>((item) =>
+            fromJson(item as Map<String, dynamic>))
+            .toList();
+      } else {
+        if (kDebugMode) {
+          print('Hata Kodu: ${response.statusCode}');
+          print('Exeption Detail: ${response.data['exceptionDetail']}');
+        }
+        return null;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('API POST İstek Hatası ($url): $e');
+      }
+      return null;
+    }
+  }
+
+  static Future<ProjectDetailsModel?> fetchProjectDetails({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectDetailsDbit}?projectId=$projectID';
+    return _getModel<ProjectDetailsModel>(
+      url,
+      fromJson: (data) =>
+          ProjectDetailsModel.fromJson(id: projectID, json: data),
+    );
+  }
+
+  static Future<ProjectSummaryModel?> fetchProjectSummary({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectSummaryDbit}?projectId=$projectID';
+    return _getModel<ProjectSummaryModel>(
+      url,
+      fromJson: (data) => ProjectSummaryModel.fromJson(json: data),
+    );
+  }
+
+  static Future<ProjectFundingInfoModel?> fetchProjectFundingInfo({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectFundingInfoDbit}?projectId=$projectID';
+    return _getModel<ProjectFundingInfoModel>(
+      url,
+      fromJson: (data) =>
+          ProjectFundingInfoModel.fromJson(projectID: projectID, json: data),
+    );
   }
 
   static Future<String?> fetchProjectAbout({required String projectID}) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectAboutDbit}?projectId=$projectID';
     final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectabout?projectId=$projectID';
-    //ProjectFundingInfoModel? model;
-    try {
-      final dio.Response response = await dioObj.request(
-        url,
-        options: Options(
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-        return data['description'];
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return null;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectFundingInfo): $e');
-      }
-      return null;
-    }
-  }
-
-  static Future<ProjectInvestmentInfoModel?> fetchProjectInvestmentInfo(
-      {required String projectID}) async {
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectinvestmentinfo?projectId=$projectID';
-    ProjectInvestmentInfoModel? model;
-    try {
-      final dio.Response response = await dioObj.request(
-        url,
-        options: Options(
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-        model = ProjectInvestmentInfoModel.fromJson(projectID: projectID, json: data);
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectInvestmentInfo): $e');
-      }
-      return null;
-    }
-  }
-
-  static Future<List<ProjectCreateHighlightsModel>?> fetchProjectHighlights(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectcreatehighlightsbyprojectid?projectId=$projectID';
-    List<ProjectCreateHighlightsModel> model = [];
     try {
       final dio.Response response = await dioObj.get(
         url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(headers: _defaultHeaders()),
       );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-        model = data
-            .map(
-              (e) => ProjectCreateHighlightsModel.fromJson(e),
-            )
-            .toList();
+      if (response.statusCode == 200 && response.data['result'] == true) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return data['description'] as String?;
       } else {
         if (kDebugMode) {
           print('Hata Kodu: ${response.statusCode}');
           print('Exeption Detail: ${response.data['exceptionDetail']}');
         }
+        return null;
       }
-      return model;
     } catch (e) {
       if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectHighlights): $e');
+        print('API İstek Hatası (fetchProjectAbout): $e');
       }
       return null;
     }
   }
 
-  static Future<List<InvestmentProjection>?> fetchInvestmentProjections(
-      {required String projectID}) async {
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getinvestmentprojectionsbyprojectid?projectId=$projectID';
-    List<InvestmentProjection> model = [];
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-        model = data
-            .map(
-              (e) => InvestmentProjection.fromJson(e),
-            )
-            .toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchInvestmentProjections): $e');
-      }
-      return null;
-    }
+  static Future<ProjectInvestmentInfoModel?> fetchProjectInvestmentInfo({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectInvestmentInfoDbit}?projectId=$projectID';
+    return _getModel<ProjectInvestmentInfoModel>(
+      url,
+      fromJson: (data) =>
+          ProjectInvestmentInfoModel.fromJson(projectID: projectID, json: data),
+    );
   }
 
-  static Future<ProjectTeamModel?> fetchProjectTeam(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectmember/getprojectteam?projectId=$projectID';
-    ProjectTeamModel? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-
-        model = ProjectTeamModel.fromJson(data);
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectTeam): $e');
-      }
-      return null;
-    }
+  static Future<List<ProjectCreateHighlightsModel>?> fetchProjectHighlights({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectCreateHighlightsByProjectId}?projectId=$projectID';
+    return _getList<ProjectCreateHighlightsModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectCreateHighlightsModel.fromJson(data),
+    );
   }
 
-  static Future<List<ProjectTrophiesModel>?> fetchProjectTrophies(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectcreatetrophiesbyprojectid?projectId=$projectID';
-    List<ProjectTrophiesModel> trophiesList = [];
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-
-        trophiesList = data.map((item) => ProjectTrophiesModel.fromJson(item)).toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return trophiesList;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectTropies): $e');
-      }
-      return null;
-    }
+  static Future<List<InvestmentProjection>?> fetchInvestmentProjections({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getInvestmentProjectionsByProjectId}?projectId=$projectID';
+    return _getList<InvestmentProjection>(
+      url,
+      fromJson: (data) => InvestmentProjection.fromJson(data),
+    );
   }
 
-  static Future<ProjectDocumentsModel?> fetchProjectDocuments(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdocument/getprojectdocuments?projectId=$projectID';
-    ProjectDocumentsModel? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-
-        model = ProjectDocumentsModel.fromJson(data);
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectDocuments): $e');
-      }
-      return null;
-    }
+  static Future<ProjectTeamModel?> fetchProjectTeam({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectTeam}?projectId=$projectID';
+    return _getModel<ProjectTeamModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectTeamModel.fromJson(data),
+    );
   }
 
-  static Future<List<ProjectFinancialModel>?> fetchProjectFinansials(
-      {required String projectID}) async {
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectdbit/getprojectfinancialbyprojectid?projectId=$projectID';
-    List<ProjectFinancialModel> model = [];
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-        model = data
-            .map(
-              (e) => ProjectFinancialModel.fromJson(e),
-            )
-            .toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectFinansials): $e');
-      }
-      return null;
-    }
+  static Future<List<ProjectTrophiesModel>?> fetchProjectTrophies({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectCreateTrophiesByProjectId}?projectId=$projectID';
+    return _getList<ProjectTrophiesModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectTrophiesModel.fromJson(data),
+    );
   }
 
-  static Future<DocumentModel?> fetchDocument(
-      {required String docID, required String token}) async {
-    token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0MGYxYzllLTVlYjktZWYxMS04Mzg2LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTczNzYzMTEyNiwiZXhwIjoxNzY5MTY3MTI2LCJpYXQiOjE3Mzc2MzExMjZ9.jO1TfNivb-2Krf47cgI3v3OnNyRy8tMGHPMh9vqHz5k';
-    docID = "edb69e0b-b2bb-ef11-8386-005056b0cf81";
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/document/getdocument?documentId=$docID';
-    DocumentModel? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        Map<String, dynamic> data = response.data['data'];
-
-        model = DocumentModel.fromJson(data);
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchDocument): $e');
-      }
-      return null;
-    }
+  static Future<ProjectDocumentsModel?> fetchProjectDocuments({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectDocumentsDocument}?projectId=$projectID';
+    return _getModel<ProjectDocumentsModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectDocumentsModel.fromJson(data),
+    );
   }
 
-  static Future<List<ProjectUpdateModel>?> fetchProjectUpdates(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectupdate/getprojectupdates?projectId=$projectID';
-    List<ProjectUpdateModel>? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-
-        model = data
-            .map(
-              (e) => ProjectUpdateModel.fromJson(e),
-            )
-            .toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectUpdates): $e');
-      }
-      return null;
-    }
+  static Future<List<ProjectFinancialModel>?> fetchProjectFinansials({
+    required String projectID,
+  }) async {
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectFinancialByProjectId}?projectId=$projectID';
+    return _getList<ProjectFinancialModel>(
+      url,
+      fromJson: (data) => ProjectFinancialModel.fromJson(data),
+    );
   }
 
-  static Future<List<ProjectFaqModel>?> fetchProjectFaqs(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectfaq/getprojectfaq?projectId=$projectID';
-    List<ProjectFaqModel>? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
-
-        model = data
-            .map(
-              (e) => ProjectFaqModel.fromJson(e),
-            )
-            .toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectFaqs): $e');
-      }
-      return null;
-    }
+  static Future<DocumentModel?> fetchDocument({
+    required String docID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getDocument}?documentId=$docID';
+    return _getModel<DocumentModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => DocumentModel.fromJson(data),
+    );
   }
 
-  static Future<List<ProjectCommentsModel>?> fetchProjectComments(
-      {required String projectID, required String token}) async {
-    if (token.isEmpty) {
-      return null;
-    }
-    final Dio dioObj = Get.find();
-    String url = '$baseURL/projectcomment/getprojectcomments?projectId=$projectID';
-    List<ProjectCommentsModel>? model;
-    try {
-      final dio.Response response = await dioObj.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200 && response.data['result']) {
-        List data = response.data['data'];
+  static Future<List<ProjectUpdateModel>?> fetchProjectUpdates({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectUpdatesUpdate}?projectId=$projectID';
+    return _getList<ProjectUpdateModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectUpdateModel.fromJson(data),
+    );
+  }
 
-        model = data
-            .map(
-              (e) => ProjectCommentsModel.fromJson(e),
-            )
-            .toList();
-      } else {
-        if (kDebugMode) {
-          print('Hata Kodu: ${response.statusCode}');
-          print('Exeption Detail: ${response.data['exceptionDetail']}');
-        }
-      }
-      return model;
-    } catch (e) {
-      if (kDebugMode) {
-        print('API İstek Hatası(fetchProjectComments): $e');
-      }
-      return null;
-    }
+  static Future<List<ProjectFaqModel>?> fetchProjectFaqs({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectFaqFaq}?projectId=$projectID';
+    return _getList<ProjectFaqModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectFaqModel.fromJson(data),
+    );
+  }
+
+  static Future<List<ProjectCommentsModel>?> fetchProjectComments({
+    required String projectID,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    final url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.getProjectComments}?projectId=$projectID';
+    return _getList<ProjectCommentsModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => ProjectCommentsModel.fromJson(data),
+    );
+  }
+
+  static Future<List<FavoriteProjectModel>?> fetchFavoriteProjects({
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    const url = '${ApiEndpoints.baseUrl}${ApiEndpoints.getFavoriteProjects}';
+    return _getList<FavoriteProjectModel>(
+      url,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => FavoriteProjectModel.fromJson(data),
+    );
+  }
+
+  static Future<FavoriteProjectModel?> upsertProjectToFavorites({
+    required String projectId,
+    required String token,
+  }) async {
+    if (token.isEmpty) return null;
+    const url =
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.upsertProjectToFavorites}';
+    final payload = {"projectId": projectId};
+    return _postModel<FavoriteProjectModel>(
+      url,
+      payload,
+      headers: _defaultHeaders(token: token),
+      fromJson: (data) => FavoriteProjectModel.fromJson(data),
+    );
   }
 }

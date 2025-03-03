@@ -22,11 +22,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/utils/model_helpers.dart';
 import 'package:widgets/components.dart';
+
 part 'widgets/detail_investment_widget.dart';
+
 part 'widgets/detail_featured_widget.dart';
+
 part 'widgets/detail_team_widget.dart';
+
 part 'widgets/detail_campaign_info_widget.dart';
+
 part 'widgets/detail_risk_widget.dart';
+
 part 'widgets/detail_tags_widget.dart';
 
 class SummaryView extends BaseGetView<DetailViewController> {
@@ -41,79 +47,126 @@ class SummaryView extends BaseGetView<DetailViewController> {
       children: [
         DetailInvestmentWidget(),
         YieldCalculatorToolWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
         if (controller.selectedProjectHighlightsList != null &&
             controller.selectedProjectHighlightsList!.isNotEmpty)
-          DetailFeaturedWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        /*DetailRiskWidget(),
-        SizedBox(
-          height: 20.h,
-        ),*/
+          Column(
+            children: [
+              SizedBox(
+                height: 15.h,
+              ),
+              DetailFeaturedWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
         DetailTagsWidget(),
         SizedBox(
           height: 15.h,
         ),
         DetailCampaignInfoWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        FundUtilizationWidget(),
-        SizedBox(
-          height: 20.h,
-        ),
-        if (controller.selectedProjectTeam != null) DetailTeamWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
+        if (controller.selectedInvestmentProjectionList != null &&
+            controller.selectedInvestmentProjectionList!.isNotEmpty)
+          Column(
+            children: [
+              SizedBox(
+                height: 15.h,
+              ),
+              FundUtilizationWidget(),
+              SizedBox(
+                height: 20.h,
+              ),
+            ],
+          ),
+        if (controller.selectedProjectTeam != null)
+          Column(
+            children: [
+              DetailTeamWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
         if (controller.selectedProjectTrophiesList != null &&
             controller.selectedProjectTrophiesList!.isNotEmpty)
-          AdditionalRewardWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
+          Column(
+            children: [
+              AdditionalRewardWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
         CompanyDetailWidget(),
         SizedBox(
           height: 15.h,
         ),
         if (controller.selectedProjectDetails != null &&
             controller.selectedProjectDetails!.description.isNotEmpty)
-          CompanytextDetailWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        if (controller.selectedProjectDocuments != null) DetailPlatformDocumentsWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        SizedBox(
-          height: 15.h,
-        ),
+          Column(
+            children: [
+              CompanytextDetailWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
+        if (controller.selectedProjectDocuments != null)
+          Column(
+            children: [
+              DetailPlatformDocumentsWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
         if (controller.selectedProjectFinancials != null &&
             controller.selectedProjectFinancials!.isNotEmpty)
-          IncomeStatementWidget(),
+          Column(
+            children: [
+              IncomeStatementWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
         if (controller.selectedProjectFinancials != null &&
             controller.selectedProjectFinancials!.isNotEmpty)
-          BalanceSheetWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        if (controller.selectedProjectFaqList != null) FrequentlyAskedQuestionsWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        if (controller.selectedProjectUpdateList != null) UpdatesWidget(),
-        SizedBox(
-          height: 15.h,
-        ),
-        if (controller.selectedProjectCommentsList != null) const QuestionAndAnswerView(),
-        SizedBox(
-          height: 80.h,
-        ),
+          Column(
+            children: [
+              BalanceSheetWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
+        if (controller.selectedProjectFaqList != null)
+          Column(
+            children: [
+              FrequentlyAskedQuestionsWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
+        if (controller.selectedProjectUpdateList != null)
+          Column(
+            children: [
+              UpdatesWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
+        if (controller.selectedProjectCommentsList != null)
+          Column(
+            children: [
+              const QuestionAndAnswerView(),
+              SizedBox(
+                height: 15.h,
+              ),
+            ],
+          ),
       ],
     );
   }

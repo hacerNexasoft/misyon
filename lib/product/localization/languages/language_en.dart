@@ -218,4 +218,6 @@ final Map<String, String> enUS = {
   LocalizationKeys.periodMonthlyTextKey: 'Monthly',
   LocalizationKeys.collateralStructureRealEstateTextKey: 'RealEstate',
   //
+  LocalizationKeys.warning: 'Warning',
+  LocalizationKeys.warningForAuthTextKey: 'Please sign in for this action.',
 };

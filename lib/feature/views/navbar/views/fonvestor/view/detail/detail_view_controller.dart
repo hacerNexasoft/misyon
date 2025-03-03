@@ -27,7 +27,10 @@ import 'package:misyonbank/product/services/fetchers/projectdetail_fetcher_stati
 import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 
-class DetailViewController extends BaseGetxController with GetTickerProviderStateMixin {
+import '../../../../../../../product/localization/localization_keys.dart';
+
+class DetailViewController extends BaseGetxController
+    with GetTickerProviderStateMixin {
   late TabController tabController;
   final _projectService = Get.find<ProjectService>();
   final tabs = AppConstants.detailViewTabs;
@@ -35,7 +38,14 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   var selectedBalanceYear = Rx<String?>(null);
   String? jwtToken = Get.find<JwtTokenService>().jwtToken;
 
-  RxList<InvestmentsItemModel?> get investmentsItemList => _projectService.investmentsItemList;
+  RxList<InvestmentsItemModel?> get investmentsItemList =>
+      _projectService.investmentsItemList;
+
+  var isFavorite = false.obs;
+
+
+  var starColor = Rx<Color>(Colors.transparent);
+
 
   late ProjectModel selectedProject; // Seçilen proje
   ProjectDetailsModel? selectedProjectDetails; // Seçilen proje detayları
@@ -100,43 +110,46 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
 
       change(state, status: RxStatus.loading());
 
-      selectedProjectDetails = await ProjectDetailFetcherStaticService.fetchProjectDetails(
+      selectedProjectDetails = await FonvestorService.fetchProjectDetails(
           projectID: selectedProject.id);
-      selectedProjectSummary = await ProjectDetailFetcherStaticService.fetchProjectSummary(
+      selectedProjectSummary = await FonvestorService.fetchProjectSummary(
           projectID: selectedProject.id);
-      selectedProjectFundingInfo = await ProjectDetailFetcherStaticService.fetchProjectFundingInfo(
+      selectedProjectFundingInfo =
+          await FonvestorService.fetchProjectFundingInfo(
+              projectID: selectedProject.id);
+      selectedProjectAbout = await FonvestorService.fetchProjectAbout(
           projectID: selectedProject.id);
-      selectedProjectAbout =
-          await ProjectDetailFetcherStaticService.fetchProjectAbout(projectID: selectedProject.id);
       selectedProjectInvestmentInfo =
-          await ProjectDetailFetcherStaticService.fetchProjectInvestmentInfo(
+          await FonvestorService.fetchProjectInvestmentInfo(
               projectID: selectedProject.id);
       if (jwtToken != null) {
         selectedProjectHighlightsList =
-            await ProjectDetailFetcherStaticService.fetchProjectHighlights(
+            await FonvestorService.fetchProjectHighlights(
                 projectID: selectedProject.id, token: jwtToken!);
 
-        selectedProjectTeam = await ProjectDetailFetcherStaticService.fetchProjectTeam(
+        selectedProjectTeam = await FonvestorService.fetchProjectTeam(
             projectID: selectedProject.id, token: jwtToken!);
 
-        selectedProjectTrophiesList = await ProjectDetailFetcherStaticService.fetchProjectTrophies(
+        selectedProjectTrophiesList =
+            await FonvestorService.fetchProjectTrophies(
+                projectID: selectedProject.id, token: jwtToken!);
+
+        selectedProjectDocuments = await FonvestorService.fetchProjectDocuments(
+            projectID: selectedProject.id, token: jwtToken!);
+        selectedProjectUpdateList = await FonvestorService.fetchProjectUpdates(
             projectID: selectedProject.id, token: jwtToken!);
 
-        selectedProjectDocuments = await ProjectDetailFetcherStaticService.fetchProjectDocuments(
+        selectedProjectFaqList = await FonvestorService.fetchProjectFaqs(
             projectID: selectedProject.id, token: jwtToken!);
-        selectedProjectUpdateList = await ProjectDetailFetcherStaticService.fetchProjectUpdates(
-            projectID: selectedProject.id, token: jwtToken!);
-
-        selectedProjectFaqList = await ProjectDetailFetcherStaticService.fetchProjectFaqs(
-            projectID: selectedProject.id, token: jwtToken!);
-        selectedProjectCommentsList = await ProjectDetailFetcherStaticService.fetchProjectComments(
-            projectID: selectedProject.id, token: jwtToken!);
+        selectedProjectCommentsList =
+            await FonvestorService.fetchProjectComments(
+                projectID: selectedProject.id, token: jwtToken!);
       }
 
       selectedInvestmentProjectionList =
-          await ProjectDetailFetcherStaticService.fetchInvestmentProjections(
+          await FonvestorService.fetchInvestmentProjections(
               projectID: selectedProject.id);
-      selectedProjectFinancials = await ProjectDetailFetcherStaticService.fetchProjectFinansials(
+      selectedProjectFinancials = await FonvestorService.fetchProjectFinansials(
         projectID: selectedProject.id,
       );
 
@@ -162,11 +175,13 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
   String remainingDayText() {
     String remainingDay = "-";
 
-    DateTime endDate =
-        DateTime.fromMillisecondsSinceEpoch(selectedProjectInvestmentInfo!.projectEndDate * 1000);
+    DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+        selectedProjectInvestmentInfo!.projectEndDate * 1000);
 
-    remainingDay =
-        endDate.difference(DateTime.now().toUtc().add(const Duration(hours: 3))).inDays.toString();
+    remainingDay = endDate
+        .difference(DateTime.now().toUtc().add(const Duration(hours: 3)))
+        .inDays
+        .toString();
     return remainingDay;
   }
 
@@ -186,6 +201,33 @@ class DetailViewController extends BaseGetxController with GetTickerProviderStat
     update();
   }
 
+  Future<bool> upsertProjectToFavorites(String projectId) async {
+    final result = await FonvestorService.upsertProjectToFavorites(
+        projectId: projectId, token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ3NjY5Y2JhLTg4ZjMtZWYxMS04Mzg4LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTc0MDc0MzgwNywiZXhwIjoxNzQwODMwMjA3LCJpYXQiOjE3NDA3NDM4MDd9.z_opEym8afpLOT0jxSYDs6iWNFEUNI-3WBn5udgEa9c');
+    return result != null;
+  }
+
+  void toggleFavorite() async {
+    if(jwtToken == null) {
+      Get.snackbar(
+        LocalizationKeys.warning.tr,
+        LocalizationKeys.warningForAuthTextKey.tr,
+      );
+      return;
+    }
+    final success = await upsertProjectToFavorites(
+       selectedProject.id
+    );
+    if (success) {
+      isFavorite.value = !isFavorite.value;
+    } else {
+      if (kDebugMode) {
+        print("Favoriye ekleme/çıkarma başarısız!");
+      }
+      Get.snackbar("Hata", "Favori işlemi gerçekleştirilemedi");
+    }
+  }
+
   @override
   void onClose() {
     textController.dispose();
@@ -203,9 +245,11 @@ class ColorProvider {
     Color(0xFF3ACEF0), // #3acef0
     Color(0xFFE8F2FA), // #e8f2fa
     Color(0xFFF0F0F2), // #f0f0f2
+    Color(0xFF6641FA), // #6641fa
   ];
 
   static Color getColor(int index) {
-    return _colors[index % _colors.length]; // Mod işlemi ile tekrar eden renkler
+    return _colors[
+        index % _colors.length]; // Mod işlemi ile tekrar eden renkler
   }
 }

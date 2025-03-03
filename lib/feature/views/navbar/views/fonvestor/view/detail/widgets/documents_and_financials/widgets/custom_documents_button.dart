@@ -19,7 +19,7 @@ class CustomDocumentsButton extends BaseStatelessWidget {
     return GestureDetector(
       onTap: () async {
         DocumentModel? documentModel =
-            await ProjectDetailFetcherStaticService.fetchDocument(docID: docID, token: "");
+            await FonvestorService.fetchDocument(docID: docID, token: "");
         if (documentModel != null) {
           Get.to(() => PDFViewerFromBase64(
                 data: documentModel.base64document,

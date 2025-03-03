@@ -40,21 +40,14 @@ class FundUtilizationWidget extends BaseStatelessWidget {
             color: AppColors.fillColor,
           ),
           ChartComp(
-            chartData: List.generate(
-              controller.selectedInvestmentProjectionList!.length,
-              (index) => ChartData(
-                  controller.selectedInvestmentProjectionList![index].investmentProjectionName,
-                  controller.selectedInvestmentProjectionList![index].investmentProjectionRate),
-            )
-            /*[
-              ChartData('Yazılım', 50.07),
-              ChartData('Satış ve Pazarlama', 21.21),
-              ChartData('Personel', 12.46),
-              ChartData('Ödeme Altyapısı Giderleri', 10.79),
-              ChartData('Diğer Giderler', 10.2),
-            ]*/
-            ,
-          )
+              chartData: List.generate(
+            controller.selectedInvestmentProjectionList!.length,
+            (index) => ChartData(
+                controller.selectedInvestmentProjectionList![index]
+                    .investmentProjectionName,
+                controller.selectedInvestmentProjectionList![index]
+                    .investmentProjectionRate),
+          ))
         ],
       );
 }

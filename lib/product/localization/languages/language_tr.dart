@@ -231,4 +231,5 @@ final Map<String, String> trTR = {
   LocalizationKeys.periodMonthlyTextKey: 'Aylık',
   LocalizationKeys.collateralStructureRealEstateTextKey: 'Gayrimenkul',
   //
+  LocalizationKeys.warningForAuthTextKey: 'Bu işlem için lütfen giriş yapınız.',
 };

@@ -73,13 +73,15 @@ class DetailView extends BaseGetView<DetailViewController> {
             snap: false,
             actions: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  controller.toggleFavorite();
+                },
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.w),
                   child: SvgPicture.asset(
                     AssetConstants.starIcon,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.primaryColor,
+                    colorFilter: ColorFilter.mode(
+                      controller.isFavorite.value ? AppColors.primaryColor : Colors.red,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -102,6 +104,7 @@ class DetailView extends BaseGetView<DetailViewController> {
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(10.h),
               child: UnderlinedTabBarComp(
+                backgroundColor: AppColors.backgroundColor,
                 changeTab: controller.changeTab,
                 tabController: controller.tabController,
                 tabTitles: controller.tabs,
@@ -141,7 +144,8 @@ class DetailView extends BaseGetView<DetailViewController> {
                 ),
               ),
               ScaleFactorAutoSizeText(
-                text: "${controller.remainingDayText()} ${LocalizationKeys.detailsdaysTextKey.tr}",
+                text:
+                    "${controller.remainingDayText()} ${LocalizationKeys.detailsdaysTextKey.tr}",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.primaryTextTheme.bodyMedium!.semibold.copyWith(
