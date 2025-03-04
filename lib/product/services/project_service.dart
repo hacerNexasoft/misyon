@@ -58,7 +58,7 @@ class ProjectService extends BaseGetxService {
     masterData.value = await FetcherStaticService.fetchMasterData();
 
     //Dummy Data Methods
-    //projectsDummy();
+    projectsDummy();
     //Olds
     await fetchOpenInvestmentsOpportunities();
     await fetchBuyProjects();
@@ -144,6 +144,83 @@ class ProjectService extends BaseGetxService {
 //-----------DUMMY DATA--------------------------
 
   void projectsDummy() {
+    if (activeProjects.isEmpty) dummyActiveProjects();
+    if (upcomingProjects.isEmpty) dummyUpcomingProjects();
+    if (succeededProjects.isEmpty) dummySucceededProjects();
+  }
+
+  void dummyActiveProjects() {
+    activeProjects.value = [
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: "Fintek",
+          city: "Aksaray",
+          coverImage:
+              'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.001,
+          logoUrl:
+              'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
+          numberOfInvestors: 1,
+          projectEndDate:
+              (DateTime.now().add(const Duration(days: 5))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch ~/ 1000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.activeFunding,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: "FinStream",
+          externalId: "54",
+          seoName: "finnstream",
+          isClickable: false,
+          isFavorite: false,
+          termCode: 36,
+          period: Period.Monthly,
+          periodCode: 200,
+          yearlyReturnRate: 25,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.risky),
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: 'Mionti Enerji',
+          city: "Aksaray",
+          coverImage:
+              'https://samunnativentures.com/wp-content/uploads/2023/12/AI-through-his-laptop-computer-in-office-to-help-him-analyze-data-or-generate-virtual-images-and-using-big-data-810x500.jpg',
+          fundedAmount: 20,
+          fundingGoal: 15000.5,
+          fundingPercentage: 0.0015,
+          logoUrl:
+              'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
+          numberOfInvestors: 5,
+          projectEndDate:
+              (DateTime.now().add(const Duration(hours: 3))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().subtract(const Duration(days: 2)).millisecondsSinceEpoch ~/ 1000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.activeFundingStopped,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: 'Mionti Enerji',
+          externalId: "54",
+          seoName: 'Mionti Enerji',
+          isClickable: false,
+          isFavorite: false,
+          termCode: 48,
+          period: Period.Annual,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.neutral),
+    ];
+  }
+
+  void dummyUpcomingProjects() {
     upcomingProjects.value = [
       ProjectModel(
           id: UniqueKey().toString(),
@@ -157,8 +234,10 @@ class ProjectService extends BaseGetxService {
           logoUrl:
               'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
           numberOfInvestors: 1,
-          projectEndDate: (DateTime.now().add(const Duration(days: 5))).millisecondsSinceEpoch,
-          projectStartDate: 1722870,
+          projectEndDate:
+              (DateTime.now().add(const Duration(days: 120))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().add(const Duration(days: 10)).millisecondsSinceEpoch ~/ 1000,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
           statusCode: 0,
@@ -168,7 +247,7 @@ class ProjectService extends BaseGetxService {
           title: "FinStream",
           externalId: "54",
           seoName: "finnstream",
-          isClickable: true,
+          isClickable: false,
           isFavorite: false,
           termCode: 36,
           period: Period.Monthly,
@@ -188,18 +267,124 @@ class ProjectService extends BaseGetxService {
           logoUrl:
               'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
           numberOfInvestors: 1,
-          projectEndDate: (DateTime.now().add(const Duration(hours: 3))).millisecondsSinceEpoch,
-          projectStartDate: 1722870,
+          projectEndDate:
+              (DateTime.now().add(const Duration(days: 50))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch ~/ 1000,
           shortDescription:
               "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
           statusCode: 0,
-          status: ProjectStatus.upcomingDetailedPrerelease,
+          status: ProjectStatus.upcomingPreview,
           timeUntilEnd: -146423,
           timeUntilStart: -233003,
           title: 'Mionti Enerji',
           externalId: "54",
           seoName: 'Mionti Enerji',
-          isClickable: true,
+          isClickable: false,
+          isFavorite: false,
+          termCode: 48,
+          period: Period.Annual,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.neutral),
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: 'Mionti Enerji',
+          city: "Aksaray",
+          coverImage:
+              'https://samunnativentures.com/wp-content/uploads/2023/12/AI-through-his-laptop-computer-in-office-to-help-him-analyze-data-or-generate-virtual-images-and-using-big-data-810x500.jpg',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.000999,
+          logoUrl:
+              'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
+          numberOfInvestors: 1,
+          projectEndDate:
+              (DateTime.now().add(const Duration(days: 30))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().add(const Duration(hours: 7)).millisecondsSinceEpoch ~/ 1000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.upcomingPrerelease,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: 'Mionti Enerji',
+          externalId: "54",
+          seoName: 'Mionti Enerji',
+          isClickable: false,
+          isFavorite: false,
+          termCode: 48,
+          period: Period.Annual,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.neutral),
+    ];
+  }
+
+  void dummySucceededProjects() {
+    succeededProjects.value = [
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: "Fintek",
+          city: "Aksaray",
+          coverImage:
+              'https://tr.ml-vehicle.com/uploads/38258/news/p2024071621574974d90.jpg?size=1200x0',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.000999,
+          logoUrl:
+              'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/c7/f6/fcc7f665-fe4d-9864-d1ad-526cd453367d/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/230x0w.webp',
+          numberOfInvestors: 1,
+          projectEndDate:
+              (DateTime.now().subtract(const Duration(days: 5))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().subtract(const Duration(days: 6)).millisecondsSinceEpoch ~/ 1000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.successful,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: "FinStream",
+          externalId: "54",
+          seoName: "finnstream",
+          isClickable: false,
+          isFavorite: false,
+          termCode: 36,
+          period: Period.Monthly,
+          periodCode: 200,
+          yearlyReturnRate: 50,
+          collateralStructure: CollateralStructure.RealEstate,
+          riskForDebit: RiskType.risky),
+      ProjectModel(
+          id: UniqueKey().toString(),
+          category: 'Mionti Enerji',
+          city: "Aksaray",
+          coverImage:
+              'https://samunnativentures.com/wp-content/uploads/2023/12/AI-through-his-laptop-computer-in-office-to-help-him-analyze-data-or-generate-virtual-images-and-using-big-data-810x500.jpg',
+          fundedAmount: 10,
+          fundingGoal: 10000.5,
+          fundingPercentage: 0.000999,
+          logoUrl:
+              'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPhPks6T4vFjVTSIVjEPQ__8WAnDE8zUwWdH-0D7C-ym8w9Ql0',
+          numberOfInvestors: 1,
+          projectEndDate:
+              (DateTime.now().subtract(const Duration(hours: 5))).millisecondsSinceEpoch ~/ 1000,
+          projectStartDate:
+              DateTime.now().subtract(const Duration(days: 20)).millisecondsSinceEpoch ~/ 1000,
+          shortDescription:
+              "FinStream, finansal verilerinizi gerçek zamanlı olarak takip eden ve analiz eden modern bir platformdur. Anlık bilgiler, kişiselleştirilmiş tavsiyeler ve sorunsuz entegrasyon ile finansal yönetiminizi kolaylaştırır. Yatırım kararlarınızı optimize etmek için FinStream'i tercih edin.",
+          statusCode: 0,
+          status: ProjectStatus.successful,
+          timeUntilEnd: -146423,
+          timeUntilStart: -233003,
+          title: 'Mionti Enerji',
+          externalId: "54",
+          seoName: 'Mionti Enerji',
+          isClickable: false,
           isFavorite: false,
           termCode: 48,
           period: Period.Annual,

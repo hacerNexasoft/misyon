@@ -5,20 +5,20 @@ import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class YieldFrequencyWidget extends BaseGetView<ProjectOpportunitiesController> {
-  const YieldFrequencyWidget({super.key});
+class TermsWidget extends BaseGetView<ProjectOpportunitiesController> {
+  const TermsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTitle(),
             SizedBox(height: 20.h),
-            _buildDurationOptions(),
+            _buildTermOptions(),
           ],
         ),
       );
@@ -29,21 +29,21 @@ class YieldFrequencyWidget extends BaseGetView<ProjectOpportunitiesController> {
     return Row(
       children: [
         ScaleFactorAutoSizeText(
-          text: LocalizationKeys.returnFrequencyKey.tr,
+          text: LocalizationKeys.maturityKey.tr,
           style: theme.primaryTextTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(width: 20.w),
         const ToolTipWidget(
-          infoText: 'Return Frequency Information',
+          infoText: 'Term Information',
           iconColor: AppColors.primaryColor,
         ),
       ],
     );
   }
 
-  Widget _buildDurationOptions() {
+  Widget _buildTermOptions() {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -54,29 +54,30 @@ class YieldFrequencyWidget extends BaseGetView<ProjectOpportunitiesController> {
         crossAxisSpacing: Get.width * 0.05,
         childAspectRatio: 2.5,
       ),
-      itemCount: controller.durations.length,
+      itemCount: controller.terms.length,
       itemBuilder: (context, index) {
-        final duration = controller.durations[index];
-        final isSelected = controller.isDurationSelected(duration);
-
-        return GestureDetector(
-          onTap: () {
-            controller.selectDuration(duration);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryColor : AppColors.borderGray,
-              borderRadius: BorderRadius.circular(16.r),
+        return Obx(() {
+          return GestureDetector(
+            onTap: () {
+              controller.selectTerm(controller.terms[index]);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: controller.isTermSelected(controller.terms[index])
+                    ? AppColors.primaryColor
+                    : AppColors.borderGray,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: ScaleFactorAutoSizeText(
+                text: "${controller.terms[index]} Ay",
+                style: controller.isTermSelected(controller.terms[index])
+                    ? theme.primaryTextTheme.bodyLarge?.copyWith(color: AppColors.backgroundColor)
+                    : theme.primaryTextTheme.bodyMedium,
+              ),
             ),
-            child: ScaleFactorAutoSizeText(
-              text: duration,
-              style: isSelected
-                  ? theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.backgroundColor)
-                  : theme.primaryTextTheme.bodyMedium,
-            ),
-          ),
-        );
+          );
+        });
       },
     );
   }

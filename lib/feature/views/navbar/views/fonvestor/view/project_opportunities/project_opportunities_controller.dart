@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:misyonbank/feature/components/investment_card_comp/list_filtering_comp/list_filtering_comp.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/util/project_list_filter.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/services/project_service.dart';
@@ -10,14 +11,34 @@ class ProjectOpportunitiesController extends BaseGetxController {
   var bottompress = false.obs;
   var statuses = ProjectOpportunityDetail.values.toList();
   var selectedStatus = ProjectOpportunityDetail.all.obs;
-  var selectedProjectRange = const RangeValues(10, 150).obs;
-  var selectedSortingOptions = ''.obs;
-  RxString selectedDuration = ''.obs;
-  RxString selectedMaturities = ''.obs;
-  RxList<String> selectedTags = <String>[].obs;
-  RxList<String> selectedSectors = <String>[].obs;
-  var showAllTags = false.obs;
-  var showAllSectors = false.obs;
+  var selectedRateOfEarnRange = const RangeValues(0, 0).obs;
+  String selectedSortingOptions = '';
+  RxString selectedPeriod = ''.obs;
+  RxInt selectedTerm = 0.obs;
+  RxList<String> selectedCities = <String>[].obs;
+  RxList<String> selectedCategories = <String>[].obs;
+  var showAllCities = false.obs;
+  var showAllCategories = false.obs;
+
+  final List<String> sortingOptions = [
+    'En Çok Yatırım Alan (%)',
+    'En Yeni',
+    'Yakında Kapanan',
+    'En Çok Yatırımcısı Olan',
+    'Alfabetik (A-Z)',
+    'Alfabetik (Z-A)'
+  ];
+
+  final List<String> periods = [
+    "Aylık",
+    "Yıllık",
+  ];
+
+  final List<int> terms = [6, 12, 18, 24, 36, 48];
+  List<String> cities = [];
+
+  List<String> categories = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -27,93 +48,82 @@ class ProjectOpportunitiesController extends BaseGetxController {
 
       selectedStatus.value = ProjectOpportunityExtension.fromDescription(headerTitle);
     }
+    cities = _projectService.allProjectsList.map((e) => e.city).toSet().toList();
+    categories = _projectService.masterData.value!.categories.map((e) => e.value).toList();
   }
 
-  final List<String> sortingOptions = [
-    'En Çok Yatırım Alan (%)',
-    'En Yeni',
-    'Yakında Kapanan',
-    'En Çok Favorilere Alınan',
-    'Alfabetik (A-Z)',
-    'Alfabetik (Z-A)'
-  ];
-
-  final List<String> durations = [
-    "Aylık",
-    "3 Ay",
-  ];
-
-  final List<String> maturities = ["6 Ay", "12 Ay", "18 Ay", "24 Ay"];
-  final List<String> tags = [
-    'B2B',
-    'Abonelik',
-    'B2C',
-    'B2G',
-    'SaaS',
-    'Reklam',
-    'Freemium',
-    'Blockchain',
-    'KOSGEB Destekli',
-    'Abonelik2',
-    'B2C2',
-  ];
-
-  final List<String> sectors = [
-    'Yapay Zeka',
-    'Enerji',
-    'Tarım',
-    'Tarım2',
-  ];
-  void filteredBottomPress() {
+  void onClickfilterButton() {
     bottompress.value = true;
     update();
   }
 
-  List<String> get visibleTags => showAllTags.value ? tags : tags.take(9).toList();
+  List<String> get visibleCities => showAllCities.value ? cities : cities.take(9).toList();
 
-  List<String> get visibleSectors => showAllSectors.value ? sectors : sectors.take(3).toList();
+  List<String> get visibleCategories =>
+      showAllCategories.value ? categories : categories.take(3).toList();
 
-  RxList<ProjectModel> get filteredProjects {
+  List<ProjectModel> get filteredProjects {
+    List<ProjectModel> filteredList = [];
     switch (selectedStatus.value) {
       case ProjectOpportunityDetail.all:
-        return _projectService.allProjectsList;
+        filteredList = _projectService.allProjectsList;
+        break;
 
       case ProjectOpportunityDetail.successful:
-        return _projectService.succeededProjects;
+        filteredList = _projectService.succeededProjects;
+        break;
 
       case ProjectOpportunityDetail.favorite:
         final projectIds = _projectService.favoriteProjects.map((fp) => fp.projectId).toSet();
 
-        return _projectService.allProjectsList
+        filteredList = _projectService.allProjectsList
             .where((element) => projectIds.contains(element.id))
             .toList()
             .obs;
+        break;
 
       case ProjectOpportunityDetail.active:
-        return _projectService.activeProjects;
+        filteredList = _projectService.activeProjects;
+        break;
 
       case ProjectOpportunityDetail.upcoming:
-        return _projectService.upcomingProjects;
+        filteredList = _projectService.upcomingProjects;
+        break;
 
       default:
         return <ProjectModel>[].obs;
     }
+    if (selectedSortingOptions.isNotEmpty) {
+      filteredList = ProjectListFilter(projects: filteredList.toList())
+          .applySorting(selection: selectedSortingOptions, sortingOptions: sortingOptions);
+    }
+    if (bottompress.value) {
+      filteredList = ProjectListFilter(projects: filteredList.toList()).applyFilter(
+          selectedPeriod: selectedPeriod.value,
+          selectedTerm: selectedTerm.value,
+          selectedRateOfEarnRange: selectedRateOfEarnRange.value,
+          selectedCategories: selectedCategories,
+          selectedCities: selectedCities);
+    }
+    return filteredList;
   }
 
   void resetAllSelected() {
-    selectedMaturities.value = '';
-    selectedDuration.value = '';
-    selectedTags.value = [];
-    selectedSectors.value = [];
+    selectedTerm.value = 0;
+    selectedPeriod.value = '';
+    selectedCities.value = [];
+    selectedCategories.value = [];
+    selectedRateOfEarnRange.value = const RangeValues(0, 0);
     bottompress.value = false;
+    update();
   }
 
-  void toggleShowAllSectors() {
-    showAllSectors.value = !showAllSectors.value;
+  void toggleShowAllCategories() {
+    showAllCategories.value = !showAllCategories.value;
   }
 
-  void updateSelectedDuration(String newDuration) {
-    selectedDuration.value = newDuration;
+  void updateSelectedPeriod(String newDuration) {
+    selectedPeriod.value = newDuration;
   }
 
   void onSelectStatus(ProjectOpportunityDetail selected) {
@@ -122,7 +132,7 @@ class ProjectOpportunitiesController extends BaseGetxController {
   }
 
   void onSelectSortingOption(String selected) {
-    selectedSortingOptions.value = selected;
+    selectedSortingOptions = selected;
     update();
   }
 
@@ -148,7 +158,7 @@ class ProjectOpportunitiesController extends BaseGetxController {
         headerTitle: LocalizationKeys.sortKey.tr,
         items: sortingOptions,
         itemLabel: (option) => option,
-        selectedItem: selectedSortingOptions.value,
+        selectedItem: selectedSortingOptions,
         onApply: (selected) {
           onSelectSortingOption(selected!);
         },
@@ -157,56 +167,56 @@ class ProjectOpportunitiesController extends BaseGetxController {
   }
 
   void onProjectRangeChanged(RangeValues rangeValues) {
-    selectedProjectRange.value = rangeValues;
+    selectedRateOfEarnRange.value = rangeValues;
     update();
   }
 
   void onProjectRangeDelete(RangeValues rangeValues) {
-    selectedProjectRange.value = rangeValues;
+    selectedRateOfEarnRange.value = rangeValues;
     update();
   }
 
-  void toggleTagSelection(String tag) {
-    if (selectedTags.contains(tag)) {
-      selectedTags.remove(tag);
+  void toggleCitySelection(String city) {
+    if (selectedCities.contains(city)) {
+      selectedCities.remove(city);
     } else {
-      selectedTags.add(tag);
+      selectedCities.add(city);
     }
   }
 
-  void toggleShowAllTags() {
-    showAllTags.value = !showAllTags.value;
+  void toggleShowAllCities() {
+    showAllCities.value = !showAllCities.value;
     update();
   }
 
-  bool isMaturitySelected(String maturity) {
-    return selectedMaturities.value == maturity;
+  bool isTermSelected(int term) {
+    return selectedTerm.value == term;
   }
 
-  void selectMaturity(String maturity) {
-    selectedMaturities.value = maturity;
+  void selectTerm(int term) {
+    selectedTerm.value = term;
   }
 
   bool isSectorSelected(String sector) {
-    return selectedSectors.contains(sector);
+    return selectedCategories.contains(sector);
   }
 
   void toggleSectorSelection(String sector, bool isSelected) {
     if (isSelected) {
-      selectedSectors.add(sector);
+      selectedCategories.add(sector);
       update();
     } else {
-      selectedSectors.remove(sector);
+      selectedCategories.remove(sector);
       update();
     }
   }
 
-  bool isDurationSelected(String duration) {
-    return selectedDuration.value == duration;
+  bool isPeriodSelected(String duration) {
+    return selectedPeriod.value == duration;
   }
 
-  void selectDuration(String duration) {
-    selectedDuration.value = duration;
+  void selectPeriod(String period) {
+    selectedPeriod.value = period;
     update();
   }
 }

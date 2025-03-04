@@ -2,11 +2,11 @@ import 'package:common/common.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/project_opportunities_controller.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/filter_button_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/labels_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/maturity_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/cities_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/term_widget.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/rate_of_return.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/sectors_widget.dart';
-import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/yield_frequency_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/categories_widget.dart';
+import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/widgets/period_widget.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,17 +47,22 @@ class ProjectOpportunitiesViewFiltering extends BaseGetView<ProjectOpportunities
   }
 
   Widget _buildBody() => GetBuilder<ProjectOpportunitiesController>(builder: (_) {
-        return const SafeArea(
+        return SafeArea(
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                SectorsWidget(),
-                YieldFrequencyWidget(),
-                MaturityWidget(),
-                RateOfReturn(),
-                LabelsWidget(),
-                FilterButtonWidget(),
+                const CategoriesWidget(),
+                const PeriodsWidget(),
+                const TermsWidget(),
+                const RateOfReturn(),
+                const CitiesWidget(),
+                FilterButtonWidget(
+                  onClick: () {
+                    controller.onClickfilterButton();
+                    Get.back();
+                  },
+                ),
               ],
             ),
           ),

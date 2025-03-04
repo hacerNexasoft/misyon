@@ -7,8 +7,8 @@ import 'package:misyonbank/product/models/widget_models/check_list_comp_model.da
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class SectorsWidget extends BaseGetView<ProjectOpportunitiesController> {
-  const SectorsWidget({super.key});
+class CategoriesWidget extends BaseGetView<ProjectOpportunitiesController> {
+  const CategoriesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +35,14 @@ class SectorsWidget extends BaseGetView<ProjectOpportunitiesController> {
     return Row(
       children: [
         ScaleFactorAutoSizeText(
-          text: LocalizationKeys.sectorKey.tr,
+          text: LocalizationKeys.categoryKey.tr,
           style: theme.primaryTextTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(width: 20.w),
         const ToolTipWidget(
-          infoText: 'Sector Information',
+          infoText: 'Category Information',
           iconColor: AppColors.primaryColor,
         ),
       ],
@@ -54,9 +54,9 @@ class SectorsWidget extends BaseGetView<ProjectOpportunitiesController> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 10.w),
-          itemCount: controller.visibleSectors.length,
+          itemCount: controller.visibleCategories.length,
           itemBuilder: (context, index) {
-            String sector = controller.visibleSectors[index];
+            String sector = controller.visibleCategories[index];
             return CheckListItemComp(
               model: CheckListCompModel(
                 title: sector,
@@ -75,12 +75,12 @@ class SectorsWidget extends BaseGetView<ProjectOpportunitiesController> {
       alignment: Alignment.bottomRight,
       child: GestureDetector(
         onTap: () {
-          controller.toggleShowAllSectors();
+          controller.toggleShowAllCategories();
         },
         child: Obx(() => ScaleFactorAutoSizeText(
-              text: controller.showAllSectors.value
-                  ? LocalizationKeys.hideAllIndustriesKey.tr
-                  : LocalizationKeys.seeAllSectorsKey.tr,
+              text: controller.showAllCategories.value
+                  ? LocalizationKeys.hideAllCategoriesKey.tr
+                  : LocalizationKeys.seeAllCategoriesKey.tr,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

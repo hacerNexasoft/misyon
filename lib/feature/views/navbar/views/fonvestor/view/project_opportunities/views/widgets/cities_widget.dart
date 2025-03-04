@@ -5,8 +5,8 @@ import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class LabelsWidget extends BaseGetView<ProjectOpportunitiesController> {
-  const LabelsWidget({super.key});
+class CitiesWidget extends BaseGetView<ProjectOpportunitiesController> {
+  const CitiesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class LabelsWidget extends BaseGetView<ProjectOpportunitiesController> {
     return Row(
       children: [
         ScaleFactorAutoSizeText(
-          text: LocalizationKeys.tagsKey.tr,
+          text: LocalizationKeys.citiesKey.tr,
           style: theme.primaryTextTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(width: 20.w),
         const ToolTipWidget(
-          infoText: 'Labels Information',
+          infoText: 'Cities Information',
           iconColor: AppColors.toolTipGreyColor,
         ),
       ],
@@ -55,27 +55,27 @@ class LabelsWidget extends BaseGetView<ProjectOpportunitiesController> {
         crossAxisSpacing: Get.width * 0.05,
         childAspectRatio: 2.5,
       ),
-      itemCount: controller.visibleTags.length,
+      itemCount: controller.visibleCities.length,
       itemBuilder: (context, index) {
         return Obx(() {
           return GestureDetector(
             onTap: () {
-              controller.toggleTagSelection(controller.visibleTags[index]);
+              controller.toggleCitySelection(controller.visibleCities[index]);
             },
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: controller.selectedTags.contains(controller.visibleTags[index])
+                color: controller.selectedCities.contains(controller.visibleCities[index])
                     ? AppColors.primaryPinkColor
                     : AppColors.borderGray,
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: ScaleFactorAutoSizeText(
-                text: controller.visibleTags[index],
+                text: controller.visibleCities[index],
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: controller.selectedTags.contains(controller.visibleTags[index])
+                style: controller.selectedCities.contains(controller.visibleCities[index])
                     ? theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.black)
                     : theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.black),
               ),
@@ -91,13 +91,13 @@ class LabelsWidget extends BaseGetView<ProjectOpportunitiesController> {
       alignment: Alignment.bottomRight,
       child: GestureDetector(
         onTap: () {
-          controller.toggleShowAllTags();
+          controller.toggleShowAllCities();
         },
         child: Obx(() {
           return ScaleFactorAutoSizeText(
-            text: controller.showAllTags.value
-                ? LocalizationKeys.hideTagsKey.tr
-                : LocalizationKeys.seeAllTagsKey.tr,
+            text: controller.showAllCities.value
+                ? LocalizationKeys.hideCitiesKey.tr
+                : LocalizationKeys.seeAllCitiesKey.tr,
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

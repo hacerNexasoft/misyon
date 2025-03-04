@@ -5,20 +5,20 @@ import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class MaturityWidget extends BaseGetView<ProjectOpportunitiesController> {
-  const MaturityWidget({super.key});
+class PeriodsWidget extends BaseGetView<ProjectOpportunitiesController> {
+  const PeriodsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTitle(),
             SizedBox(height: 20.h),
-            _buildMaturitiesOptions(),
+            _buildPeriodOptions(),
           ],
         ),
       );
@@ -29,21 +29,21 @@ class MaturityWidget extends BaseGetView<ProjectOpportunitiesController> {
     return Row(
       children: [
         ScaleFactorAutoSizeText(
-          text: LocalizationKeys.maturityKey.tr,
+          text: LocalizationKeys.returnFrequencyKey.tr,
           style: theme.primaryTextTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(width: 20.w),
         const ToolTipWidget(
-          infoText: 'Maturity Information',
+          infoText: 'Period Information',
           iconColor: AppColors.primaryColor,
         ),
       ],
     );
   }
 
-  Widget _buildMaturitiesOptions() {
+  Widget _buildPeriodOptions() {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -54,30 +54,29 @@ class MaturityWidget extends BaseGetView<ProjectOpportunitiesController> {
         crossAxisSpacing: Get.width * 0.05,
         childAspectRatio: 2.5,
       ),
-      itemCount: controller.maturities.length,
+      itemCount: controller.periods.length,
       itemBuilder: (context, index) {
-        return Obx(() {
-          return GestureDetector(
-            onTap: () {
-              controller.selectMaturity(controller.maturities[index]);
-            },
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: controller.isMaturitySelected(controller.maturities[index])
-                    ? AppColors.primaryColor
-                    : AppColors.borderGray,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: ScaleFactorAutoSizeText(
-                text: controller.maturities[index],
-                style: controller.isMaturitySelected(controller.maturities[index])
-                    ? theme.primaryTextTheme.bodyLarge?.copyWith(color: AppColors.backgroundColor)
-                    : theme.primaryTextTheme.bodyMedium,
-              ),
+        final duration = controller.periods[index];
+        final isSelected = controller.isPeriodSelected(duration);
+
+        return GestureDetector(
+          onTap: () {
+            controller.selectPeriod(duration);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primaryColor : AppColors.borderGray,
+              borderRadius: BorderRadius.circular(16.r),
             ),
-          );
-        });
+            child: ScaleFactorAutoSizeText(
+              text: duration,
+              style: isSelected
+                  ? theme.primaryTextTheme.bodyMedium?.copyWith(color: AppColors.backgroundColor)
+                  : theme.primaryTextTheme.bodyMedium,
+            ),
+          ),
+        );
       },
     );
   }
