@@ -105,7 +105,7 @@ final Map<String, String> trTR = {
   LocalizationKeys.savedAccountsTextKey: 'Kayıtlı Hesaplar',
   LocalizationKeys.creditCardTextKey: 'Kredi Kartı',
   LocalizationKeys.selectAccountTextKey: 'Hesap Seçin',
-  LocalizationKeys.numberOfInvestorsTextKey: 'YATIRIMCI SAYISI',
+  LocalizationKeys.numberOfInvestorsTextKey: 'YATIRIM TUTARI',
   LocalizationKeys.maxInvestAmountInfoTextKey:
       'Tek seferde yapılabilen maksimum yatırım tutarı 100.000 TL, toplamda 250.000 TL’dir.',
   LocalizationKeys.detailTitleTextKey: 'Proje Detayı',

@@ -1,7 +1,9 @@
 part of '../transactions_view.dart';
 
-class _CanceledTransactionsListItemWidget extends BaseGetView<TransactionsViewController> {
+class _CanceledTransactionsListItemWidget
+    extends BaseGetView<TransactionsViewController> {
   final InvestmentModel investment;
+
   const _CanceledTransactionsListItemWidget({required this.investment});
 
   @override
@@ -57,7 +59,8 @@ class _CanceledTransactionsListItemWidget extends BaseGetView<TransactionsViewCo
             maxLines: 1,
             text: "Yatırım(${investment.investmentType.toStringValue})",
             overflow: TextOverflow.ellipsis,
-            style: theme.primaryTextTheme.bodyMedium!.copyWith(color: AppColors.darkGreyColor),
+            style: theme.primaryTextTheme.bodyMedium!
+                .copyWith(color: AppColors.darkGreyColor),
           )
         ],
       ),
@@ -84,19 +87,18 @@ class _CanceledTransactionsListItemWidget extends BaseGetView<TransactionsViewCo
   }
 
   Widget _buildPaymentMethodIcon() {
-    return Expanded(child: iconSelector(value: investment.committedInvestment)
-        /*const Icon(
-              Icons.help_outline,
-              color: AppColors.black,
-            ),*/
-        );
+    return Expanded(child: iconSelector(value: investment.committedInvestment));
   }
 
   Widget iconSelector({required double value}) {
-    if (value > 0) {
-      return SvgPicture.asset(AssetConstants.arrowDownLeftIcon);
-    } else {
-      return SvgPicture.asset(AssetConstants.arrowUpRightIcon);
-    }
+    final iconPath = value > 0
+        ? AssetConstants.arrowDownLeftIcon
+        : AssetConstants.arrowUpRightIcon;
+
+    return SvgPicture.asset(
+      iconPath,
+      width: 16.w,
+      height: 16.h,
+    );
   }
 }

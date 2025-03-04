@@ -72,10 +72,6 @@ class TransactionsViewController extends BaseGetxController with GetTickerProvid
         change(state, status: RxStatus.error("No investments!"));
         return;
       }
-      /*if (pendingTransactionList.isEmpty) {
-        change(state, status: RxStatus.error(""));
-        return;
-      }*/
       change(state, status: RxStatus.success());
     } catch (e) {
       change(state, status: RxStatus.error(e.toString()));

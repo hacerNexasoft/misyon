@@ -87,19 +87,19 @@ class _PendingInvestmentsListItemWidget extends BaseGetView<TransactionsViewCont
 
   Widget _buildPaymentMethodIcon() {
     return Expanded(child: iconSelector(value: investment.committedInvestment)
-        /*const Icon(
-              Icons.help_outline,
-              color: AppColors.black,
-            ),*/
         );
   }
 
   Widget iconSelector({required double value}) {
-    if (value > 0) {
-      return SvgPicture.asset(AssetConstants.arrowDownLeftIcon);
-    } else {
-      return SvgPicture.asset(AssetConstants.arrowUpRightIcon);
-    }
+    final iconPath = value > 0
+        ? AssetConstants.arrowDownLeftIcon
+        : AssetConstants.arrowUpRightIcon;
+
+    return SvgPicture.asset(
+      iconPath,
+      width: 16.w,
+      height: 16.h,
+    );
   }
 
   Widget get _buildDelayStatus => Container(

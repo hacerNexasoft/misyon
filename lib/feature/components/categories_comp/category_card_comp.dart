@@ -3,6 +3,8 @@ import 'package:misyonbank/product/models/master_data_model.dart';
 import 'package:widgets/components.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../configs/helper.dart';
+
 class CategoryCardComp extends BaseStatelessWidget {
   final Category category;
   final int index;
@@ -37,7 +39,7 @@ class CategoryCardComp extends BaseStatelessWidget {
   Widget get _cardContent => Container(
         width: 108.w,
         decoration: BoxDecoration(
-          color: _backgroundColor,
+          gradient: getRandomGradient(),
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(

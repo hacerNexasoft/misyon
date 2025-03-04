@@ -11,7 +11,7 @@ import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 import 'package:misyonbank/product/services/sign_in_service.dart';
 
-import '../../configs//service/dio_client.dart';
+import '../../configs/service/dio_client.dart';
 import 'fetchers/projectdetail_fetcher_static_service.dart';
 
 class GetxManager {

@@ -7,7 +7,7 @@ import 'package:misyonbank/product/utils/formatter.dart';
 class InvestmentsViewController extends BaseGetxController
     with GetTickerProviderStateMixin {
   final _projectService = Get.find<ProjectService>();
-  RxList<InvestmentsItemModel?> get investmentsItemList =>
+  RxList<InvestmentsItemModel?> get investmentsItemList =>    //buraya bakıyo
       _projectService.investmentsItemList;
   final _selectedOption = LocalizationKeys.allTextslowerKey.tr.obs;
   var selectedInvestment = Rxn<InvestmentsItemModel>();
