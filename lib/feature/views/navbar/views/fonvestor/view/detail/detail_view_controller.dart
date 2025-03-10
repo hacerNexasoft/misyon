@@ -23,14 +23,13 @@ import 'package:misyonbank/product/models/project/project_team_model.dart';
 import 'package:misyonbank/product/models/project/project_trophies_model.dart';
 import 'package:misyonbank/product/models/project/project_update_model.dart';
 import 'package:misyonbank/product/models/widget_models/investments_item_model.dart';
-import 'package:misyonbank/product/services/fetchers/projectdetail_fetcher_static_service.dart';
+import 'package:misyonbank/product/services/fetchers/fonvestor_api_service.dart';
 import 'package:misyonbank/product/services/jwt_token_service.dart';
 import 'package:misyonbank/product/services/project_service.dart';
 
 import '../../../../../../../product/localization/localization_keys.dart';
 
-class DetailViewController extends BaseGetxController
-    with GetTickerProviderStateMixin {
+class DetailViewController extends BaseGetxController with GetTickerProviderStateMixin {
   late TabController tabController;
   final _projectService = Get.find<ProjectService>();
   final tabs = AppConstants.detailViewTabs;
@@ -38,14 +37,11 @@ class DetailViewController extends BaseGetxController
   var selectedBalanceYear = Rx<String?>(null);
   String? jwtToken = Get.find<JwtTokenService>().jwtToken;
 
-  RxList<InvestmentsItemModel?> get investmentsItemList =>
-      _projectService.investmentsItemList;
+  RxList<InvestmentsItemModel?> get investmentsItemList => _projectService.investmentsItemList;
 
   var isFavorite = false.obs;
 
-
   var starColor = Rx<Color>(Colors.transparent);
-
 
   late ProjectModel selectedProject; // Seçilen proje
   ProjectDetailsModel? selectedProjectDetails; // Seçilen proje detayları
@@ -80,6 +76,7 @@ class DetailViewController extends BaseGetxController
   @override
   void onInit() async {
     super.onInit();
+    tabController = TabController(length: tabs.length, vsync: this);
     if (Get.arguments["project"].runtimeType == ProjectModel) {
       selectedProject = Get.arguments["project"];
     } else {
@@ -102,7 +99,6 @@ class DetailViewController extends BaseGetxController
   }
 
   Future<void> initView({Function()? action}) async {
-    tabController = TabController(length: tabs.length, vsync: this);
     try {
       if (kDebugMode) {
         print("Selected Project ID: ${selectedProject.id}");
@@ -110,29 +106,25 @@ class DetailViewController extends BaseGetxController
 
       change(state, status: RxStatus.loading());
 
-      selectedProjectDetails = await FonvestorService.fetchProjectDetails(
-          projectID: selectedProject.id);
-      selectedProjectSummary = await FonvestorService.fetchProjectSummary(
-          projectID: selectedProject.id);
+      selectedProjectDetails =
+          await FonvestorService.fetchProjectDetails(projectID: selectedProject.id);
+      selectedProjectSummary =
+          await FonvestorService.fetchProjectSummary(projectID: selectedProject.id);
       selectedProjectFundingInfo =
-          await FonvestorService.fetchProjectFundingInfo(
-              projectID: selectedProject.id);
-      selectedProjectAbout = await FonvestorService.fetchProjectAbout(
-          projectID: selectedProject.id);
+          await FonvestorService.fetchProjectFundingInfo(projectID: selectedProject.id);
+      selectedProjectAbout =
+          await FonvestorService.fetchProjectAbout(projectID: selectedProject.id);
       selectedProjectInvestmentInfo =
-          await FonvestorService.fetchProjectInvestmentInfo(
-              projectID: selectedProject.id);
+          await FonvestorService.fetchProjectInvestmentInfo(projectID: selectedProject.id);
       if (jwtToken != null) {
-        selectedProjectHighlightsList =
-            await FonvestorService.fetchProjectHighlights(
-                projectID: selectedProject.id, token: jwtToken!);
+        selectedProjectHighlightsList = await FonvestorService.fetchProjectHighlights(
+            projectID: selectedProject.id, token: jwtToken!);
 
         selectedProjectTeam = await FonvestorService.fetchProjectTeam(
             projectID: selectedProject.id, token: jwtToken!);
 
-        selectedProjectTrophiesList =
-            await FonvestorService.fetchProjectTrophies(
-                projectID: selectedProject.id, token: jwtToken!);
+        selectedProjectTrophiesList = await FonvestorService.fetchProjectTrophies(
+            projectID: selectedProject.id, token: jwtToken!);
 
         selectedProjectDocuments = await FonvestorService.fetchProjectDocuments(
             projectID: selectedProject.id, token: jwtToken!);
@@ -141,14 +133,12 @@ class DetailViewController extends BaseGetxController
 
         selectedProjectFaqList = await FonvestorService.fetchProjectFaqs(
             projectID: selectedProject.id, token: jwtToken!);
-        selectedProjectCommentsList =
-            await FonvestorService.fetchProjectComments(
-                projectID: selectedProject.id, token: jwtToken!);
+        selectedProjectCommentsList = await FonvestorService.fetchProjectComments(
+            projectID: selectedProject.id, token: jwtToken!);
       }
 
       selectedInvestmentProjectionList =
-          await FonvestorService.fetchInvestmentProjections(
-              projectID: selectedProject.id);
+          await FonvestorService.fetchInvestmentProjections(projectID: selectedProject.id);
       selectedProjectFinancials = await FonvestorService.fetchProjectFinansials(
         projectID: selectedProject.id,
       );
@@ -175,13 +165,11 @@ class DetailViewController extends BaseGetxController
   String remainingDayText() {
     String remainingDay = "-";
 
-    DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
-        selectedProjectInvestmentInfo!.projectEndDate * 1000);
+    DateTime endDate =
+        DateTime.fromMillisecondsSinceEpoch(selectedProjectInvestmentInfo!.projectEndDate * 1000);
 
-    remainingDay = endDate
-        .difference(DateTime.now().toUtc().add(const Duration(hours: 3)))
-        .inDays
-        .toString();
+    remainingDay =
+        endDate.difference(DateTime.now().toUtc().add(const Duration(hours: 3))).inDays.toString();
     return remainingDay;
   }
 
@@ -203,21 +191,21 @@ class DetailViewController extends BaseGetxController
 
   Future<bool> upsertProjectToFavorites(String projectId) async {
     final result = await FonvestorService.upsertProjectToFavorites(
-        projectId: projectId, token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ3NjY5Y2JhLTg4ZjMtZWYxMS04Mzg4LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTc0MDc0MzgwNywiZXhwIjoxNzQwODMwMjA3LCJpYXQiOjE3NDA3NDM4MDd9.z_opEym8afpLOT0jxSYDs6iWNFEUNI-3WBn5udgEa9c');
+        projectId: projectId,
+        token:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ3NjY5Y2JhLTg4ZjMtZWYxMS04Mzg4LTAwNTA1NmIwY2Y4MSIsIm5iZiI6MTc0MDc0MzgwNywiZXhwIjoxNzQwODMwMjA3LCJpYXQiOjE3NDA3NDM4MDd9.z_opEym8afpLOT0jxSYDs6iWNFEUNI-3WBn5udgEa9c');
     return result != null;
   }
 
   void toggleFavorite() async {
-    if(jwtToken == null) {
+    if (jwtToken == null) {
       Get.snackbar(
         LocalizationKeys.warning.tr,
         LocalizationKeys.warningForAuthTextKey.tr,
       );
       return;
     }
-    final success = await upsertProjectToFavorites(
-       selectedProject.id
-    );
+    final success = await upsertProjectToFavorites(selectedProject.id);
     if (success) {
       isFavorite.value = !isFavorite.value;
     } else {
@@ -249,7 +237,6 @@ class ColorProvider {
   ];
 
   static Color getColor(int index) {
-    return _colors[
-        index % _colors.length]; // Mod işlemi ile tekrar eden renkler
+    return _colors[index % _colors.length]; // Mod işlemi ile tekrar eden renkler
   }
 }

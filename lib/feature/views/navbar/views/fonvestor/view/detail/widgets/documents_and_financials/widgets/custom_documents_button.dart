@@ -5,7 +5,7 @@ import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:misyonbank/product/models/document_model.dart';
-import 'package:misyonbank/product/services/fetchers/projectdetail_fetcher_static_service.dart';
+import 'package:misyonbank/product/services/fetchers/fonvestor_api_service.dart';
 import 'package:widgets/components.dart';
 
 class CustomDocumentsButton extends BaseStatelessWidget {

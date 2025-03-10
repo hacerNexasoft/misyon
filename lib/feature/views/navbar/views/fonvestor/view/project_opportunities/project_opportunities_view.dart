@@ -5,6 +5,7 @@ import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opp
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/investment_opportunities_view_filtering.dart';
 import 'package:misyonbank/feature/views/navbar/views/fonvestor/view/project_opportunities/views/search_view.dart';
 import 'package:misyonbank/product/constants/asset_constants.dart';
+import 'package:misyonbank/product/models/project/project_model.dart';
 import 'package:misyonbank/product/utils/extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
@@ -44,8 +45,8 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
                   ),
                   //Filtreleme chipleri
                   buildSelectedProjectRange(),
-                  buildSelectedDuration(),
-                  buildSelectedMaturities(),
+                  buildSelectedPeriod(),
+                  buildSelectedTerms(),
                   buildSelectedTags(),
                   buildSelectedSectors(),
                 ],
@@ -56,13 +57,15 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
       );
 
   Widget buildSelectedProjectRange() {
-    if (controller.bottompress.value == true && controller.selectedProjectRange.value.start > 10) {
+    if (controller.bottompress.value == true &&
+        controller.selectedRateOfEarnRange.value.start > 10) {
       return _buildStatusItem(
-        text: "%${controller.selectedProjectRange.value.start.toInt().toString()}",
+        text:
+            "%${controller.selectedRateOfEarnRange.value.start.toInt().toString()} - %${controller.selectedRateOfEarnRange.value.end.toInt().toString()}",
         closeOption: true,
         onClearTap: () {
           controller.onProjectRangeDelete(
-            RangeValues(10, controller.selectedProjectRange.value.start),
+            const RangeValues(0, 0),
           );
         },
       );
@@ -71,13 +74,14 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
     }
   }
 
-  Widget buildSelectedDuration() {
-    if (controller.bottompress.value == true && controller.selectedDuration.value.isNotEmpty) {
+  Widget buildSelectedPeriod() {
+    if (controller.bottompress.value == true && controller.selectedPeriod.value.isNotEmpty) {
       return _buildStatusItem(
-        text: controller.selectedDuration.value,
+        text: controller.selectedPeriod.value,
         closeOption: true,
         onClearTap: () {
-          controller.selectedDuration.value = '';
+          controller.selectedPeriod.value = '';
+          controller.update();
         },
       );
     } else {
@@ -85,13 +89,14 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
     }
   }
 
-  Widget buildSelectedMaturities() {
-    if (controller.bottompress.value == true && controller.selectedMaturities.value.isNotEmpty) {
+  Widget buildSelectedTerms() {
+    if (controller.bottompress.value == true && controller.selectedTerm.value != 0) {
       return _buildStatusItem(
-        text: controller.selectedMaturities.value,
+        text: "${controller.selectedTerm.value} Ay",
         closeOption: true,
         onClearTap: () {
-          controller.selectedMaturities.value = '';
+          controller.selectedTerm.value = 0;
+          controller.update();
         },
       );
     } else {
@@ -100,12 +105,13 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
   }
 
   Widget buildSelectedTags() {
-    if (controller.bottompress.value == true && controller.selectedTags.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedCities.isNotEmpty) {
       return _buildStatusItem(
-        text: controller.selectedTags.join(', '),
+        text: controller.selectedCities.join(', '),
         closeOption: true,
         onClearTap: () {
-          controller.selectedTags.clear();
+          controller.selectedCities.clear();
+          controller.update();
         },
       );
     } else {
@@ -114,12 +120,13 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
   }
 
   Widget buildSelectedSectors() {
-    if (controller.bottompress.value == true && controller.selectedSectors.isNotEmpty) {
+    if (controller.bottompress.value == true && controller.selectedCategories.isNotEmpty) {
       return _buildStatusItem(
-        text: controller.selectedSectors.join(', '),
+        text: controller.selectedCategories.join(', '),
         closeOption: true,
         onClearTap: () {
-          controller.selectedSectors.clear();
+          controller.selectedCategories.clear();
+          controller.update();
         },
       );
     } else {
@@ -175,23 +182,24 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
     );
   }
 
-  Widget get _buildCardList => Expanded(
-        child: Obx(
-          () => ListView.builder(
+  Widget get _buildCardList => Expanded(child: GetBuilder<ProjectOpportunitiesController>(
+        builder: (c) {
+          List<ProjectModel> filteredProjects = controller.filteredProjects;
+          return ListView.builder(
             padding: EdgeInsets.zero,
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: controller.filteredProjects.length,
+            itemCount: filteredProjects.length,
             itemBuilder: (context, index) => Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.w),
                 child: ProjectCardComp(
-                  image: controller.filteredProjects.elementAt(index).coverImage,
-                  projectModel: controller.filteredProjects[index],
+                  image: filteredProjects.elementAt(index).coverImage,
+                  projectModel: filteredProjects[index],
                 )),
-          ),
-        ),
-      );
+          );
+        },
+      ));
 
   // Arama çubuğu
   Widget get _searchBar => SafeArea(
@@ -202,9 +210,9 @@ class ProjectOpportunitiesView extends BaseGetView<ProjectOpportunitiesControlle
             leftIcon: AssetConstants.searchComp,
             rightIcon: AssetConstants.filterIcon,
             onLeftIconTap: () => controller.sortingShowBottomSheet(),
-            onRightIconTap: () => Get.to(const ProjectOpportunitiesViewFiltering()),
+            onRightIconTap: () => Get.to(() => const ProjectOpportunitiesViewFiltering()),
             additionalFunction: () => Get.to(
-              const SearchView(),
+              () => const SearchView(),
               transition: Transition.fade,
               duration: const Duration(milliseconds: 500),
             ),

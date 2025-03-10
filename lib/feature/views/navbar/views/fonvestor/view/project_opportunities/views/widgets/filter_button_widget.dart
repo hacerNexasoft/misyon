@@ -1,12 +1,12 @@
 import 'package:common/common.dart';
-import 'package:misyonbank/feature/views/navbar/views/transactions/transactions_view_controller.dart';
 import 'package:misyonbank/product/config/theme/theme_extensions.dart';
 import 'package:misyonbank/product/localization/localization_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/components.dart';
 
-class FilterButtonWidget extends BaseGetView<TransactionsViewController> {
-  const FilterButtonWidget({super.key});
+class FilterButtonWidget extends BaseStatelessWidget {
+  final VoidCallback onClick;
+  const FilterButtonWidget({super.key, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,7 @@ class FilterButtonWidget extends BaseGetView<TransactionsViewController> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
       child: CustomButton(
-          onTap: () {
-            controller.onClickfilterButton();
-            Get.back();
-          },
+          onTap: onClick,
           borderRadius: Get.width * 0.1,
           child: ScaleFactorAutoSizeText(
               text: LocalizationKeys.filterTextKey.tr,

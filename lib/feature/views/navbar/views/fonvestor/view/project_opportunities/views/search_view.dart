@@ -35,7 +35,7 @@ class SearchView extends BaseGetView<ProjectOpportunitiesController> {
                 PopularSectors(
                   title: LocalizationKeys.popularSectorsKey.tr,
                   iconPath: AssetConstants.popularIcon,
-                  items: controller.sectors.toList(),
+                  items: controller.categories.toList(),
                 )
               ],
             ),

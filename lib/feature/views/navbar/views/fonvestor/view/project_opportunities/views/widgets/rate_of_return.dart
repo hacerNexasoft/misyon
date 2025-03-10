@@ -9,6 +9,7 @@ import 'package:widgets/components.dart';
 class RateOfReturn extends BaseGetView<ProjectOpportunitiesController> {
   const RateOfReturn({super.key});
 
+  // Builds the main UI for the Rate of Return widget.
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProjectOpportunitiesController>(builder: (_) {
@@ -26,6 +27,7 @@ class RateOfReturn extends BaseGetView<ProjectOpportunitiesController> {
     });
   }
 
+  // Builds the title section including the title text and a tooltip.
   Widget _buildTitle() {
     return Row(
       children: [
@@ -37,13 +39,14 @@ class RateOfReturn extends BaseGetView<ProjectOpportunitiesController> {
         ),
         SizedBox(width: 20.w),
         const ToolTipWidget(
-          infoText: 'rate of return Info',
+          infoText: 'Rate of return Info',
           iconColor: AppColors.toolTipGreyColor,
         ),
       ],
     );
   }
 
+  // Builds the slider section with minimum and maximum rate of return input fields.
   Widget _buildSingleSlider() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,23 +54,45 @@ class RateOfReturn extends BaseGetView<ProjectOpportunitiesController> {
         SizedBox(
           width: 170.sp,
           child: generateTextField(
-            label: "Minimum (%)",
-            hintText: "60",
-            maxLength: 300,
-          ),
+              label: "Minimum (%)",
+              hintText: "30",
+              maxLength: 3,
+              textEditingController: TextEditingController(
+                  text: controller.selectedRateOfEarnRange.value.start.toInt().toString()),
+              onChanged: (value) {
+                if (value.isNotEmpty) {
+                  controller.selectedRateOfEarnRange.value = RangeValues(
+                      double.parse(value), controller.selectedRateOfEarnRange.value.end);
+                }
+              },
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ]),
         ),
         SizedBox(
           width: 170.sp,
           child: generateTextField(
             label: "Maksimum (%)",
             hintText: "100+",
-            maxLength: 300,
+            maxLength: 3,
+            textEditingController: TextEditingController(
+                text: controller.selectedRateOfEarnRange.value.end.toInt().toString()),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                controller.selectedRateOfEarnRange.value = RangeValues(
+                    controller.selectedRateOfEarnRange.value.start, double.parse(value));
+              }
+            },
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
           ),
         ),
       ],
     );
   }
 
+  // A reusable function to generate custom text fields.
   Widget generateTextField({
     String label = '',
     String? hintText,
